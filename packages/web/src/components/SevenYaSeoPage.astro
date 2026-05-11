@@ -1,0 +1,108 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  lead: string;
+  canonical: string;
+  eyebrow?: string;
+  lang?: string;
+  dir?: string;
+  schemaType?: string;
+  sections?: [string, string][];
+}
+
+const site = "https://7ya.io";
+const {
+  title,
+  description,
+  h1,
+  lead,
+  canonical,
+  eyebrow = "7YA entity page",
+  lang = "en",
+  dir = "ltr",
+  schemaType = "WebPage",
+  sections = [],
+} = Astro.props;
+
+const ogImage = `${site}/og-image.jpg`;
+const links = [
+  ["Igor Vepretski", "/igor-vepretski"],
+  ["Digital Sovereignty", "/digital-sovereignty"],
+  ["StartOn", "/starton"],
+  ["AI Systems", "/ai-systems"],
+  ["Music", "/music"],
+  ["Research", "/research"],
+  ["Press", "/press"],
+  ["Empire", "/empire"],
+  ["עברית", "/he"],
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": schemaType,
+  "@id": `${canonical}#entity`,
+  name: h1,
+  headline: title,
+  description,
+  url: canonical,
+  isPartOf: { "@id": "https://7ya.io/#website" },
+  publisher: { "@id": "https://7ya.io/#organization" },
+  about: { "@id": "https://7ya.io/#igor-vepretski" },
+};
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="7YA.io" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <style>
+      :root { color-scheme: dark; --bg: #050507; --panel: rgba(255,255,255,.06); --text: #f6f3ea; --muted: #bdb7aa; --line: rgba(255,255,255,.14); --accent: #d7ff3f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: radial-gradient(circle at top left, rgba(215,255,63,.14), transparent 30rem), radial-gradient(circle at bottom right, rgba(80,140,255,.12), transparent 30rem), var(--bg); }
+      main { width: min(1020px, calc(100% - 32px)); margin: 0 auto; padding: 80px 0 48px; }
+      .crumb { color: var(--accent); letter-spacing: .16em; text-transform: uppercase; font-size: .75rem; font-weight: 800; text-decoration: none; }
+      h1 { max-width: 900px; margin: 18px 0; font-size: clamp(2.7rem, 7vw, 6rem); line-height: .9; letter-spacing: -.07em; }
+      .lead { max-width: 760px; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.45rem); line-height: 1.55; }
+      .sections { display: grid; gap: 16px; margin-top: 48px; }
+      article { border: 1px solid var(--line); border-radius: 24px; padding: 24px; background: var(--panel); backdrop-filter: blur(14px); }
+      article h2 { margin: 0 0 10px; font-size: 1.18rem; }
+      article p { margin: 0; color: var(--muted); line-height: 1.62; }
+      .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 44px; }
+      .links a { color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; text-decoration: none; background: rgba(255,255,255,.04); }
+      .links a:hover { border-color: var(--accent); color: var(--accent); }
+      footer { width: min(1020px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; color: var(--muted); border-top: 1px solid var(--line); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="crumb" href="/">7YA.io / {eyebrow}</a>
+      <h1>{h1}</h1>
+      <p class="lead">{lead}</p>
+      <section class="sections">
+        {sections.map(([heading, body]) => <article><h2>{heading}</h2><p>{body}</p></article>)}
+      </section>
+      <nav class="links" aria-label="7YA internal entity links">
+        {links.map(([label, href]) => <a href={href}>{label}</a>)}
+      </nav>
+    </main>
+    <footer>
+      Igor Vepretski → 7YA.io → StartOn → Digital Sovereignty → AI Systems → Music → Research → Press → Empire
+    </footer>
+  </body>
+</html>
