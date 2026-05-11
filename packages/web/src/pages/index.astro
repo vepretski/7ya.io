@@ -1,0 +1,123 @@
+---
+const site = "https://7ya.io";
+const title = "Igor Vepretski | 7YA.io — Digital Sovereignty, StartOn, AI & Public Leadership";
+const description = "Igor Vepretski is the founder of 7YA.io and StartOn, building digital sovereignty systems through AI, youth technology, music, social impact, and public leadership in Israel.";
+const canonical = `${site}/`;
+const ogImage = `${site}/og-image.jpg`;
+const identityLinks = [
+  ["Igor Vepretski", "/igor-vepretski"],
+  ["7YA", "/digital-sovereignty"],
+  ["StartOn", "/starton"],
+  ["AI Systems", "/ai-systems"],
+  ["Music", "/music"],
+  ["Research", "/research"],
+  ["Press", "/press"],
+  ["Empire", "/empire"],
+  ["עברית", "/he"],
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://7ya.io/#igor-vepretski",
+      "name": "Igor Vepretski",
+      "alternateName": ["Ido Vepretski", "איגור ופרצקי", "עידו ופרצקי", "Igor Ido Vepretski", "Igor Vepretski #7YA"],
+      "url": "https://7ya.io/",
+      "image": "https://7ya.io/og-image.jpg",
+      "jobTitle": ["Founder", "Digital Strategy Architect", "Social Entrepreneur", "Creator"],
+      "founder": [
+        { "@type": "Organization", "name": "7YA", "url": "https://7ya.io/" },
+        { "@type": "Organization", "name": "StartOn", "url": "https://starton.org.il/" }
+      ],
+      "knowsAbout": ["Digital sovereignty", "Artificial intelligence", "Youth technology", "Social entrepreneurship", "Public leadership", "Music", "Media systems", "Communication strategy", "Algorithmic identity"],
+      "sameAs": [
+        "https://www.instagram.com/igor.vepretski/",
+        "https://x.com/igorvepretski",
+        "https://www.linkedin.com/in/vepretski",
+        "https://github.com/vepretski",
+        "https://linktr.ee/igor.vepretski",
+        "https://about.me/vepretski",
+        "https://igorvepretski.academia.edu/"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://7ya.io/#organization",
+      "name": "7YA",
+      "alternateName": ["7YA.io", "#7YA", "#7YA🥷", "7YA Digital Sovereignty"],
+      "url": "https://7ya.io/",
+      "logo": "https://7ya.io/logo.png",
+      "founder": { "@id": "https://7ya.io/#igor-vepretski" },
+      "slogan": "Not fashion. Force.",
+      "sameAs": ["https://www.instagram.com/igor.vepretski/", "https://x.com/igorvepretski", "https://www.linkedin.com/in/vepretski", "https://github.com/vepretski"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://7ya.io/#website",
+      "name": "7YA.io",
+      "url": "https://7ya.io/",
+      "publisher": { "@id": "https://7ya.io/#organization" },
+      "about": { "@id": "https://7ya.io/#igor-vepretski" },
+      "inLanguage": ["en", "he", "ru"]
+    }
+  ]
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Igor Vepretski | 7YA.io — Digital Sovereignty Builder" />
+    <meta property="og:description" content="Founder of 7YA.io and StartOn. Building systems for people who refuse to stay invisible. AI, youth tech, music, social impact, and digital sovereignty." />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="7YA.io" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Igor Vepretski | 7YA.io" />
+    <meta name="twitter:description" content="Digital sovereignty, AI, StartOn, music, and social-impact systems by Igor Vepretski." />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <style>
+      :root { color-scheme: dark; --bg: #050507; --panel: rgba(255,255,255,.06); --text: #f6f3ea; --muted: #bdb7aa; --line: rgba(255,255,255,.14); --accent: #d7ff3f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: radial-gradient(circle at top left, rgba(215,255,63,.16), transparent 32rem), radial-gradient(circle at bottom right, rgba(80,140,255,.14), transparent 28rem), var(--bg); }
+      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 88px 0 48px; }
+      .signal { color: var(--accent); letter-spacing: .18em; text-transform: uppercase; font-size: .78rem; font-weight: 800; }
+      h1 { max-width: 980px; margin: 20px 0; font-size: clamp(3rem, 8vw, 7rem); line-height: .86; letter-spacing: -.08em; }
+      .lead { max-width: 760px; color: var(--muted); font-size: clamp(1.16rem, 2vw, 1.5rem); line-height: 1.55; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 56px; }
+      .card { border: 1px solid var(--line); border-radius: 24px; padding: 24px; background: var(--panel); backdrop-filter: blur(14px); min-height: 184px; }
+      .card h2 { margin: 0 0 12px; font-size: 1.12rem; }
+      .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+      .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 42px; }
+      .links a { color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; text-decoration: none; background: rgba(255,255,255,.04); }
+      .links a:hover { border-color: var(--accent); color: var(--accent); }
+      footer { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; color: var(--muted); border-top: 1px solid var(--line); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="signal">#7YA🥷 · NOT FASHION. FORCE.</p>
+      <h1>Digital systems for people who refuse to stay invisible.</h1>
+      <p class="lead">Igor Vepretski connects 7YA.io, StartOn, artificial intelligence, music, public voice, and youth technology into one command layer for digital sovereignty.</p>
+      <nav class="links" aria-label="7YA entity graph">
+        {identityLinks.map(([label, href]) => <a href={href}>{label}</a>)}
+      </nav>
+      <section class="grid" aria-label="Core pillars">
+        <article class="card"><h2>Igor Vepretski</h2><p>The person entity: founder, creator, strategist, and public builder behind 7YA and StartOn.</p></article>
+        <article class="card"><h2>7YA.io</h2><p>The canonical digital command hub: identity, content, AI, music, media systems, and movement infrastructure.</p></article>
+        <article class="card"><h2>StartOn</h2><p>The social-impact proof layer: practical technology, creativity, AI, media, gaming, and entrepreneurship for youth.</p></article>
+        <article class="card"><h2>Digital Sovereignty</h2><p>The doctrine: ownership of identity, signal, tools, distribution, and the systems that shape public visibility.</p></article>
+      </section>
+    </main>
+    <footer>
+      Igor Vepretski → 7YA.io → StartOn → Digital Sovereignty → AI Systems → Music → Research → Press → Empire
+    </footer>
+  </body>
+</html>
