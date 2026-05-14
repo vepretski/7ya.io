@@ -3,7 +3,7 @@ export const igorVepretskiSeo = {
   title: "Igor Vepretski | #7YA — Youth, Civic Power & Digital Culture",
   description:
     "Igor Vepretski is the founder of #7YA and StartOn, building systems for youth empowerment, civic leadership, technology, and culture-driven impact in Israel.",
-  ogImage: "https://7ya.io/images/igor-vepretski-7ya-og.jpg",
+  ogImage: "https://7ya.io/images/igor-vepretski-7ya-og.svg",
   ogImageAlt:
     "Igor Vepretski, founder of #7YA and leading force behind StartOn, building civic power and youth empowerment through technology and culture.",
   twitterTitle: "Igor Vepretski | #7YA",
@@ -18,7 +18,7 @@ export const igorVepretskiPersonJsonLd = {
   name: "Igor Vepretski",
   alternateName: ["Igor Ido Vepretski", "Ido Vepretski", "איגור ופרצקי", "עידו ופרצקי", "Игорь Вепрецкий", "#7YA"],
   url: "https://7ya.io/igor-vepretski",
-  image: "https://7ya.io/images/igor-vepretski-7ya-og.jpg",
+  image: "https://7ya.io/images/igor-vepretski-7ya-og.svg",
   jobTitle: [
     "Founder of #7YA",
     "Leading force behind StartOn",
