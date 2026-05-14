@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Personal Brand Booster MVP Output Schema",
+  "type": "object",
+  "required": ["brief", "campaign_plan", "validation", "platform_markdown_contract"],
+  "properties": {
+    "brief": {
+      "type": "object",
+      "required": [
+        "source_title",
+        "one_line_thesis",
+        "key_claims",
+        "personal_brand_angle",
+        "audience",
+        "proof_points",
+        "reusable_hooks",
+        "source_reference"
+      ],
+      "properties": {
+        "source_title": { "type": "string", "minLength": 1 },
+        "one_line_thesis": { "type": "string", "minLength": 1 },
+        "key_claims": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "personal_brand_angle": { "type": "string", "minLength": 1 },
+        "audience": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "proof_points": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "reusable_hooks": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "source_reference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "campaign_plan": {
+      "type": "object",
+      "required": ["campaign_name", "source_reference", "languages", "channels", "strategy", "assets", "seven_day_plan"],
+      "properties": {
+        "campaign_name": { "type": "string" },
+        "source_reference": { "type": "string" },
+        "languages": { "type": "array", "items": { "type": "string", "enum": ["en", "he"] }, "minItems": 1 },
+        "channels": { "type": "array", "items": { "type": "string" }, "minItems": 6 },
+        "strategy": {
+          "type": "object",
+          "required": ["positioning", "audience", "promotion_style", "cta_policy"],
+          "properties": {
+            "positioning": { "type": "string" },
+            "audience": { "type": "array", "items": { "type": "string" } },
+            "promotion_style": { "type": "string" },
+            "cta_policy": {
+              "type": "object",
+              "required": ["required_phrase", "required_link"],
+              "properties": {
+                "required_phrase": { "const": "Manage 7ya.io" },
+                "required_link": { "const": "https://7ya.io" }
+              }
+            }
+          }
+        },
+        "assets": { "type": "array", "items": { "type": "string" } },
+        "seven_day_plan": { "type": "array", "items": { "type": "object" }, "minItems": 7 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["status", "cta_policy", "files"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pass", "fail"] },
+        "cta_policy": {
+          "type": "object",
+          "required": ["required_phrase", "required_link"],
+          "properties": {
+            "required_phrase": { "const": "Manage 7ya.io" },
+            "required_link": { "const": "https://7ya.io" }
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["file", "status", "language", "checks"],
+            "properties": {
+              "file": { "type": "string" },
+              "status": { "type": "string", "enum": ["pass", "fail"] },
+              "language": { "type": "string" },
+              "checks": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "platform_markdown_contract": {
+      "type": "object",
+      "required": ["required_fields", "supported_languages"],
+      "properties": {
+        "required_fields": { "type": "array", "items": { "type": "string" }, "contains": { "const": "CTA" } },
+        "supported_languages": { "type": "array", "items": { "type": "string", "enum": ["en", "he"] } }
+      }
+    }
+  }
+}
