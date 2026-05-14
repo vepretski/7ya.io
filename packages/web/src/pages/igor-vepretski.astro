@@ -1,0 +1,183 @@
+---
+import { igorVepretskiPersonJsonLd, igorVepretskiSeo } from "../data/igor-vepretski-seo"
+
+const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{igorVepretskiSeo.title}</title>
+    <meta name="description" content={igorVepretskiSeo.description} />
+    <link rel="canonical" href={igorVepretskiSeo.canonicalUrl} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={igorVepretskiSeo.canonicalUrl} />
+    <meta property="og:title" content={igorVepretskiSeo.title} />
+    <meta property="og:description" content={igorVepretskiSeo.description} />
+    <meta property="og:image" content={igorVepretskiSeo.ogImage} />
+    <meta property="og:image:alt" content={igorVepretskiSeo.ogImageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={igorVepretskiSeo.twitterTitle} />
+    <meta name="twitter:description" content={igorVepretskiSeo.twitterDescription} />
+    <meta name="twitter:image" content={igorVepretskiSeo.ogImage} />
+    <meta name="twitter:image:alt" content={igorVepretskiSeo.ogImageAlt} />
+
+    <script type="application/ld+json" set:html={personJsonLd} />
+
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #070707;
+        color: #f7f7f7;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 30rem),
+          linear-gradient(135deg, #070707 0%, #101010 52%, #1f1f1f 100%);
+      }
+
+      main {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 72px 0;
+      }
+
+      .eyebrow {
+        color: #d6d6d6;
+        font-size: 0.86rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 920px;
+        margin: 18px 0 20px;
+        font-size: clamp(3rem, 9vw, 7rem);
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      .lede {
+        max-width: 760px;
+        color: #d9d9d9;
+        font-size: clamp(1.18rem, 2.4vw, 1.65rem);
+        line-height: 1.55;
+      }
+
+      .cta {
+        display: inline-flex;
+        margin-top: 28px;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 999px;
+        color: #070707;
+        background: #f7f7f7;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      section {
+        margin-top: 80px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        font-size: clamp(1.8rem, 4vw, 3.4rem);
+        letter-spacing: -0.05em;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 24px;
+        padding: 24px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+      }
+
+      .card p,
+      li {
+        color: #d8d8d8;
+        line-height: 1.65;
+      }
+
+      ul {
+        display: grid;
+        gap: 12px;
+        padding-left: 1.2rem;
+      }
+
+      footer {
+        margin-top: 80px;
+        color: #a6a6a6;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Igor Vepretski / #7YA / StartOn</p>
+      <h1>Igor Vepretski</h1>
+      <p class="lede">
+        Igor Vepretski is the founder of #7YA and leading force behind StartOn, building systems for youth
+        empowerment, civic leadership, technology, and culture-driven impact in Israel.
+      </p>
+      <a class="cta" href="https://7ya.io">Manage 7ya.io</a>
+
+      <section aria-labelledby="focus-title">
+        <h2 id="focus-title">Entity focus</h2>
+        <div class="grid">
+          <article class="card">
+            <strong>Youth empowerment</strong>
+            <p>Building systems that help young people organize, lead, create, and participate in public life.</p>
+          </article>
+          <article class="card">
+            <strong>Civic power</strong>
+            <p>Connecting leadership, social action, digital culture, and public responsibility into one movement layer.</p>
+          </article>
+          <article class="card">
+            <strong>Digital culture</strong>
+            <p>Using platforms, media, and technology as tools for visibility, coordination, and community impact.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="about-title">
+        <h2 id="about-title">About</h2>
+        <p class="lede">
+          The Igor Vepretski entity page is the canonical public profile for 7ya.io search and social previews. It
+          aligns the #7YA story with structured data, platform metadata, and a single destination for discovery.
+        </p>
+        <ul>
+          <li>Founder of #7YA.</li>
+          <li>Leading force behind StartOn.</li>
+          <li>Focused on youth empowerment, civic leadership, digital strategy, and culture-driven impact.</li>
+          <li>Routes public attention back to the central authority hub at 7ya.io.</li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>Canonical URL: <a href="https://7ya.io/igor-vepretski">https://7ya.io/igor-vepretski</a></p>
+      </footer>
+    </main>
+  </body>
+</html>
