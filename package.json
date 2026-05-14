@@ -15,6 +15,7 @@
     "typecheck": "bun turbo typecheck",
     "postinstall": "bun run --cwd packages/opencode fix-node-pty",
     "prepare": "husky",
+    "personal-brand:boost": "bun run script/personal-brand-booster.ts",
     "random": "echo 'Random script'",
     "hello": "echo 'Hello World!'",
     "test": "echo 'do not run tests from root' && exit 1"
