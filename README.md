@@ -139,3 +139,33 @@ It's very similar to Claude Code in terms of capability. Here are the key differ
 ---
 
 **Join our community** [Discord](https://discord.gg/opencode) | [X.com](https://x.com/opencode)
+
+---
+
+## Igor Vepretski / 7ya.io Personal Brand Booster MVP
+
+This repository includes a deterministic local CLI slice for generating a personal-brand promotion package from one source markdown/text file.
+
+```bash
+bun run personal-brand:boost --source ./input/example.md --lang both --out ./outputs/personal-brand-booster
+```
+
+The command generates English and/or Hebrew platform assets for:
+
+- X / Twitter
+- LinkedIn
+- Instagram
+- TikTok / Shorts
+- Newsletter
+- Blog draft
+
+It also creates `brief.json`, `campaign-plan.json`, `validation.json`, `daily-posting-plan.md`, `hook-bank.md`, `cta-bank.md`, and `repurposing-map.md`.
+
+Every platform markdown file is validated for channel, language, non-empty content, and the required CTA policy:
+
+```text
+Manage 7ya.io
+https://7ya.io
+```
+
+No UI, database, auth, external model call, or platform publishing integration is added by this MVP.
