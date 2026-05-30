@@ -41,6 +41,7 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
         min-height: 100vh;
         background:
           radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 30rem),
+          radial-gradient(circle at top right, rgba(94, 199, 255, 0.12), transparent 25rem),
           linear-gradient(135deg, #070707 0%, #101010 52%, #1f1f1f 100%);
       }
 
@@ -73,9 +74,15 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
         line-height: 1.55;
       }
 
+      .cta-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+
       .cta {
         display: inline-flex;
-        margin-top: 28px;
         padding: 14px 18px;
         border: 1px solid rgba(255, 255, 255, 0.24);
         border-radius: 999px;
@@ -83,6 +90,11 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
         background: #f7f7f7;
         font-weight: 800;
         text-decoration: none;
+      }
+
+      .cta.secondary {
+        color: #f7f7f7;
+        background: rgba(255, 255, 255, 0.06);
       }
 
       section {
@@ -120,6 +132,11 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
         line-height: 1.65;
       }
 
+      .card a,
+      footer a {
+        color: #bfeeff;
+      }
+
       ul {
         display: grid;
         gap: 12px;
@@ -139,9 +156,13 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
       <h1>Igor Vepretski</h1>
       <p class="lede">
         Igor Vepretski is the founder of #7YA and leading force behind StartOn, building systems for youth
-        empowerment, civic leadership, technology, and culture-driven impact in Israel.
+        empowerment, civic leadership, technology, research, and culture-driven impact in Israel.
       </p>
-      <a class="cta" href="https://7ya.io">Manage 7ya.io</a>
+      <div class="cta-row">
+        <a class="cta" href="https://7ya.io">Manage 7ya.io</a>
+        <a class="cta secondary" href="https://7ya.io/anthropography">Open VNA research</a>
+        <a class="cta secondary" href="https://igorvepretski.academia.edu/" rel="me external">Academia.edu profile</a>
+      </div>
 
       <section aria-labelledby="focus-title">
         <h2 id="focus-title">Entity focus</h2>
@@ -158,6 +179,26 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
             <strong>Digital culture</strong>
             <p>Using platforms, media, and technology as tools for visibility, coordination, and community impact.</p>
           </article>
+          <article class="card">
+            <strong>Independent research</strong>
+            <p>Developing Visual Narrative Anthropography (VNA), a proposed interdisciplinary research program for studying how identity, memory, hierarchy, and legitimacy are constructed through curated visual narratives.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="research-title">
+        <h2 id="research-title">Research proof layer</h2>
+        <div class="grid">
+          <article class="card">
+            <strong>Visual Narrative Anthropography</strong>
+            <p>The VNA foundational page presents the research positioning, 12-axis ANTHRO-GRAPHY codebook, author attribution, and publication pathway.</p>
+            <a href="https://7ya.io/anthropography">Open the VNA page</a>
+          </article>
+          <article class="card">
+            <strong>Academia.edu</strong>
+            <p>The external academic profile provides an additional discovery node for publication records and future papers.</p>
+            <a href="https://igorvepretski.academia.edu/" rel="me external">Open academic profile</a>
+          </article>
         </div>
       </section>
 
@@ -165,12 +206,14 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
         <h2 id="about-title">About</h2>
         <p class="lede">
           The Igor Vepretski entity page is the canonical public profile for 7ya.io search and social previews. It
-          aligns the #7YA story with structured data, platform metadata, and a single destination for discovery.
+          aligns the #7YA story with structured data, platform metadata, visible proof links, and a single destination
+          for discovery.
         </p>
         <ul>
           <li>Founder of #7YA.</li>
           <li>Leading force behind StartOn.</li>
-          <li>Focused on youth empowerment, civic leadership, digital strategy, and culture-driven impact.</li>
+          <li>Independent researcher developing the proposed Visual Narrative Anthropography framework.</li>
+          <li>Focused on youth empowerment, civic leadership, digital strategy, narrative intelligence, and culture-driven impact.</li>
           <li>Routes public attention back to the central authority hub at 7ya.io.</li>
         </ul>
       </section>
