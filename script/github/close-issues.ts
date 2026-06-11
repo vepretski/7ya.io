@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
-const repo = "anomalyco/opencode"
-const days = 60
+const repo = process.env.GITHUB_REPOSITORY
+const days = Number(process.env.STALE_ISSUE_DAYS ?? "60")
 const msg = `To stay organized issues are automatically closed after ${days} days of no activity. If the issue is still relevant please open a new one.`
 
 const token = process.env.GITHUB_TOKEN
@@ -10,11 +10,17 @@ if (!token) {
   process.exit(1)
 }
 
+if (!repo) {
+  console.error("GITHUB_REPOSITORY environment variable is required")
+  process.exit(1)
+}
+
 const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
 type Issue = {
   number: number
   updated_at: string
+  pull_request?: unknown
 }
 
 const headers = {
@@ -53,7 +59,7 @@ async function main() {
       `https://api.github.com/repos/${repo}/issues?state=open&sort=updated&direction=asc&per_page=100&page=${page}`,
       { headers },
     )
-    if (!res.ok) throw new Error(res.statusText)
+    if (!res.ok) throw new Error(`Failed to list issues: ${res.status} ${res.statusText}`)
 
     const all = (await res.json()) as Issue[]
     if (all.length === 0) break
@@ -61,6 +67,8 @@ async function main() {
 
     const stale: number[] = []
     for (const i of all) {
+      if (i.pull_request) continue
+
       const updated = new Date(i.updated_at)
       if (updated < cutoff) {
         stale.push(i.number)
