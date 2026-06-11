@@ -1,0 +1,7 @@
+{
+  "name": "@7ya/professional-media-site",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Evidence-aware personal media runtime for 7ya.io"
+}
