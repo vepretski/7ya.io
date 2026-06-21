@@ -3,5 +3,8 @@
   "private": true,
   "type": "module",
   "version": "0.1.0",
-  "description": "Evidence-aware personal media runtime for 7ya.io"
+  "description": "Evidence-aware personal media runtime for 7ya.io",
+  "scripts": {
+    "validate:evidence": "node scripts/validate-evidence.mjs"
+  }
 }
