@@ -1,0 +1,30 @@
+name: Validate 7YA Evidence Ledger
+
+on:
+  push:
+    paths:
+      - 'packages/7ya-site/public/api/evidence.json'
+      - 'packages/7ya-site/scripts/validate-evidence.mjs'
+      - 'packages/7ya-site/package.json'
+      - '.github/workflows/validate-evidence.yml'
+  pull_request:
+    paths:
+      - 'packages/7ya-site/public/api/evidence.json'
+      - 'packages/7ya-site/scripts/validate-evidence.mjs'
+      - 'packages/7ya-site/package.json'
+      - '.github/workflows/validate-evidence.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run evidence ledger validation
+        run: npm --prefix packages/7ya-site run validate:evidence
