@@ -4,3 +4,5 @@ Allow: /
 # Disallow shared content pages
 Disallow: /s/
 Disallow: /share/
+
+Sitemap: https://7ya.io/sitemap.xml
