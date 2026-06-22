@@ -1,0 +1,40 @@
+name: Agent Evidence Gate
+
+on:
+  pull_request:
+    paths:
+      - 'AI_AGENT_PROTOCOL.md'
+      - '.github/copilot-instructions.md'
+      - '.github/workflows/agent-evidence-gate.yml'
+      - 'packages/7ya-site/**'
+  push:
+    paths:
+      - 'AI_AGENT_PROTOCOL.md'
+      - '.github/copilot-instructions.md'
+      - '.github/workflows/agent-evidence-gate.yml'
+      - 'packages/7ya-site/**'
+
+jobs:
+  evidence-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Show repository state
+        shell: bash
+        run: |
+          set -euo pipefail
+          pwd
+          git status --short
+          git branch --show-current
+          git diff --stat
+          find . -maxdepth 4 -type f | sort
+
+      - name: Validate evidence ledger
+        run: npm --prefix packages/7ya-site run validate:evidence
