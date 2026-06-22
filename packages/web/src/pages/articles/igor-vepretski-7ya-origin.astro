@@ -1,0 +1,117 @@
+---
+import { founderArticle } from "../../data/7ya-knowledge-stream"
+
+const article = founderArticle
+const canonicalUrl = `https://7ya.io${article.href}`
+const articleJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": `${canonicalUrl}#article`,
+  headline: article.title,
+  description: article.description,
+  image: article.heroImage,
+  datePublished: article.date,
+  dateModified: article.updatedAt,
+  author: {
+    "@type": "Person",
+    "@id": "https://7ya.io/igor-vepretski#person",
+    name: "Igor Vepretski",
+    url: "https://7ya.io/igor-vepretski",
+  },
+  publisher: {
+    "@type": "Organization",
+    "@id": "https://7ya.io/#organization",
+    name: "7YA",
+    url: "https://7ya.io/",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://7ya.io/favicon-v3.svg",
+    },
+  },
+  mainEntityOfPage: canonicalUrl,
+  articleSection: article.category,
+  keywords: article.tags.join(", "),
+  isPartOf: {
+    "@type": "WebSite",
+    "@id": "https://7ya.io/#website",
+    name: "7YA",
+    url: "https://7ya.io/",
+  },
+})
+const breadcrumbJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "7YA", item: "https://7ya.io/" },
+    { "@type": "ListItem", position: 2, name: "Articles", item: "https://7ya.io/articles" },
+    { "@type": "ListItem", position: 3, name: article.title, item: canonicalUrl },
+  ],
+})
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{article.title} | 7YA</title>
+    <meta name="description" content={article.description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={article.title} />
+    <meta property="og:description" content={article.description} />
+    <meta property="og:image" content={article.heroImage} />
+    <meta property="article:published_time" content={article.date} />
+    <meta property="article:modified_time" content={article.updatedAt} />
+    <meta property="article:author" content={article.author} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={article.title} />
+    <meta name="twitter:description" content={article.description} />
+    <meta name="twitter:image" content={article.heroImage} />
+    <script type="application/ld+json" set:html={articleJsonLd} />
+    <script type="application/ld+json" set:html={breadcrumbJsonLd} />
+    <style>
+      :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#060707;color:#f7f7f2}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 86% -12%,rgba(83,255,183,.16),transparent 27rem),radial-gradient(circle at 12% 12%,rgba(130,210,255,.15),transparent 23rem),linear-gradient(135deg,#050606 0%,#0a0f0f 55%,#111716 100%)}a{color:inherit}main{width:min(960px,calc(100% - 2rem));margin:0 auto;padding:28px 0 76px}.nav{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:10px 0 48px}.nav a{color:#b6c8c4;text-decoration:none;font-size:.78rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.nav span{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end}.eyebrow,.status{color:#81ffc9;font-size:.72rem;font-weight:950;letter-spacing:.18em;text-transform:uppercase}.hero{padding:44px 0 26px}.meta{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 28px}.chip{display:inline-flex;align-items:center;border:1px solid rgba(129,255,201,.24);border-radius:999px;padding:6px 9px;color:#9fffd3;background:rgba(129,255,201,.07);font-size:.68rem;font-weight:950;letter-spacing:.09em;text-transform:uppercase}h1{margin:10px 0 18px;font-size:clamp(3.1rem,8.6vw,7.4rem);letter-spacing:-.095em;line-height:.86}.lede{color:#d7e2df;font-size:clamp(1.18rem,2.4vw,1.62rem);line-height:1.62}.truth-box{margin:34px 0 54px;border:1px solid rgba(255,255,255,.14);border-radius:26px;background:rgba(255,255,255,.055);padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.18)}.truth-box strong{display:block;margin-bottom:9px}.truth-box p{margin:0;color:#cbd9d5;line-height:1.7}.article-body{display:grid;gap:42px}.article-body section{padding-top:4px}.article-body h2{font-size:clamp(1.9rem,4vw,3.5rem);line-height:.96;letter-spacing:-.065em;margin:0 0 18px}.article-body p{color:#d5dfdc;font-size:1.08rem;line-height:1.84;margin:0}.article-body p+p{margin-top:16px}.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:52px}.link-card{border:1px solid rgba(255,255,255,.13);border-radius:22px;background:rgba(255,255,255,.052);padding:18px;text-decoration:none}.link-card strong{display:block;margin-bottom:7px}.link-card span{color:#b9c9c5;line-height:1.6}.footnote{padding-top:52px;color:#93a5a0;font-size:.92rem;line-height:1.75}@media(max-width:760px){.links{grid-template-columns:1fr}.nav{align-items:flex-start}.nav span{max-width:58%}h1{font-size:clamp(3.35rem,16vw,6.2rem)}}
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav class="nav" aria-label="7YA article navigation">
+        <a href="/articles">Knowledge Stream</a>
+        <span><a href="/igor-vepretski">Igor</a><a href="/evidence">Evidence</a><a href="/starton">StartOn</a></span>
+      </nav>
+      <article>
+        <header class="hero">
+          <p class="eyebrow">Official 7YA-owned article</p>
+          <h1>{article.title}</h1>
+          <p class="lede">{article.description}</p>
+          <div class="meta">
+            <span class="chip">{article.category}</span>
+            <span class="chip">{article.verificationStatus}</span>
+            <span class="chip">{article.date}</span>
+            <span class="chip">{article.author}</span>
+          </div>
+        </header>
+        <div class="truth-box">
+          <strong>Truth label</strong>
+          <p>This is an official 7YA-owned knowledge entry. It is not third-party journalism, and it does not claim external press validation. Its job is to establish a clean, public, indexable foundation for the story.</p>
+        </div>
+        <div class="article-body">
+          {article.sections.map((section) => (
+            <section>
+              <h2>{section.heading}</h2>
+              {section.body.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+          ))}
+        </div>
+        <section class="links" aria-label="Related 7YA routes">
+          <a class="link-card" href="/igor-vepretski"><strong>Canonical profile</strong><span>Read the structured Igor Vepretski entity page.</span></a>
+          <a class="link-card" href="/evidence"><strong>Evidence archive</strong><span>Open verified, pending, and archive-visible proof items.</span></a>
+          <a class="link-card" href="/starton"><strong>StartOn</strong><span>Connect the founder story to youth opportunity infrastructure.</span></a>
+          <a class="link-card" href="/influence"><strong>Influence layer</strong><span>Review the media and social signal layer with honest labels.</span></a>
+        </section>
+        <p class="footnote">Verification policy: strong language is allowed. Unsupported validation is not. 7YA marks first-party material, pending sources, archive-visible items, and verified claims separately.</p>
+      </article>
+    </main>
+  </body>
+</html>
