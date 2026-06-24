@@ -1,23 +1,23 @@
 <!doctype html>
-<html lang="en" style="background-color: var(--background-base)">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
-    <title>OpenCode</title>
-    <link rel="icon" type="image/png" href="/favicon-96x96-v3.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-v3.svg" />
-    <link rel="shortcut icon" href="/favicon-v3.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-v3.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#F8F7F7" />
-    <meta name="theme-color" content="#131010" media="(prefers-color-scheme: dark)" />
-    <meta property="og:image" content="/social-share.png" />
-    <meta property="twitter:image" content="/social-share.png" />
-    <script id="oc-theme-preload-script" src="/oc-theme-preload.js"></script>
-  </head>
-  <body class="antialiased overscroll-none text-12-regular overflow-hidden">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root" class="flex flex-col h-dvh p-px"></div>
-    <script src="/src/entry.tsx" type="module"></script>
-  </body>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>7YA Space Lobby | Igor Vepretski</title>
+  <meta name="description" content="7YA is Igor Vepretski's clean public space lobby with a floating guide, member pass, social signal, and direct talk route." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://7ya.io/" />
+  <style>
+    :root{--text:#f7fbfc;--muted:#a9bac0;--line:rgba(255,255,255,.15);--cyan:#29f2ff;--green:#8dff68;--gold:#ffd166;--max:1100px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:#020304;overflow-x:hidden}.space{position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 20% 15%,rgba(41,242,255,.22),transparent 28%),radial-gradient(circle at 78% 22%,rgba(141,255,104,.14),transparent 30%),radial-gradient(circle at 50% 88%,rgba(255,209,102,.10),transparent 28%),linear-gradient(180deg,#020304,#061016 55%,#020304)}.stars{position:fixed;inset:0;z-index:-2;opacity:.5;background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(rgba(122,248,255,.75) 1px,transparent 1px);background-size:120px 120px,180px 180px;background-position:0 0,45px 60px}.shell{width:min(var(--max),calc(100% - 32px));margin:auto}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:1000;color:inherit;text-decoration:none}.nav-links{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:10px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-weight:850;color:inherit;text-decoration:none}.hero{display:grid;place-items:center;min-height:calc(100vh - 96px);padding:52px 0 92px;text-align:center}.kicker{display:inline-flex;padding:8px 12px;border-radius:999px;border:1px solid rgba(141,255,104,.32);background:rgba(141,255,104,.09);color:#eaffdf;font-size:12px;font-weight:950;letter-spacing:.14em;text-transform:uppercase}h1{font-size:clamp(46px,10vw,116px);line-height:.86;letter-spacing:-.08em;margin:22px 0 18px;background:linear-gradient(90deg,#fff,var(--cyan),var(--green),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}.lead{max-width:790px;margin:0 auto;color:#d6e4e7;font-size:clamp(18px,2.2vw,25px);line-height:1.55}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 18px;border-radius:999px;border:0;background:linear-gradient(135deg,var(--cyan),var(--green));color:#021113;font-weight:1000;text-decoration:none}.button.secondary{border:1px solid var(--line);background:rgba(255,255,255,.055);color:var(--text)}.micro{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px;text-align:left}.tile{padding:16px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.045);backdrop-filter:blur(12px)}.tile span{display:block;color:var(--muted);font-size:14px}.bot-toggle{position:fixed;right:20px;bottom:20px;z-index:20;width:68px;height:68px;border-radius:24px;border:1px solid rgba(122,248,255,.36);background:linear-gradient(135deg,#071116,#17363d);color:#fff;box-shadow:0 18px 60px rgba(0,0,0,.42),0 0 34px rgba(41,242,255,.18);font-size:28px;cursor:pointer}.bot{position:fixed;right:20px;bottom:100px;z-index:19;width:min(390px,calc(100vw - 32px));border:1px solid rgba(122,248,255,.22);border-radius:28px;background:rgba(3,8,11,.92);backdrop-filter:blur(24px);box-shadow:0 24px 90px rgba(0,0,0,.55);overflow:hidden;display:none}.bot[data-open="true"]{display:block}.bot-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.bot-body{padding:18px}.msg{padding:13px 14px;border-radius:18px;background:rgba(255,255,255,.06);color:#dce9ed;margin-bottom:14px}.choices{display:grid;gap:9px}.choice{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.045);color:#fff;padding:12px;text-align:left;font-weight:850;cursor:pointer}.bot-link{display:inline-flex;margin-top:12px;color:#9afcff;font-weight:950}.close{background:transparent;color:#fff;border:0;font-size:20px;cursor:pointer}.footer{padding:26px 0 38px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}@media(max-width:820px){.nav{align-items:flex-start;flex-direction:column;padding:14px 0}.micro{grid-template-columns:1fr}.actions{align-items:stretch}.button{width:100%}.hero{text-align:left;place-items:start}.lead{margin:0}.bot-toggle{right:14px;bottom:14px}.bot{right:14px;bottom:92px}}
+  </style>
+</head>
+<body>
+  <div class="space"></div><div class="stars"></div>
+  <header class="shell nav"><a class="brand" href="/">#7YA Space</a><nav class="nav-links"><a class="pill" href="/member-pass/">Member Pass</a><a class="pill" href="/talk/">Talk</a><a class="pill" href="/docs/my-links.md">Links</a></nav></header>
+  <main class="shell hero"><section><span class="kicker">Igor Vepretski · live command space</span><h1>Enter the 7YA space.</h1><p class="lead">One clean entry. A floating guide. Story, proof, social signal, Visual AI, and member access open only when the visitor asks for them.</p><div class="actions"><a class="button" href="/member-pass/">Open Digital Member Pass</a><a class="button secondary" href="/talk/">Talk with Igor</a><a class="button secondary" href="/social/">View public signal</a></div><div class="micro"><div class="tile"><b>Pass</b><span>Identity and membership first.</span></div><div class="tile"><b>Talk</b><span>Conversation before complexity.</span></div><div class="tile"><b>Proof</b><span>Claims stay evidence-aware.</span></div><div class="tile"><b>Build</b><span>Advanced layers unlock by need.</span></div></div></section></main>
+  <button class="bot-toggle" id="botToggle" aria-label="Open 7YA guide">✦</button>
+  <aside class="bot" id="bot"><div class="bot-head"><b>7YA Guide</b><button class="close" id="botClose">×</button></div><div class="bot-body"><div class="msg" id="botMsg">Welcome. What do you want to do first?</div><div class="choices"><button class="choice" data-path="/member-pass/" data-msg="Open your 7YA Digital Member Pass.">Get my Member Pass</button><button class="choice" data-path="/talk/" data-msg="Talk is the direct route for ideas, media, partnerships, and next steps.">Talk with Igor</button><button class="choice" data-path="/social/" data-msg="Social Signal Wall keeps public posts and snapshots in one route.">See public signal</button><button class="choice" data-path="/labs/visual-ai/" data-msg="Visual AI Lab is the advanced research layer.">Open Visual AI Lab</button></div><a class="bot-link" id="botLink" href="/member-pass/">Open selected route →</a></div></aside>
+  <footer class="shell footer">#7YA · Space first · Complexity by process · Not fashion. Force.</footer>
+  <script>const bot=document.getElementById('bot'),toggle=document.getElementById('botToggle'),close=document.getElementById('botClose'),msg=document.getElementById('botMsg'),link=document.getElementById('botLink');toggle.addEventListener('click',()=>bot.dataset.open=bot.dataset.open==='true'?'false':'true');close.addEventListener('click',()=>bot.dataset.open='false');document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{msg.textContent=b.dataset.msg;link.href=b.dataset.path;link.textContent='Open '+b.textContent+' →'}));</script>
+</body>
 </html>
