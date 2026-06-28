@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>אני רץ לכנסת | איגור ופרצקי / 7YA</title>
+  <meta name="description" content="איגור ופרצקי ו־7YA — תנועה חברתית אזרחית שנכנסת לחיים הציבוריים מתוך אחריות, ביטחון, צעירים, פרטיות ובנייה ציבורית." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://7ya.io/campaign" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="7YA" />
+  <meta property="og:title" content="אני רץ לכנסת | איגור ופרצקי / 7YA" />
+  <meta property="og:description" content="מיתוג אישי ותנועה חברתית אזרחית: קהילה, צעירים, אחריות ציבורית וכניסה לפוליטיקה ללא שיוך מפלגתי בשלב זה." />
+  <meta property="og:url" content="https://7ya.io/campaign" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="אני רץ לכנסת | איגור ופרצקי / 7YA" />
+  <meta name="twitter:description" content="תנועה חברתית אזרחית שנכנסת לפוליטיקה מתוך אחריות ציבורית, פרטיות, צעירים ובנייה." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://7ya.io/campaign#webpage",
+    "url": "https://7ya.io/campaign",
+    "name": "אני רץ לכנסת | איגור ופרצקי / 7YA",
+    "description": "דף ציבורי של איגור ופרצקי ו־7YA כתנועה חברתית אזרחית הנכנסת לחיים הציבוריים ללא שיוך מפלגתי בשלב זה.",
+    "inLanguage": "he-IL",
+    "about": {
+      "@type": "Person",
+      "name": "Igor Vepretski",
+      "alternateName": "איגור ופרצקי",
+      "brand": {
+        "@type": "Brand",
+        "name": "7YA"
+      }
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #020407;
+      --panel: rgba(8, 16, 24, 0.78);
+      --panel-strong: rgba(9, 19, 30, 0.94);
+      --text: #f6fbff;
+      --muted: #a9b8c4;
+      --line: rgba(255,255,255,.14);
+      --cyan: #36e6ff;
+      --blue: #5b7cff;
+      --gold: #f2c66d;
+      --green: #8cffc1;
+      --danger: #ff8a8a;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Heebo", "Rubik", Arial, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(54,230,255,.18), transparent 30%),
+        radial-gradient(circle at 82% 14%, rgba(91,124,255,.18), transparent 26%),
+        radial-gradient(circle at 50% 90%, rgba(242,198,109,.12), transparent 34%),
+        linear-gradient(145deg, #020407, #07111c 46%, #020407);
+    }
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      opacity: .38;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(circle at 50% 30%, #000, transparent 74%);
+    }
+    .orb {
+      position: fixed;
+      inset: auto auto -28vmax -18vmax;
+      width: 64vmax;
+      height: 64vmax;
+      border-radius: 50%;
+      border: 1px solid rgba(54,230,255,.12);
+      box-shadow: inset 0 0 80px rgba(54,230,255,.06), 0 0 150px rgba(91,124,255,.08);
+      z-index: -2;
+    }
+    .shell { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+    }
+    .brand { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 1000; }
+    .mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      background: linear-gradient(145deg, rgba(54,230,255,.18), rgba(91,124,255,.16));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 0 34px rgba(54,230,255,.16);
+      letter-spacing: -.05em;
+    }
+    .navlinks { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.045);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+    .hero {
+      min-height: calc(100vh - 78px);
+      display: grid;
+      align-items: center;
+      padding: 42px 0 72px;
+    }
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(145deg, rgba(7, 16, 25, .82), rgba(2, 4, 7, .66));
+      border-radius: 36px;
+      padding: clamp(24px, 6vw, 72px);
+      box-shadow: 0 30px 120px rgba(0,0,0,.46);
+    }
+    .hero-card::before {
+      content: "7YA";
+      position: absolute;
+      left: -18px;
+      bottom: -36px;
+      font-size: clamp(110px, 24vw, 300px);
+      line-height: .75;
+      font-weight: 1000;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.08);
+      letter-spacing: -.14em;
+      direction: ltr;
+      pointer-events: none;
+    }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 28px;
+      border: 1px solid rgba(54,230,255,.10);
+      pointer-events: none;
+    }
+    .kicker {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid rgba(140,255,193,.28);
+      background: rgba(140,255,193,.075);
+      color: #e9fff4;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: .04em;
+    }
+    h1 {
+      margin: 22px 0 10px;
+      font-size: clamp(52px, 12vw, 132px);
+      line-height: .88;
+      letter-spacing: -.075em;
+      max-width: 890px;
+    }
+    .name {
+      margin: 0 0 22px;
+      color: var(--cyan);
+      font-size: clamp(24px, 4.6vw, 48px);
+      font-weight: 1000;
+      letter-spacing: -.04em;
+    }
+    .lead {
+      max-width: 760px;
+      color: #d7e6ee;
+      font-size: clamp(18px, 2.35vw, 26px);
+      line-height: 1.62;
+      margin: 0;
+    }
+    .note {
+      margin: 22px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 52px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #020407;
+      text-decoration: none;
+      font-weight: 1000;
+      border: 0;
+      cursor: pointer;
+    }
+    .button.secondary { background: rgba(255,255,255,.055); color: var(--text); border: 1px solid var(--line); }
+    .section { padding: 38px 0; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card, .formbox {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      padding: 22px;
+      backdrop-filter: blur(18px);
+    }
+    .card b { display: block; margin-bottom: 9px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.72; }
+    .formbox { max-width: 680px; margin: 0 auto 68px; background: var(--panel-strong); }
+    .formbox h2 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 42px); letter-spacing: -.04em; }
+    .formbox > p { color: var(--muted); margin: 0 0 24px; line-height: 1.7; }
+    label { display: block; font-weight: 850; margin-bottom: 8px; }
+    .field { margin-bottom: 16px; }
+    input[type="text"], input[type="tel"], input[type="email"] {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.28);
+      color: var(--text);
+      padding: 12px 14px;
+      font-size: 16px;
+      outline: none;
+    }
+    input:focus { border-color: rgba(54,230,255,.72); box-shadow: 0 0 0 4px rgba(54,230,255,.10); }
+    .consent {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin: 20px 0;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .consent input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--cyan); }
+    .consent label { margin: 0; color: #d9e7ef; line-height: 1.65; font-weight: 650; }
+    .status { min-height: 24px; color: var(--green); font-weight: 850; margin-top: 14px; }
+    .status.error { color: var(--danger); }
+    footer { border-top: 1px solid rgba(255,255,255,.09); color: var(--muted); padding: 28px 0 36px; line-height: 1.6; }
+    @media (max-width: 820px) {
+      .nav { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 20px; }
+      .hero-card { border-radius: 28px; }
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="orb" aria-hidden="true"></div>
+
+  <header class="shell nav">
+    <a class="brand" href="/" aria-label="7YA home"><span class="mark">7</span><span>איגור ופרצקי / 7YA</span></a>
+    <nav class="navlinks" aria-label="ניווט ראשי">
+      <a class="pill" href="#join">הצטרפות</a>
+      <a class="pill" href="#platform">הכיוון</a>
+      <a class="pill" href="/talk/">שיחה ישירה</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="shell hero" aria-labelledby="main-title">
+      <div class="hero-card">
+        <span class="kicker">כנסת 2026 · תנועה חברתית אזרחית</span>
+        <h1 id="main-title">אני רץ לכנסת</h1>
+        <p class="name">איגור ופרצקי / 7YA</p>
+        <p class="lead">תנועה חברתית אזרחית שנכנסת לפוליטיקה כדי לחבר בין קהילה, צעירים, ביטחון אישי, פרטיות וכוח ציבורי אחראי.</p>
+        <p class="note">בשלב זה העמוד מוצג כמיתוג אישי ותנועת 7YA בלבד, ללא שיוך מפלגתי. השפה הציבורית כאן היא אחריות, שקיפות, בנייה והגנה על האדם בעידן הדיגיטלי.</p>
+        <div class="actions">
+          <a class="button" href="#join">מצטרפים לתנועה</a>
+          <a class="button secondary" href="#platform">קוראים את הכיוון</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="platform" aria-label="כיוון ציבורי">
+      <div class="cards">
+        <article class="card">
+          <b>צעירים וקהילה</b>
+          <p>בניית מסלולים אמיתיים לצעירים, נוער בסיכון וקהילות שמחכות לתשתית ולא לסיסמה.</p>
+        </article>
+        <article class="card">
+          <b>ביטחון ואחריות</b>
+          <p>שפה ציבורית שמחברת ניסיון שטח, משמעת, שירות ואחריות אישית למערכות שעובדות.</p>
+        </article>
+        <article class="card">
+          <b>פרטיות ודאטה</b>
+          <p>הגנה על האדם, על המידע ועל האמון הציבורי כחלק מהיסודות של מדינה דיגיטלית בריאה.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="join" aria-label="טופס הצטרפות">
+      <div class="formbox">
+        <h2>השאירו פרטים להצטרפות</h2>
+        <p>הטופס מיועד לעדכונים ציבוריים, התנדבות ויצירת קשר סביב 7YA והמהלך האזרחי.</p>
+        <form id="joinForm" action="/api/submit-lead" method="post">
+          <div class="field">
+            <label for="fullName">שם מלא</label>
+            <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="phone">טלפון</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+          </div>
+          <div class="field">
+            <label for="email">אימייל</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="consent">
+            <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
+            <label for="privacyConsent">האתר מופעל על ידי 7YA לצורך עדכונים ציבוריים, התנדבות ויצירת קשר. פרטים שיימסרו יטופלו בהתאם לדין החל. אני מאשר/ת את מסירת המידע.</label>
+          </div>
+          <button class="button" type="submit">הצטרפות לתנועה</button>
+          <div id="formStatus" class="status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    7YA · איגור ופרצקי · תנועה חברתית אזרחית · פרטיות, אחריות ובנייה ציבורית.
+  </footer>
+
+  <script>
+    const form = document.getElementById('joinForm');
+    const statusEl = document.getElementById('formStatus');
+    form.addEventListener('submit', (event) => {
+      const consent = document.getElementById('privacyConsent');
+      if (!consent.checked) {
+        event.preventDefault();
+        statusEl.textContent = 'יש לאשר את מסירת המידע לפני שליחת הטופס.';
+        statusEl.className = 'status error';
+        consent.focus();
+        return;
+      }
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        form.reportValidity();
+        return;
+      }
+      statusEl.textContent = 'הפרטים מוכנים לשליחה.';
+      statusEl.className = 'status';
+    });
+  </script>
+</body>
+</html>
