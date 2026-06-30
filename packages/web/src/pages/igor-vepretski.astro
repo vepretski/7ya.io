@@ -1,7 +1,5 @@
 ---
-import { igorVepretskiPersonJsonLd, igorVepretskiSeo } from "../data/igor-vepretski-seo"
-
-const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
+import { igorVepretskiSeo } from "../data/igor-vepretski-seo"
 ---
 
 <html lang="en">
@@ -11,216 +9,29 @@ const personJsonLd = JSON.stringify(igorVepretskiPersonJsonLd)
     <title>{igorVepretskiSeo.title}</title>
     <meta name="description" content={igorVepretskiSeo.description} />
     <link rel="canonical" href={igorVepretskiSeo.canonicalUrl} />
-
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={igorVepretskiSeo.canonicalUrl} />
     <meta property="og:title" content={igorVepretskiSeo.title} />
     <meta property="og:description" content={igorVepretskiSeo.description} />
     <meta property="og:image" content={igorVepretskiSeo.ogImage} />
     <meta property="og:image:alt" content={igorVepretskiSeo.ogImageAlt} />
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={igorVepretskiSeo.twitterTitle} />
     <meta name="twitter:description" content={igorVepretskiSeo.twitterDescription} />
     <meta name="twitter:image" content={igorVepretskiSeo.ogImage} />
     <meta name="twitter:image:alt" content={igorVepretskiSeo.ogImageAlt} />
-
-    <script type="application/ld+json" set:html={personJsonLd} />
-
     <style>
-      :root {
-        color-scheme: dark;
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #070707;
-        color: #f7f7f7;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 30rem),
-          radial-gradient(circle at top right, rgba(94, 199, 255, 0.12), transparent 25rem),
-          linear-gradient(135deg, #070707 0%, #101010 52%, #1f1f1f 100%);
-      }
-
-      main {
-        width: min(1120px, calc(100% - 2rem));
-        margin: 0 auto;
-        padding: 72px 0;
-      }
-
-      .eyebrow {
-        color: #d6d6d6;
-        font-size: 0.86rem;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        max-width: 920px;
-        margin: 18px 0 20px;
-        font-size: clamp(3rem, 9vw, 7rem);
-        line-height: 0.9;
-        letter-spacing: -0.08em;
-      }
-
-      .lede {
-        max-width: 760px;
-        color: #d9d9d9;
-        font-size: clamp(1.18rem, 2.4vw, 1.65rem);
-        line-height: 1.55;
-      }
-
-      .cta-row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 28px;
-      }
-
-      .cta {
-        display: inline-flex;
-        padding: 14px 18px;
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        border-radius: 999px;
-        color: #070707;
-        background: #f7f7f7;
-        font-weight: 800;
-        text-decoration: none;
-      }
-
-      .cta.secondary {
-        color: #f7f7f7;
-        background: rgba(255, 255, 255, 0.06);
-      }
-
-      section {
-        margin-top: 80px;
-      }
-
-      h2 {
-        margin-bottom: 20px;
-        font-size: clamp(1.8rem, 4vw, 3.4rem);
-        letter-spacing: -0.05em;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 18px;
-      }
-
-      .card {
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 24px;
-        padding: 24px;
-        background: rgba(255, 255, 255, 0.06);
-      }
-
-      .card strong {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 1.05rem;
-      }
-
-      .card p,
-      li {
-        color: #d8d8d8;
-        line-height: 1.65;
-      }
-
-      .card a,
-      footer a {
-        color: #bfeeff;
-      }
-
-      ul {
-        display: grid;
-        gap: 12px;
-        padding-left: 1.2rem;
-      }
-
-      footer {
-        margin-top: 80px;
-        color: #a6a6a6;
-        font-size: 0.95rem;
-      }
+      :root{color-scheme:dark;--text:#f7fbff;--muted:#a9b8c4;--line:rgba(255,255,255,.14);--cyan:#34edff;--gold:#f7cf72;--green:#9bff7d;--panel:rgba(255,255,255,.065);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#030405;color:var(--text)}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 16% 0%,rgba(52,237,255,.22),transparent 31rem),radial-gradient(circle at 86% 12%,rgba(247,207,114,.15),transparent 30rem),linear-gradient(145deg,#010203,#071018 56%,#000);overflow-x:hidden}.shell{width:min(1160px,calc(100% - 2rem));margin:auto}.nav{position:sticky;top:12px;z-index:10;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px;border:1px solid var(--line);border-radius:26px;background:rgba(3,4,5,.76);backdrop-filter:blur(20px)}a{color:inherit;text-decoration:none}.brand{display:flex;gap:12px;align-items:center;font-weight:1000;letter-spacing:.08em}.mark{width:46px;height:46px;border-radius:17px;display:grid;place-items:center;color:#071014;background:linear-gradient(135deg,var(--cyan),var(--gold))}.navlinks{display:flex;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;padding:10px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.045);font-weight:820;color:#dbe8ef}.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:clamp(26px,6vw,72px);align-items:center;padding:82px 0 52px}.eyebrow{display:inline-flex;margin-bottom:20px;padding:8px 12px;border:1px solid rgba(155,255,125,.34);background:rgba(155,255,125,.08);border-radius:999px;color:#eaffdf;font-weight:950;font-size:.82rem;letter-spacing:.11em;text-transform:uppercase}h1{margin:0;font-size:clamp(3.4rem,8.4vw,8rem);line-height:.86;letter-spacing:-.078em}.gradient{background:linear-gradient(92deg,#fff,var(--cyan),var(--green),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}.lede{margin:24px 0 0;max-width:760px;color:#d9e6ec;font-size:clamp(1.08rem,2.1vw,1.36rem);line-height:1.65}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.cta{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 18px;border-radius:999px;background:linear-gradient(135deg,var(--cyan),var(--green));color:#031115;font-weight:1000}.cta.secondary{border:1px solid var(--line);background:rgba(255,255,255,.055);color:var(--text)}.card{border:1px solid rgba(255,255,255,.16);border-radius:32px;background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.045));box-shadow:0 34px 110px rgba(0,0,0,.42);padding:24px}.status{display:grid;gap:12px}.row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px;border:1px solid rgba(255,255,255,.11);border-radius:18px;background:rgba(0,0,0,.22)}.row span{color:var(--muted)}.row b{text-align:right}.section{padding:34px 0}.section h2{margin:0 0 18px;font-size:clamp(2rem,5vw,4rem);line-height:.95;letter-spacing:-.055em}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tile{min-height:184px;padding:22px;border:1px solid var(--line);border-radius:26px;background:var(--panel)}.tile.big{grid-column:span 2}.tile .k{display:inline-flex;margin-bottom:14px;color:var(--gold);font-weight:1000;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}.tile h3{margin:0 0 9px;font-size:1.35rem}.tile p{margin:0;color:var(--muted);line-height:1.65}.note{margin:24px 0 64px;padding:22px;border:1px solid rgba(247,207,114,.25);border-radius:26px;background:rgba(247,207,114,.08);color:#f6e8c0}.footer{padding:28px 0 42px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}@media(max-width:900px){.nav{align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr;padding-top:52px}.grid{grid-template-columns:1fr}.tile.big{grid-column:auto}.cta{width:100%}h1{font-size:clamp(3.5rem,15vw,6.2rem)}}
     </style>
   </head>
   <body>
-    <main>
-      <p class="eyebrow">Igor Vepretski / #7YA / StartOn</p>
-      <h1>Igor Vepretski</h1>
-      <p class="lede">
-        Igor Vepretski is the founder of #7YA and leading force behind StartOn, building systems for youth
-        empowerment, civic leadership, technology, research, and culture-driven impact in Israel.
-      </p>
-      <div class="cta-row">
-        <a class="cta" href="https://7ya.io">Manage 7ya.io</a>
-        <a class="cta secondary" href="https://7ya.io/anthropography">Open VNA research</a>
-        <a class="cta secondary" href="https://igorvepretski.academia.edu/" rel="me external">Academia.edu profile</a>
-      </div>
-
-      <section aria-labelledby="focus-title">
-        <h2 id="focus-title">Entity focus</h2>
-        <div class="grid">
-          <article class="card">
-            <strong>Youth empowerment</strong>
-            <p>Building systems that help young people organize, lead, create, and participate in public life.</p>
-          </article>
-          <article class="card">
-            <strong>Civic power</strong>
-            <p>Connecting leadership, social action, digital culture, and public responsibility into one movement layer.</p>
-          </article>
-          <article class="card">
-            <strong>Digital culture</strong>
-            <p>Using platforms, media, and technology as tools for visibility, coordination, and community impact.</p>
-          </article>
-          <article class="card">
-            <strong>Independent research</strong>
-            <p>Developing Visual Narrative Anthropography (VNA), a proposed interdisciplinary research program for studying how identity, memory, hierarchy, and legitimacy are constructed through curated visual narratives.</p>
-          </article>
-        </div>
-      </section>
-
-      <section aria-labelledby="research-title">
-        <h2 id="research-title">Research proof layer</h2>
-        <div class="grid">
-          <article class="card">
-            <strong>Visual Narrative Anthropography</strong>
-            <p>The VNA foundational page presents the research positioning, 12-axis ANTHRO-GRAPHY codebook, author attribution, and publication pathway.</p>
-            <a href="https://7ya.io/anthropography">Open the VNA page</a>
-          </article>
-          <article class="card">
-            <strong>Academia.edu</strong>
-            <p>The external academic profile provides an additional discovery node for publication records and future papers.</p>
-            <a href="https://igorvepretski.academia.edu/" rel="me external">Open academic profile</a>
-          </article>
-        </div>
-      </section>
-
-      <section aria-labelledby="about-title">
-        <h2 id="about-title">About</h2>
-        <p class="lede">
-          The Igor Vepretski entity page is the canonical public profile for 7ya.io search and social previews. It
-          aligns the #7YA story with structured data, platform metadata, visible proof links, and a single destination
-          for discovery.
-        </p>
-        <ul>
-          <li>Founder of #7YA.</li>
-          <li>Leading force behind StartOn.</li>
-          <li>Independent researcher developing the proposed Visual Narrative Anthropography framework.</li>
-          <li>Focused on youth empowerment, civic leadership, digital strategy, narrative intelligence, and culture-driven impact.</li>
-          <li>Routes public attention back to the central authority hub at 7ya.io.</li>
-        </ul>
-      </section>
-
-      <footer>
-        <p>Canonical URL: <a href="https://7ya.io/igor-vepretski">https://7ya.io/igor-vepretski</a></p>
-      </footer>
+    <header class="shell nav"><a class="brand" href="/"><span class="mark">7</span><span>#7YA</span></a><nav class="navlinks" aria-label="Primary"><a class="pill" href="/">Home</a><a class="pill" href="/talk/">Talk</a><a class="pill" href="/social/">Signal</a><a class="pill" href="/member-pass/">Pass</a></nav></header>
+    <main class="shell">
+      <section class="hero"><div><span class="eyebrow">Canonical founder root</span><h1><span class="gradient">Igor Vepretski</span><br />#7YA.</h1><p class="lede">Founder-builder operating where public narrative, technology systems, creator distribution, source-aware trust, and StartOn meet. This page is the clean public identity route for platforms, collaborators, and search.</p><div class="cta-row"><a class="cta" href="/talk/">Start a conversation →</a><a class="cta secondary" href="/social/">View public signal</a><a class="cta secondary" href="/docs/my-links.md">Open route map</a></div></div><aside class="card"><h2>Public root</h2><div class="status"><div class="row"><span>Identity</span><b>Igor Vepretski / #7YA</b></div><div class="row"><span>Platform</span><b>7YA</b></div><div class="row"><span>Impact layer</span><b>StartOn</b></div><div class="row"><span>Policy</span><b>Source-aware language</b></div><div class="row"><span>Publishing</span><b>GitHub + Vercel</b></div></div></aside></section>
+      <section class="section"><h2>Root ontology.</h2><div class="grid"><article class="tile"><span class="k">Builder</span><h3>Systems before slogans.</h3><p>Public-facing flows, source layers, UX surfaces, and operational routes built to reduce noise.</p></article><article class="tile"><span class="k">Founder</span><h3>7YA and StartOn.</h3><p>Connects personal brand, public trust, practical projects, and execution into one owned web layer.</p></article><article class="tile"><span class="k">Creator</span><h3>Distribution with intent.</h3><p>Creator culture is used as signal and reach, then routed back into owned context and next steps.</p></article></div></section>
+      <section class="section"><h2>Operating layers.</h2><div class="grid"><article class="tile big"><span class="k">Public trust</span><h3>Source before escalation.</h3><p>Public language stays careful and avoids unsupported claims unless a visible proof route supports it.</p></article><article class="tile"><span class="k">Developer ecosystem</span><h3>Tools, not decoration.</h3><p>Microsoft, NVIDIA, OpenAI, Google, GitHub, and Vercel are treated as infrastructure and ecosystem context with precise wording.</p></article><article class="tile"><span class="k">Direct route</span><h3>Talk is the intake.</h3><p>Ideas, partnerships, media requests, and serious next steps should flow through the 7YA Talk route.</p></article><article class="tile big"><span class="k">Owned web</span><h3>The domain is the base.</h3><p>7ya.io is the anchor. Social platforms are distribution; the site is the canonical surface.</p></article></div></section>
+      <div class="note">Public language here is premium and conservative. It builds authority without inventing proof. That is the 7YA standard.</div>
     </main>
+    <footer class="shell footer">#7YA · Igor Vepretski · Canonical public identity · Signal first.</footer>
   </body>
 </html>
