@@ -1,5 +1,10 @@
 {
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/", "destination": "/igor-wall/", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/igor-vepretski/",
+      "permanent": false
+    }
   ]
 }
