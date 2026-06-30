@@ -1,14 +1,14 @@
 export const igorVepretskiSeo = {
   canonicalUrl: "https://7ya.io/igor-vepretski",
-  title: "Igor Vepretski | #7YA — Youth, Civic Power & Digital Culture",
+  title: "IGOR VEPRETSKI | #7YA — Signal First",
   description:
-    "Igor Vepretski is the founder of #7YA and StartOn, building systems for youth empowerment, civic leadership, technology, research, and culture-driven impact in Israel.",
+    "Igor Vepretski is the founder of #7YA and StartOn, building a public command layer for identity, technology, creator distribution, source-aware trust, and direct action.",
   ogImage: "https://7ya.io/images/igor-vepretski-7ya-og.svg",
   ogImageAlt:
-    "Igor Vepretski, founder of #7YA and leading force behind StartOn, building civic power, youth empowerment, research, and digital culture.",
-  twitterTitle: "Igor Vepretski | #7YA",
+    "Igor Vepretski / #7YA public command layer: founder identity, StartOn, technology, creator signal, and source-aware trust.",
+  twitterTitle: "IGOR VEPRETSKI | #7YA",
   twitterDescription:
-    "Systems builder. Founder of #7YA and leading force behind StartOn. Youth empowerment, civic power, research, technology, and culture.",
+    "Founder-builder. #7YA and StartOn. Public narrative, technology, creator signal, and source-aware trust.",
 }
 
 export const igorVepretskiPersonJsonLd = {
@@ -16,31 +16,28 @@ export const igorVepretskiPersonJsonLd = {
   "@type": "Person",
   "@id": "https://7ya.io/igor-vepretski#person",
   name: "Igor Vepretski",
-  alternateName: ["Igor Ido Vepretski", "Ido Vepretski", "איגור ופרצקי", "עידו ופרצקי", "Игорь Вепрецкий", "#7YA"],
+  alternateName: ["Igor Ido Vepretski", "Ido Vepretski", "#7YA"],
   url: "https://7ya.io/igor-vepretski",
   image: "https://7ya.io/images/igor-vepretski-7ya-og.svg",
   jobTitle: [
     "Founder of #7YA",
-    "Leading force behind StartOn",
-    "Social Entrepreneur",
-    "Digital Strategist",
+    "Founder of StartOn",
     "Systems Builder",
-    "Independent Researcher",
-    "Public Speaker",
+    "Digital Strategist",
+    "Independent Researcher"
   ],
   description:
-    "Igor Vepretski is the founder of #7YA and leading force behind StartOn, building systems for youth empowerment, civic leadership, digital culture, research, and social impact.",
+    "Igor Vepretski is the founder of #7YA and StartOn, building public systems for identity, technology, creator distribution, source-aware trust, and direct action.",
   knowsAbout: [
-    "Youth Empowerment",
     "Digital Strategy",
-    "Civic Innovation",
-    "Social Entrepreneurship",
-    "Public Leadership",
+    "Technology Systems",
+    "Public Narrative",
     "Digital Sovereignty",
     "Community Building",
-    "Culture Movements",
+    "Creator Distribution",
     "Visual Narrative Anthropography",
     "Narrative Intelligence",
+    "Evidence Systems"
   ],
   nationality: "Israeli",
   address: {
@@ -50,9 +47,11 @@ export const igorVepretskiPersonJsonLd = {
   sameAs: [
     "https://7ya.io/",
     "https://igorvepretski.academia.edu/",
-    "https://www.instagram.com/vepretski.igor/",
     "https://www.instagram.com/igor.vepretski/",
-    "https://www.youtube.com/c/IgorIdoVepretski",
+    "https://www.tiktok.com/@igor.vepretski",
+    "https://www.facebook.com/vepretski",
+    "https://www.youtube.com/@IgorVepretski",
+    "https://x.com/igorvepretski",
     "https://il.linkedin.com/in/vepretski",
     "https://github.com/vepretski",
   ],
