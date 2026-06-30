@@ -1,0 +1,29 @@
+{
+  "owner": "Igor Vepretski",
+  "brand": "7YA",
+  "status": "scaffold_live_source_gated",
+  "policy": "Public numbers and claims require screenshots, public URLs, exports, or other visible sources before publication.",
+  "social_profiles": [
+    {"platform": "TikTok", "url": "https://www.tiktok.com/@igor.vepretski", "role": "short video and live signal"},
+    {"platform": "Instagram", "url": "https://www.instagram.com/igor.vepretski/", "role": "reels, story, IGTV and visual identity"},
+    {"platform": "YouTube", "url": "https://www.youtube.com/@IgorVepretski", "role": "video and visual podcast route"},
+    {"platform": "Facebook", "url": "https://www.facebook.com/vepretski", "role": "public conversation and community"},
+    {"platform": "X", "url": "https://x.com/igorvepretski", "role": "public commentary"},
+    {"platform": "GitHub", "url": "https://github.com/vepretski", "role": "builder and source layer"}
+  ],
+  "visual_sections": [
+    "homepage hero",
+    "founder portrait",
+    "media signal wall",
+    "StartOn impact layer",
+    "Talk and podcast route"
+  ],
+  "tooling_ecosystem": [
+    {"name": "GitHub", "public_wording": "source of truth and version control"},
+    {"name": "Vercel", "public_wording": "publishing and domain layer"},
+    {"name": "OpenAI", "public_wording": "AI workflow tooling"},
+    {"name": "Microsoft / Azure", "public_wording": "developer ecosystem and cloud tooling context"},
+    {"name": "NVIDIA", "public_wording": "developer and visual AI ecosystem context"},
+    {"name": "Google", "public_wording": "search, indexing, analytics and verification context"}
+  ]
+}
