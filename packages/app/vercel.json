@@ -1,8 +1,12 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "bunVersion": "1.x",
   "cleanUrls": true,
   "redirects": [
+    {
+      "source": "/docs/my-links.md",
+      "destination": "/docs/",
+      "permanent": true
+    },
     {
       "source": "/",
       "destination": "/igor-vepretski/",
