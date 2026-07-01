@@ -3,6 +3,9 @@
   "version": "1.14.19",
   "description": "",
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./vite": "./vite.js",
