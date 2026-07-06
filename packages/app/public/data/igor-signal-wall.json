@@ -1,29 +1,51 @@
 {
   "owner": "Igor Vepretski",
   "brand": "7YA",
-  "status": "scaffold_live_source_gated",
+  "status": "public_surface_live_source_gated",
+  "canonical_url": "https://7ya.io/igor-vepretski/",
   "policy": "Public numbers and claims require screenshots, public URLs, exports, or other visible sources before publication.",
-  "social_profiles": [
-    {"platform": "TikTok", "url": "https://www.tiktok.com/@igor.vepretski", "role": "short video and live signal"},
-    {"platform": "Instagram", "url": "https://www.instagram.com/igor.vepretski/", "role": "reels, story, IGTV and visual identity"},
-    {"platform": "YouTube", "url": "https://www.youtube.com/@IgorVepretski", "role": "video and visual podcast route"},
-    {"platform": "Facebook", "url": "https://www.facebook.com/vepretski", "role": "public conversation and community"},
-    {"platform": "X", "url": "https://x.com/igorvepretski", "role": "public commentary"},
-    {"platform": "GitHub", "url": "https://github.com/vepretski", "role": "builder and source layer"}
+  "claim_gates": [
+    {
+      "gate": "public_url",
+      "meaning": "A public source URL exists and can be inspected."
+    },
+    {
+      "gate": "screenshot_or_export",
+      "meaning": "A captured platform screenshot or account export supports the claim."
+    },
+    {
+      "gate": "capture_date",
+      "meaning": "The evidence has a concrete capture date."
+    },
+    {
+      "gate": "public_safe_wording",
+      "meaning": "The public claim is phrased conservatively and does not overstate the evidence."
+    }
   ],
-  "visual_sections": [
-    "homepage hero",
-    "founder portrait",
-    "media signal wall",
-    "StartOn impact layer",
-    "Talk and podcast route"
+  "social_profiles": [
+    { "platform": "TikTok", "url": "https://www.tiktok.com/@igor.vepretski", "role": "short video and live signal" },
+    { "platform": "Instagram", "url": "https://www.instagram.com/igor.vepretski/", "role": "reels, stories and visual identity" },
+    { "platform": "YouTube", "url": "https://www.youtube.com/@IgorVepretski", "role": "video and visual podcast route" },
+    { "platform": "Facebook", "url": "https://www.facebook.com/vepretski", "role": "public conversation and community" },
+    { "platform": "X", "url": "https://x.com/igorvepretski", "role": "fast public commentary" },
+    { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/vepretski/", "role": "professional credibility and partnerships" },
+    { "platform": "GitHub", "url": "https://github.com/vepretski", "role": "source and technical proof layer" }
+  ],
+  "public_routes": [
+    { "path": "/igor-vepretski/", "role": "canonical identity route" },
+    { "path": "/talk/", "role": "intake and outreach route" },
+    { "path": "/social/", "role": "public signal wall" },
+    { "path": "/canvas/", "role": "command room route" },
+    { "path": "/fast/", "role": "FAST compression engine route" },
+    { "path": "/pass/", "role": "identity pass route" },
+    { "path": "/docs/", "role": "public map and documentation route" }
   ],
   "tooling_ecosystem": [
-    {"name": "GitHub", "public_wording": "source of truth and version control"},
-    {"name": "Vercel", "public_wording": "publishing and domain layer"},
-    {"name": "OpenAI", "public_wording": "AI workflow tooling"},
-    {"name": "Microsoft / Azure", "public_wording": "developer ecosystem and cloud tooling context"},
-    {"name": "NVIDIA", "public_wording": "developer and visual AI ecosystem context"},
-    {"name": "Google", "public_wording": "search, indexing, analytics and verification context"}
+    { "name": "GitHub", "public_wording": "source of truth and version control" },
+    { "name": "Vercel", "public_wording": "publishing and domain layer" },
+    { "name": "OpenAI", "public_wording": "AI workflow tooling" },
+    { "name": "Microsoft / Azure", "public_wording": "developer ecosystem and cloud tooling context" },
+    { "name": "NVIDIA", "public_wording": "developer and visual AI ecosystem context" },
+    { "name": "Google", "public_wording": "search, indexing, analytics and verification context" }
   ]
 }
