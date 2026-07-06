@@ -30,9 +30,16 @@ jobs:
 
       - name: Prepare static artifact
         run: |
+          test -f packages/app/public/index.html
           test -f packages/app/public/igor-vepretski/index.html
           test -f packages/app/public/talk/index.html
           test -f packages/app/public/social/index.html
+          test -f packages/app/public/canvas/index.html
+          test -f packages/app/public/fast/index.html
+          test -f packages/app/public/pass/index.html
+          test -f packages/app/public/docs/index.html
+          test -f packages/app/public/sitemap.xml
+          test -f packages/app/public/robots.txt
           mkdir -p dist
           cp -R packages/app/public/. dist/
           touch dist/.nojekyll
