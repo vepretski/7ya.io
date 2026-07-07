@@ -4,26 +4,50 @@
 
 Run the public 7YA site without paid hosting.
 
-The site in `packages/app/public` is static. It can be published without Vercel, Replit, Shopify, or a running server.
+The public rescue release is a static site in `packages/app/public`. It can be published without Replit paid hosting, Vercel paid setup, server-side rendering, a database, API keys, or external backend services.
 
-## Primary route
+## Current static output
 
-Use GitHub Pages.
+The deployed artifact must use this directory:
 
-This branch adds `.github/workflows/pages.yml`. The workflow publishes `packages/app/public` as the site artifact.
+```text
+packages/app/public
+```
 
-One-time GitHub setting:
+Required public routes:
 
-1. Repository Settings.
-2. Pages.
-3. Source: GitHub Actions.
-4. Run the workflow named `Publish 7YA Static Site`.
+```text
+/
+/igor-vepretski/
+/talk/
+/social/
+/pass/
+/evidence/
+/starton/
+/contact/
+/radar/
+```
 
-The file `packages/app/public/CNAME` sets the custom domain to `7ya.io`.
+The root homepage must remain semantic HTML with crawlable text. It must not be replaced by an image-only landing page or demo tool.
 
-## Backup route
+## Primary free route: GitHub Pages
 
-Use Cloudflare Pages free static hosting.
+The workflow `.github/workflows/pages.yml` validates the static release and deploys `packages/app/public` with official GitHub Pages Actions.
+
+One-time GitHub setting, if the workflow fails at `Configure Pages`:
+
+1. Open repository Settings.
+2. Open Pages.
+3. Set Source to GitHub Actions.
+4. Run the workflow named `Publish 7YA Static Site` again.
+
+The file `packages/app/public/CNAME` sets the intended custom domain to `7ya.io` inside the published artifact.
+
+DNS must also point to GitHub Pages before the apex domain can serve the new static release. Until DNS and Pages settings are correct, the repository can be healthy while `https://7ya.io/` still shows an older host.
+
+## Backup free route: Cloudflare Pages
+
+Use this only if GitHub Pages cannot be enabled.
 
 Settings:
 
@@ -33,15 +57,23 @@ Settings:
 - Output directory: `packages/app/public`
 - Custom domain: `7ya.io`
 
+## Optional existing free route: Vercel
+
+Vercel can be used only if the existing project remains free and already connected. It is not required for this rescue release.
+
+If Vercel is used, the public output must still be the static files under `packages/app/public`, and `/` must serve the crawlable homepage rather than redirecting to a demo route.
+
 ## Cost discipline
 
 Pause paid services until the site is stable:
 
-- Vercel paid deployment is not required for this static site.
 - Replit paid hosting is not required for this static site.
-- Shopify should stay only if there is active store revenue.
-- GitHub Copilot Pro is useful but not required for GitHub Pages.
+- Vercel paid deployment is not required for this static site.
+- Shopify is not required for the public 7YA rescue release.
+- GitHub Copilot Pro is useful for coding, but not required for GitHub Pages.
 
 ## Public rule
 
-No unsupported metrics. No inflated claims. Use source-gated wording only.
+No unsupported metrics. No inflated claims. No false endorsements. No fake institutional approval. Use source-gated wording only.
+
+If a claim is not fully sourced, label it as draft, user-supplied, pending verification, or placeholder before publication.
