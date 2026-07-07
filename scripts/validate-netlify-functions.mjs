@@ -28,15 +28,25 @@ for (const route of requiredRoutes) {
   }
 }
 
+const health = readFileSync("netlify/functions/health.js", "utf8")
 const intake = readFileSync("netlify/functions/intake.js", "utf8")
 const contact = readFileSync("packages/app/public/contact/index.html", "utf8")
 const client = readFileSync("packages/app/public/assets/7ya-intake.js", "utf8")
 
-const requiredIntakeTokens = ["MAX_BODY_BYTES", "SEVENYA_INTAKE_WEBHOOK_URL", "SEVENYA_ALLOWED_ORIGIN", "valid_email_required", "payload_too_large", "requestId"]
+const requiredIntakeTokens = ["randomUUID", "assertJsonRequest", "json_required", "MAX_BODY_BYTES", "SEVENYA_INTAKE_WEBHOOK_URL", "SEVENYA_ALLOWED_ORIGIN", "valid_email_required", "payload_too_large", "requestId", "vary"]
 
 for (const token of requiredIntakeTokens) {
   if (!intake.includes(token)) {
     console.error(`Missing intake guard: ${token}`)
+    process.exit(1)
+  }
+}
+
+const requiredHealthTokens = ["corsHeaders", "vary", "method_not_allowed"]
+
+for (const token of requiredHealthTokens) {
+  if (!health.includes(token)) {
+    console.error(`Missing health guard: ${token}`)
     process.exit(1)
   }
 }
@@ -50,4 +60,4 @@ for (const token of requiredUiTokens) {
   }
 }
 
-console.log("Netlify Functions API and intake UI validated")
+console.log("Netlify Functions API runtime and intake UI validated")
