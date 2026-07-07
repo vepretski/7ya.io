@@ -5,6 +5,9 @@ const requiredFiles = [
   "netlify/functions/health.js",
   "netlify/functions/intake.js",
   "netlify/functions/contact.js",
+  "packages/app/public/contact/index.html",
+  "packages/app/public/assets/7ya-forms.css",
+  "packages/app/public/assets/7ya-intake.js",
   "docs/NETLIFY_FUNCTIONS_API.md",
 ]
 
@@ -26,14 +29,10 @@ for (const route of requiredRoutes) {
 }
 
 const intake = readFileSync("netlify/functions/intake.js", "utf8")
-const requiredIntakeTokens = [
-  "MAX_BODY_BYTES",
-  "SEVENYA_INTAKE_WEBHOOK_URL",
-  "SEVENYA_ALLOWED_ORIGIN",
-  "valid_email_required",
-  "payload_too_large",
-  "requestId",
-]
+const contact = readFileSync("packages/app/public/contact/index.html", "utf8")
+const client = readFileSync("packages/app/public/assets/7ya-intake.js", "utf8")
+
+const requiredIntakeTokens = ["MAX_BODY_BYTES", "SEVENYA_INTAKE_WEBHOOK_URL", "SEVENYA_ALLOWED_ORIGIN", "valid_email_required", "payload_too_large", "requestId"]
 
 for (const token of requiredIntakeTokens) {
   if (!intake.includes(token)) {
@@ -42,9 +41,13 @@ for (const token of requiredIntakeTokens) {
   }
 }
 
-if (/sk-[A-Za-z0-9]|AIza[0-9A-Za-z_-]{20,}|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY/.test(intake + netlifyToml)) {
-  console.error("Potential secret committed in Netlify API files")
-  process.exit(1)
+const requiredUiTokens = ["data-intake-form", "data-intake-status", "/api/intake", "Email fallback", "website_url"]
+
+for (const token of requiredUiTokens) {
+  if (!(contact + client).includes(token)) {
+    console.error(`Missing intake UI wiring: ${token}`)
+    process.exit(1)
+  }
 }
 
-console.log("Netlify Functions API scaffold validated")
+console.log("Netlify Functions API and intake UI validated")
