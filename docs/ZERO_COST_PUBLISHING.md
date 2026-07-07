@@ -120,3 +120,7 @@ Pause paid services until the site is stable:
 No unsupported metrics. No inflated claims. No false endorsements. No fake institutional approval. Use source-gated wording only.
 
 If a claim is not fully sourced, label it as draft, user-supplied, pending verification, or placeholder before publication.
+
+## Publish trigger log
+
+- 2026-07-08: Reconfirmed GitHub Pages as the zero-cost rescue path and triggered the static publishing workflow path.
