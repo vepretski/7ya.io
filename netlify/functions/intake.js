@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto"
+
 const MAX_BODY_BYTES = 12_000
 const MAX_FIELD_LENGTH = 2_000
 const WEBHOOK_TIMEOUT_MS = 4_000
@@ -13,6 +15,7 @@ const corsHeaders = {
   "access-control-allow-origin": process.env.SEVENYA_ALLOWED_ORIGIN || "https://7ya.io",
   "access-control-allow-methods": "GET, POST, OPTIONS",
   "access-control-allow-headers": "content-type",
+  "vary": "Origin",
 }
 
 function json(statusCode, payload, extraHeaders = {}) {
@@ -30,6 +33,15 @@ function truncate(value) {
 
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function assertJsonRequest(event) {
+  const contentType = event.headers?.["content-type"] || event.headers?.["Content-Type"] || ""
+  if (!contentType.toLowerCase().includes("application/json")) {
+    const error = new Error("json_required")
+    error.statusCode = 415
+    throw error
+  }
 }
 
 function readJsonBody(event) {
@@ -118,7 +130,7 @@ async function deliverToWebhook(submission, requestId) {
 }
 
 export async function handler(event) {
-  const requestId = crypto.randomUUID()
+  const requestId = randomUUID()
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: { ...securityHeaders, ...corsHeaders }, body: "" }
@@ -140,6 +152,7 @@ export async function handler(event) {
   }
 
   try {
+    assertJsonRequest(event)
     const body = readJsonBody(event)
     const submission = normalizeSubmission(body)
     const delivery = await deliverToWebhook(submission, requestId)
