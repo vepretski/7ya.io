@@ -1,0 +1,14 @@
+.form-panel { margin-top: 24px; }
+.intake-form { display: grid; gap: 14px; margin-top: 18px; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.field { display: grid; gap: 7px; }
+.field span { color: var(--gold); font-size: .74rem; font-weight: 1000; letter-spacing: .12em; text-transform: uppercase; }
+.field input,.field textarea { width: 100%; border: 1px solid rgba(210,255,219,.18); border-radius: 18px; background: rgba(0,0,0,.24); color: var(--ink); padding: 13px 14px; font: inherit; outline: none; }
+.field textarea { min-height: 150px; resize: vertical; }
+.field input:focus,.field textarea:focus { border-color: rgba(108,233,255,.62); box-shadow: 0 0 0 4px rgba(108,233,255,.12); }
+.form-note,.form-status { color: var(--muted); font-size: .94rem; }
+.form-status { min-height: 1.5em; }
+.form-status[data-state="ok"] { color: var(--green); }
+.form-status[data-state="error"] { color: #ffb4b4; }
+.hp { position: absolute; left: -10000px; opacity: 0; pointer-events: none; }
+@media (max-width: 720px) { .form-grid { grid-template-columns: 1fr; } }
