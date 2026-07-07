@@ -14,3 +14,8 @@ status = 200
 from = "/api/intake"
 to = "/.netlify/functions/intake"
 status = 200
+
+[[redirects]]
+from = "/api/contact"
+to = "/.netlify/functions/contact"
+status = 200
