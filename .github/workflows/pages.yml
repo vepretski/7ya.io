@@ -7,6 +7,7 @@ on:
     paths:
       - "packages/app/public/**"
       - ".github/workflows/pages.yml"
+      - "docs/ZERO_COST_PUBLISHING.md"
   workflow_dispatch:
 
 permissions:
@@ -16,10 +17,11 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    name: Validate and deploy static rescue release
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,23 +30,78 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare static artifact
+      - name: Validate required static routes
+        shell: bash
         run: |
-          test -f packages/app/public/index.html
-          test -f packages/app/public/igor-vepretski/index.html
-          test -f packages/app/public/talk/index.html
-          test -f packages/app/public/social/index.html
-          test -f packages/app/public/pass/index.html
-          test -f packages/app/public/evidence/index.html
-          test -f packages/app/public/starton/index.html
-          test -f packages/app/public/contact/index.html
-          test -f packages/app/public/radar/index.html
-          test -f packages/app/public/sitemap.xml
-          test -f packages/app/public/robots.txt
+          set -euo pipefail
+
+          root="packages/app/public"
+          required_files=(
+            "index.html"
+            "igor-vepretski/index.html"
+            "talk/index.html"
+            "social/index.html"
+            "pass/index.html"
+            "evidence/index.html"
+            "starton/index.html"
+            "contact/index.html"
+            "radar/index.html"
+            "sitemap.xml"
+            "robots.txt"
+            "CNAME"
+          )
+
+          for file in "${required_files[@]}"; do
+            test -f "$root/$file" || { echo "Missing required public file: $root/$file"; exit 1; }
+          done
+
+          html_files=(
+            "$root/index.html"
+            "$root/igor-vepretski/index.html"
+            "$root/talk/index.html"
+            "$root/social/index.html"
+            "$root/pass/index.html"
+            "$root/evidence/index.html"
+            "$root/starton/index.html"
+            "$root/contact/index.html"
+            "$root/radar/index.html"
+          )
+
+          for html in "${html_files[@]}"; do
+            grep -qi "<title>" "$html" || { echo "Missing <title>: $html"; exit 1; }
+            grep -qi "name=\"description\"" "$html" || { echo "Missing meta description: $html"; exit 1; }
+            grep -qi "rel=\"canonical\"" "$html" || { echo "Missing canonical link: $html"; exit 1; }
+            if grep -qi "noindex" "$html"; then
+              echo "Public route must not be noindexed: $html"
+              exit 1
+            fi
+          done
+
+          grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
+
+          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/starton/" "/contact/" "/radar/"; do
+            grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
+          done
+
+          grep -qi "Igor Vepretski is the person at the center" "$root/index.html" || { echo "Homepage missing required identity text"; exit 1; }
+          grep -qi "7YA is the media, systems, evidence, and digital hub" "$root/index.html" || { echo "Homepage missing required 7YA role text"; exit 1; }
+          grep -qi "StartOn is the social-impact lane" "$root/index.html" || { echo "Homepage missing required StartOn text"; exit 1; }
+          grep -qi "Talk is the entry point" "$root/index.html" || { echo "Homepage missing required Talk text"; exit 1; }
+
+          if grep -R -nE "(sk-[A-Za-z0-9]|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
+            echo "Potential secret found in public static output"
+            exit 1
+          fi
+
+      - name: Prepare static artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf dist
           mkdir -p dist
           cp -R packages/app/public/. dist/
           touch dist/.nojekyll
-          if [ ! -f dist/CNAME ]; then echo "7ya.io" > dist/CNAME; fi
+          test -f dist/CNAME || { echo "CNAME is required and must be tracked in packages/app/public"; exit 1; }
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
