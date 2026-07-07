@@ -1,0 +1,1 @@
+7YA Netlify functions are intentionally dependency-free. Do not add packages here unless production evidence requires it.
