@@ -41,9 +41,50 @@ One-time GitHub setting, if the workflow fails at `Configure Pages`:
 3. Set Source to GitHub Actions.
 4. Run the workflow named `Publish 7YA Static Site` again.
 
-The file `packages/app/public/CNAME` sets the intended custom domain to `7ya.io` inside the published artifact.
+The repository default branch is `dev`. The file `packages/app/public/CNAME` sets the intended custom domain to `7ya.io` inside the published artifact.
 
-DNS must also point to GitHub Pages before the apex domain can serve the new static release. Until DNS and Pages settings are correct, the repository can be healthy while `https://7ya.io/` still shows an older host.
+## DNS lock for 7ya.io
+
+Until DNS and Pages settings are correct, the repository can be healthy while `https://7ya.io/` still shows an older host or a blocked Vercel deployment.
+
+For GitHub Pages, the apex domain `7ya.io` must point to GitHub Pages, not Vercel.
+
+Use these DNS records at the DNS provider:
+
+```text
+A     @     185.199.108.153
+A     @     185.199.109.153
+A     @     185.199.110.153
+A     @     185.199.111.153
+CNAME www   vepretski.github.io
+```
+
+Remove old production DNS targets that point the apex or `www` host to Vercel once GitHub Pages is active.
+
+Do not use wildcard DNS records such as `*.7ya.io` for this rescue release.
+
+After DNS is changed, verify:
+
+```bash
+dig 7ya.io +noall +answer -t A
+dig www.7ya.io +nostats +nocomments +nocmd
+```
+
+Expected result:
+
+- `7ya.io` resolves to the four GitHub Pages A records above.
+- `www.7ya.io` is a CNAME to `vepretski.github.io`.
+- GitHub Pages can enforce HTTPS.
+- `https://7ya.io/` no longer redirects to a `vercel.app` URL.
+
+## Emergency diagnosis rule
+
+If production fails again, classify the failure before editing code:
+
+1. If the response contains `402`, `Payment required`, `DEPLOYMENT_DISABLED`, or a failed `Vercel` status, treat it as a hosting/billing/DNS problem, not an app-code problem.
+2. If GitHub Pages is configured and DNS points to GitHub Pages, inspect the Pages workflow run.
+3. If the static workflow passes but the domain is wrong, inspect DNS and Pages custom-domain settings.
+4. Only edit the site code after the domain and publishing source are confirmed healthy.
 
 ## Backup free route: Cloudflare Pages
 
@@ -62,6 +103,8 @@ Settings:
 Vercel can be used only if the existing project remains free and already connected. It is not required for this rescue release.
 
 If Vercel is used, the public output must still be the static files under `packages/app/public`, and `/` must serve the crawlable homepage rather than redirecting to a demo route.
+
+Vercel must not be the only production path for 7YA. A failed Vercel billing state must not be able to take the canonical domain offline.
 
 ## Cost discipline
 
