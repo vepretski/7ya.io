@@ -34,10 +34,11 @@ jobs:
           test -f packages/app/public/igor-vepretski/index.html
           test -f packages/app/public/talk/index.html
           test -f packages/app/public/social/index.html
-          test -f packages/app/public/canvas/index.html
-          test -f packages/app/public/fast/index.html
           test -f packages/app/public/pass/index.html
-          test -f packages/app/public/docs/index.html
+          test -f packages/app/public/evidence/index.html
+          test -f packages/app/public/starton/index.html
+          test -f packages/app/public/contact/index.html
+          test -f packages/app/public/radar/index.html
           test -f packages/app/public/sitemap.xml
           test -f packages/app/public/robots.txt
           mkdir -p dist
