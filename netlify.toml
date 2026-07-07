@@ -1,0 +1,16 @@
+[build]
+publish = "packages/app/public"
+functions = "netlify/functions"
+
+[functions]
+node_bundler = "esbuild"
+
+[[redirects]]
+from = "/api/health"
+to = "/.netlify/functions/health"
+status = 200
+
+[[redirects]]
+from = "/api/intake"
+to = "/.netlify/functions/intake"
+status = 200
