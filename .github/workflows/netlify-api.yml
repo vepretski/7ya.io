@@ -1,0 +1,39 @@
+name: Validate Netlify Functions API
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "netlify.toml"
+      - "netlify/functions/**"
+      - "docs/NETLIFY_FUNCTIONS_API*.md"
+      - "scripts/validate-netlify-functions.mjs"
+      - ".github/workflows/netlify-api.yml"
+  pull_request:
+    paths:
+      - "netlify.toml"
+      - "netlify/functions/**"
+      - "docs/NETLIFY_FUNCTIONS_API*.md"
+      - "scripts/validate-netlify-functions.mjs"
+      - ".github/workflows/netlify-api.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate API scaffold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate Netlify Functions API
+        run: node scripts/validate-netlify-functions.mjs
