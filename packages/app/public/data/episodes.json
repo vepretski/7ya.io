@@ -1,0 +1,42 @@
+{
+  "series": {
+    "name": "תיקי 7YA | מה שהמערכת לא ראתה",
+    "route": "https://7ya.io/visual-podcast/",
+    "language": "he-IL",
+    "policy": "Evidence-first. No fake metrics. No unverified sponsorship claims."
+  },
+  "episodes": [
+    {
+      "id": "ep-001",
+      "title": "הילד שהמערכת לא ידעה לפענח",
+      "status": "source_visible_pending_screenshot",
+      "media_id": "v7158BaZkiQ",
+      "embed_url": "https://www.youtube-nocookie.com/embed/v7158BaZkiQ",
+      "content_url": "https://music.youtube.com/watch?v=v7158BaZkiQ",
+      "public_metrics": null,
+      "description": "Opening episode concept: dismantling the criminal glamour myth and returning attention to children the system failed to read in time.",
+      "evidence_gate": "Do not publish view counts or performance claims until a screenshot or source proof is attached."
+    },
+    {
+      "id": "ep-002",
+      "title": "הרחוב הוא לא רומנטיקה",
+      "status": "draft",
+      "public_metrics": null,
+      "description": "How media turns pain into aesthetics, and where public responsibility should enter."
+    },
+    {
+      "id": "ep-003",
+      "title": "מערכת, לא סלוגן",
+      "status": "draft",
+      "public_metrics": null,
+      "description": "Connecting StartOn, 7YA, technological education, and youth-at-risk infrastructure."
+    },
+    {
+      "id": "ep-004",
+      "title": "Evidence Room",
+      "status": "draft",
+      "public_metrics": null,
+      "description": "Future visual evidence room: sources, clips, transcripts, claim maps, and distribution assets."
+    }
+  ]
+}
