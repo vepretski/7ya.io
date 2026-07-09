@@ -43,6 +43,7 @@ jobs:
             "social/index.html"
             "pass/index.html"
             "evidence/index.html"
+            "trust/index.html"
             "starton/index.html"
             "contact/index.html"
             "radar/index.html"
@@ -66,6 +67,7 @@ jobs:
             "$root/social/index.html"
             "$root/pass/index.html"
             "$root/evidence/index.html"
+            "$root/trust/index.html"
             "$root/starton/index.html"
             "$root/contact/index.html"
             "$root/radar/index.html"
@@ -85,7 +87,7 @@ jobs:
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
           grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
 
-          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
+          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
           done
 
@@ -103,6 +105,10 @@ jobs:
           grep -qi "public-evidence-ledger" "$root/evidence/index.html" || { echo "Evidence route must link the ledger JSON"; exit 1; }
           grep -qi "Talk is the entry point" "$root/talk/index.html" || { echo "Talk route missing entry point sentence"; exit 1; }
           grep -qi "Evidence Review" "$root/talk/index.html" || { echo "Talk route missing evidence-review intake lane"; exit 1; }
+          grep -qi "Protected mode" "$root/talk/index.html" || { echo "Talk route missing protected-mode fallback"; exit 1; }
+          grep -qi "7YA Trust" "$root/trust/index.html" || { echo "Trust route missing title framing"; exit 1; }
+          grep -qi "Verification is not caution" "$root/trust/index.html" || { echo "Trust route missing leverage framing"; exit 1; }
+          grep -qi "No raw HTTP errors" "$root/trust/index.html" || { echo "Trust route missing raw-error protection rule"; exit 1; }
           grep -qi '"ledger_name": "7YA.IO Public Evidence Ledger"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing name"; exit 1; }
           grep -qi '"publication_gate": "APPROVE"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing APPROVE gate"; exit 1; }
           grep -qi '"publication_gate": "VERIFY"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing VERIFY gate"; exit 1; }
