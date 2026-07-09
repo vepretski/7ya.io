@@ -46,6 +46,9 @@ jobs:
             "starton/index.html"
             "contact/index.html"
             "radar/index.html"
+            "visual-podcast/index.html"
+            "data/episodes.json"
+            "schema/visual-podcast.jsonld"
             "sitemap.xml"
             "robots.txt"
             "CNAME"
@@ -65,6 +68,7 @@ jobs:
             "$root/starton/index.html"
             "$root/contact/index.html"
             "$root/radar/index.html"
+            "$root/visual-podcast/index.html"
           )
 
           for html in "${html_files[@]}"; do
@@ -79,7 +83,7 @@ jobs:
 
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
 
-          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/starton/" "/contact/" "/radar/"; do
+          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
           done
 
@@ -87,6 +91,12 @@ jobs:
           grep -qi "7YA is the media, systems, evidence, and digital hub" "$root/index.html" || { echo "Homepage missing required 7YA role text"; exit 1; }
           grep -qi "StartOn is the social-impact lane" "$root/index.html" || { echo "Homepage missing required StartOn text"; exit 1; }
           grep -qi "Talk is the entry point" "$root/index.html" || { echo "Homepage missing required Talk text"; exit 1; }
+          grep -qi "Visual Podcast is the evidence-first media layer" "$root/index.html" || { echo "Homepage missing required Visual Podcast text"; exit 1; }
+          grep -qi "No fake metrics" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing no-fake-metrics rule"; exit 1; }
+          grep -qi "No unverified sponsorship claims" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing sponsorship boundary"; exit 1; }
+          grep -qi "youtube-nocookie.com" "$root/visual-podcast/index.html" || { echo "Visual Podcast must use youtube-nocookie embed"; exit 1; }
+          grep -qi "source_visible_pending_screenshot" "$root/data/episodes.json" || { echo "episodes.json missing evidence status"; exit 1; }
+          grep -qi "PodcastSeries" "$root/schema/visual-podcast.jsonld" || { echo "Visual Podcast schema missing PodcastSeries"; exit 1; }
 
           if grep -R -nE "(sk-[A-Za-z0-9]|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
             echo "Potential secret found in public static output"
