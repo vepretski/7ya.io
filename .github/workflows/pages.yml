@@ -48,6 +48,7 @@ jobs:
             "radar/index.html"
             "visual-podcast/index.html"
             "data/episodes.json"
+            "data/public-evidence-ledger.json"
             "schema/visual-podcast.jsonld"
             "sitemap.xml"
             "robots.txt"
@@ -82,6 +83,7 @@ jobs:
           done
 
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
+          grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
 
           for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
@@ -92,6 +94,19 @@ jobs:
           grep -qi "StartOn is the social-impact lane" "$root/index.html" || { echo "Homepage missing required StartOn text"; exit 1; }
           grep -qi "Talk is the entry point" "$root/index.html" || { echo "Homepage missing required Talk text"; exit 1; }
           grep -qi "Visual Podcast is the evidence-first media layer" "$root/index.html" || { echo "Homepage missing required Visual Podcast text"; exit 1; }
+          grep -qi "Command Surface" "$root/index.html" || { echo "Homepage missing command surface framing"; exit 1; }
+          grep -qi "No fake metrics" "$root/index.html" || { echo "Homepage missing no-fake-metrics trust strip"; exit 1; }
+          grep -qi "Evidence Ledger" "$root/evidence/index.html" || { echo "Evidence route missing ledger framing"; exit 1; }
+          grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
+          grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
+          grep -qi "HOLD" "$root/evidence/index.html" || { echo "Evidence route missing HOLD gate"; exit 1; }
+          grep -qi "public-evidence-ledger" "$root/evidence/index.html" || { echo "Evidence route must link the ledger JSON"; exit 1; }
+          grep -qi "Talk is the entry point" "$root/talk/index.html" || { echo "Talk route missing entry point sentence"; exit 1; }
+          grep -qi "Evidence Review" "$root/talk/index.html" || { echo "Talk route missing evidence-review intake lane"; exit 1; }
+          grep -qi '"ledger_name": "7YA.IO Public Evidence Ledger"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing name"; exit 1; }
+          grep -qi '"publication_gate": "APPROVE"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing APPROVE gate"; exit 1; }
+          grep -qi '"publication_gate": "VERIFY"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing VERIFY gate"; exit 1; }
+          grep -qi '"publication_gate": "HOLD"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing HOLD gate"; exit 1; }
           grep -qi "No fake metrics" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing no-fake-metrics rule"; exit 1; }
           grep -qi "No unverified sponsorship claims" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing sponsorship boundary"; exit 1; }
           grep -qi "youtube-nocookie.com" "$root/visual-podcast/index.html" || { echo "Visual Podcast must use youtube-nocookie embed"; exit 1; }
@@ -100,6 +115,11 @@ jobs:
 
           if grep -R -nE "(sk-[A-Za-z0-9]|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
             echo "Potential secret found in public static output"
+            exit 1
+          fi
+
+          if grep -R -n "vercel.app" "$root"; then
+            echo "Public static output must not expose a vercel.app URL"
             exit 1
           fi
 
