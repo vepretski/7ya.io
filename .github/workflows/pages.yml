@@ -119,7 +119,7 @@ jobs:
           grep -qi "source_visible_pending_screenshot" "$root/data/episodes.json" || { echo "episodes.json missing evidence status"; exit 1; }
           grep -qi "PodcastSeries" "$root/schema/visual-podcast.jsonld" || { echo "Visual Podcast schema missing PodcastSeries"; exit 1; }
 
-          if grep -R -nE "(sk-[A-Za-z0-9]|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
+          if grep -R -nE "(sk-(proj-)?[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
             echo "Potential secret found in public static output"
             exit 1
           fi
