@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "updated": "2026-07-10",
+  "title": "Igor Vepretski Editorial Desk",
+  "posts": [
+    {
+      "eyebrow": "TRUST ARCHITECTURE",
+      "title": "Evidence before amplification",
+      "summary": "7YA separates what is approved for publication, what still requires verification, and what must remain on hold.",
+      "href": "/trust/",
+      "cta": "Open trust brief",
+      "status": "PUBLIC"
+    },
+    {
+      "eyebrow": "PUBLIC HISTORY",
+      "title": "The road to 7YA",
+      "summary": "A public-safe chronology of Igor Vepretski’s roots, service, leadership, StartOn work, creator activity, and system building.",
+      "href": "/journey/",
+      "cta": "Read the journey",
+      "status": "PUBLIC"
+    },
+    {
+      "eyebrow": "SOCIAL IMPACT",
+      "title": "StartOn: technology as a second chance",
+      "summary": "The StartOn lane focuses on practical technology hubs, mentoring, creation, and opportunity for youth at risk.",
+      "href": "/starton/",
+      "cta": "Explore StartOn",
+      "status": "PUBLIC"
+    },
+    {
+      "eyebrow": "EVIDENCE LEDGER",
+      "title": "APPROVE · VERIFY · HOLD",
+      "summary": "The public ledger exposes the publication gate instead of presenting every claim as equally certain.",
+      "href": "/evidence/",
+      "cta": "Inspect evidence",
+      "status": "VERIFIED SYSTEM"
+    },
+    {
+      "eyebrow": "STRUCTURED CONTACT",
+      "title": "Talk is the entry point",
+      "summary": "Partnerships, evidence review, media, civic action, and protected matters enter through clear intake lanes.",
+      "href": "/talk/",
+      "cta": "Choose a lane",
+      "status": "OPEN"
+    },
+    {
+      "eyebrow": "MEDIA SYSTEM",
+      "title": "Visual Podcast",
+      "summary": "An evidence-first media layer for long-form episodes, public context, and source-visible storytelling.",
+      "href": "/visual-podcast/",
+      "cta": "Open the media layer",
+      "status": "PUBLIC"
+    }
+  ]
+}
