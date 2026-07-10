@@ -139,9 +139,6 @@ jobs:
           touch dist/.nojekyll
           test -f dist/CNAME || { echo "CNAME is required and must be tracked in packages/app/public"; exit 1; }
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
