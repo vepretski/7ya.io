@@ -39,6 +39,7 @@ jobs:
           required_files=(
             "index.html"
             "igor-vepretski/index.html"
+            "journey/index.html"
             "talk/index.html"
             "social/index.html"
             "pass/index.html"
@@ -63,6 +64,7 @@ jobs:
           html_files=(
             "$root/index.html"
             "$root/igor-vepretski/index.html"
+            "$root/journey/index.html"
             "$root/talk/index.html"
             "$root/social/index.html"
             "$root/pass/index.html"
@@ -87,7 +89,7 @@ jobs:
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
           grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
 
-          for route in "/" "/igor-vepretski/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
+          for route in "/" "/igor-vepretski/" "/journey/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
           done
 
@@ -96,8 +98,13 @@ jobs:
           grep -qi "StartOn is the social-impact lane" "$root/index.html" || { echo "Homepage missing required StartOn text"; exit 1; }
           grep -qi "Talk is the entry point" "$root/index.html" || { echo "Homepage missing required Talk text"; exit 1; }
           grep -qi "Visual Podcast is the evidence-first media layer" "$root/index.html" || { echo "Homepage missing required Visual Podcast text"; exit 1; }
-          grep -qi "Command Surface" "$root/index.html" || { echo "Homepage missing command surface framing"; exit 1; }
-          grep -qi "No fake metrics" "$root/index.html" || { echo "Homepage missing no-fake-metrics trust strip"; exit 1; }
+          grep -qi "Public History" "$root/index.html" || { echo "Homepage missing Igor public-history link"; exit 1; }
+          grep -qi "official public command surface" "$root/index.html" || { echo "Homepage missing founder-first framing"; exit 1; }
+          grep -qi "Igor Vepretski is the person at the center" "$root/igor-vepretski/index.html" || { echo "Igor profile missing identity root statement"; exit 1; }
+          grep -qi "History at a glance" "$root/igor-vepretski/index.html" || { echo "Igor profile missing timeline summary"; exit 1; }
+          grep -qi "Public history · 1990–2026" "$root/journey/index.html" || { echo "Journey missing public-history framing"; exit 1; }
+          grep -qi "The road to 7YA" "$root/journey/index.html" || { echo "Journey missing timeline heading"; exit 1; }
+          grep -qi "Protected by design" "$root/journey/index.html" || { echo "Journey missing privacy boundary"; exit 1; }
           grep -qi "Evidence Ledger" "$root/evidence/index.html" || { echo "Evidence route missing ledger framing"; exit 1; }
           grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
           grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
