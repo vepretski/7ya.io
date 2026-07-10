@@ -1,0 +1,74 @@
+name: Blog Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - "packages/app/public/blog/**"
+      - "packages/app/public/data/blog-posts.json"
+      - "packages/app/public/sitemap.xml"
+      - "netlify/functions/portal.mts"
+      - "netlify.toml"
+      - ".github/workflows/blog-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate public blog assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          blog="packages/app/public/blog/index.html"
+          feed="packages/app/public/data/blog-posts.json"
+
+          test -f "$blog"
+          test -f "$feed"
+          python -m json.tool "$feed" >/dev/null
+          grep -qi "Igor Vepretski Editorial Desk" "$blog"
+          grep -qi "Closed by default" "$blog"
+          grep -qi "verified public fallback" "$blog"
+          grep -q "https://7ya.io/blog/" packages/app/public/sitemap.xml
+
+          if grep -qi "FAILED TO LOAD TRANSMISSIONS" "$blog"; then
+            echo "Raw transmission failure must not be shown to visitors"
+            exit 1
+          fi
+
+          if grep -R -nE "(sk-(proj-)?[A-Za-z0-9_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$blog" "$feed" netlify/functions/portal.mts; then
+            echo "Potential secret found"
+            exit 1
+          fi
+
+      - name: Parse browser JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path("packages/app/public/blog/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script(?![^>]*application/ld\+json)[^>]*>(.*?)</script>", html, re.S | re.I)
+          Path("/tmp/blog-inline.js").write_text("\n".join(scripts), encoding="utf-8")
+          PY
+          node --check /tmp/blog-inline.js
+
+      - name: Validate Netlify configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import tomllib
+          config = tomllib.loads(Path("netlify.toml").read_text(encoding="utf-8"))
+          assert config["build"]["publish"] == "packages/app/public"
+          redirects = config.get("redirects", [])
+          assert any(item.get("from") == "/api/portal" for item in redirects)
+          PY
+          grep -q 'Netlify.env.get("OPENAI_API_KEY")' netlify/functions/portal.mts
+          grep -q 'https://api.openai.com/v1/responses' netlify/functions/portal.mts
