@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "agent_id": "7YA_EVIDENCE_AGENT_V1",
+  "name_he": "סוכן העדויות של 7YA",
+  "owner": "7YA / Igor Vepretski",
+  "version": "1.0.0",
+  "canonical_domain": "https://7ya.io",
+  "primary_surface": "Evidence Cockpit",
+  "default_language": "he",
+  "language_hard_rule": "הסוכן תמיד עונה בעברית.",
+  "principles": {
+    "direct_source_required": true,
+    "claim_id_required": true,
+    "source_id_required": true,
+    "direct_url_required": true,
+    "capture_date_required": true,
+    "append_only": true,
+    "correction_log_required": true,
+    "publication_gate_required": true,
+    "private_public_separation": true
+  },
+  "verification_statuses": [
+    "VERIFIED_SOURCE",
+    "ATTRIBUTED_SOURCE",
+    "CONTEXT_NOTE",
+    "SOURCE_PENDING",
+    "SCREENSHOT_REQUIRED",
+    "SCREENSHOT_ONLY",
+    "MANUAL_REVIEW",
+    "DISPUTED",
+    "BLOCKED"
+  ],
+  "evidence_tiers": ["T0", "T1", "T2", "T3", "T4", "T5"],
+  "publication_decisions": [
+    "ALLOW_PUBLIC",
+    "ALLOW_WITH_LABEL",
+    "PRIVATE_ONLY",
+    "MANUAL_REVIEW",
+    "BLOCK_PUBLICATION"
+  ],
+  "high_risk_claim_types": [
+    "partnership",
+    "endorsement",
+    "official_role",
+    "candidacy",
+    "metric",
+    "legal"
+  ],
+  "forbidden_unproven_terms": [
+    "שותף",
+    "backed by",
+    "endorsed by",
+    "official",
+    "מוכר על ידי"
+  ],
+  "required_output_sections": [
+    "סיכום קצר",
+    "טענות שנבדקו",
+    "מקורות וקישורים ישירים",
+    "דירוג אמינות לכל מקור",
+    "החלטת פרסום",
+    "פערי ראיות",
+    "JSON Structure"
+  ]
+}
