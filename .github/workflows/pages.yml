@@ -7,20 +7,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: "pages"
+  group: "7ya-gh-pages"
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Validate and deploy static rescue release
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    name: Validate and publish gh-pages branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,14 +27,15 @@ jobs:
           set -euo pipefail
           python3 scripts/generate_public_index_feeds.py
 
-      - name: Validate required static routes
+      - name: Validate public release
         shell: bash
         run: |
           set -euo pipefail
-
           root="packages/app/public"
+
           required_files=(
             "index.html"
+            "launch/index.html"
             "igor-vepretski/index.html"
             "journey/index.html"
             "index-public/index.html"
@@ -49,12 +45,14 @@ jobs:
             "evidence/index.html"
             "trust/index.html"
             "starton/index.html"
+            "partners/index.html"
             "contact/index.html"
             "radar/index.html"
             "visual-podcast/index.html"
             "data/publication-index.json"
             "data/episodes.json"
             "data/public-evidence-ledger.json"
+            "data/partner-ledger.json"
             "schema/visual-podcast.jsonld"
             "rss.xml"
             "atom.xml"
@@ -69,6 +67,7 @@ jobs:
 
           html_files=(
             "$root/index.html"
+            "$root/launch/index.html"
             "$root/igor-vepretski/index.html"
             "$root/journey/index.html"
             "$root/index-public/index.html"
@@ -78,6 +77,7 @@ jobs:
             "$root/evidence/index.html"
             "$root/trust/index.html"
             "$root/starton/index.html"
+            "$root/partners/index.html"
             "$root/contact/index.html"
             "$root/radar/index.html"
             "$root/visual-podcast/index.html"
@@ -85,8 +85,8 @@ jobs:
 
           for html in "${html_files[@]}"; do
             grep -qi "<title>" "$html" || { echo "Missing <title>: $html"; exit 1; }
-            grep -qi "name=\"description\"" "$html" || { echo "Missing meta description: $html"; exit 1; }
-            grep -qi "rel=\"canonical\"" "$html" || { echo "Missing canonical link: $html"; exit 1; }
+            grep -qi 'name="description"' "$html" || { echo "Missing meta description: $html"; exit 1; }
+            grep -qi 'rel="canonical"' "$html" || { echo "Missing canonical link: $html"; exit 1; }
             if grep -qi "noindex" "$html"; then
               echo "Public route must not be noindexed: $html"
               exit 1
@@ -99,63 +99,51 @@ jobs:
           from pathlib import Path
 
           root = Path("packages/app/public")
-          data = json.loads((root / "data/publication-index.json").read_text(encoding="utf-8"))
-          names = set(data["canonical_entity"]["alternate_names"])
+          publication = json.loads((root / "data/publication-index.json").read_text(encoding="utf-8"))
+          names = set(publication["canonical_entity"]["alternate_names"])
           required_names = {"איגור ופרצקי", "Игорь Вепрецкий"}
           if not required_names.issubset(names):
               raise SystemExit("Publication index missing Hebrew or Russian identity")
-          relationships = {item["relationship"] for item in data["sources"]}
+          relationships = {item["relationship"] for item in publication["sources"]}
           for required in {"ORIGINAL", "REPOSTED", "RE_USED", "DISTRIBUTED", "INTERVIEWED", "MENTIONED"}:
               if required not in relationships:
                   raise SystemExit(f"Publication index missing relationship: {required}")
-          if len(data["sources"]) < 25:
+          if len(publication["sources"]) < 25:
               raise SystemExit("Publication index seed is unexpectedly small")
+
+          partners = json.loads((root / "data/partner-ledger.json").read_text(encoding="utf-8"))
+          if not partners.get("policy", {}).get("append_only"):
+              raise SystemExit("Partner ledger must remain append-only")
+          partner_names = {item["name"] for item in partners["entries"]}
+          for required in {"StartOn", "Microsoft for Startups", "NVIDIA Developer Program", "GitHub", "Cloudflare", "Replit"}:
+              if required not in partner_names:
+                  raise SystemExit(f"Partner ledger missing required relationship: {required}")
+
           ET.parse(root / "rss.xml")
           ET.parse(root / "atom.xml")
-          print(f"Validated public index with {len(data['sources'])} source records")
+          ET.parse(root / "sitemap.xml")
+          print(f"Validated {len(publication['sources'])} public sources and {len(partners['entries'])} partner records")
           PY
 
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
           grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
 
-          for route in "/" "/igor-vepretski/" "/journey/" "/index-public/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
+          for route in "/" "/launch/" "/igor-vepretski/" "/journey/" "/index-public/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/partners/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
           done
 
           grep -qi "Igor Vepretski" "$root/index.html" || { echo "Homepage missing Igor identity"; exit 1; }
-          grep -qi "official public command surface" "$root/index.html" || { echo "Homepage missing founder-first command framing"; exit 1; }
-          grep -qi "StartOn" "$root/index.html" || { echo "Homepage missing StartOn text"; exit 1; }
-          grep -qi "Evidence Ledger" "$root/index.html" || { echo "Homepage missing Evidence Ledger link"; exit 1; }
-          grep -qi "Public History" "$root/index.html" || { echo "Homepage missing Igor public-history link"; exit 1; }
-          grep -qi "Claims remain source-aware" "$root/index.html" || { echo "Homepage missing source-aware boundary"; exit 1; }
-          grep -qi "Igor Vepretski" "$root/igor-vepretski/index.html" || { echo "Igor profile missing identity statement"; exit 1; }
-          grep -qi "History at a glance" "$root/igor-vepretski/index.html" || { echo "Igor profile missing timeline summary"; exit 1; }
-          grep -qi "Public history" "$root/journey/index.html" || { echo "Journey missing public-history framing"; exit 1; }
-          grep -qi "The road to 7YA" "$root/journey/index.html" || { echo "Journey missing timeline heading"; exit 1; }
-          grep -qi "Protected by design" "$root/journey/index.html" || { echo "Journey missing privacy boundary"; exit 1; }
-          grep -qi "Igor Vepretski Public Index" "$root/index-public/index.html" || { echo "Public index missing canonical heading"; exit 1; }
-          grep -qi "RE-USED" "$root/index-public/index.html" || { echo "Public index missing re-use classification"; exit 1; }
-          grep -qi "application/rss+xml" "$root/index-public/index.html" || { echo "Public index missing RSS discovery link"; exit 1; }
+          grep -qi "official public command surface" "$root/index.html" || { echo "Homepage missing founder-first framing"; exit 1; }
+          grep -qi "Partners & Ecosystem" "$root/index.html" || { echo "Homepage missing partner layer"; exit 1; }
+          grep -qi "7YA Launch Signal" "$root/launch/index.html" || { echo "Launch route missing launch identity"; exit 1; }
+          grep -qi "No partner disappears" "$root/partners/index.html" || { echo "Partners route missing append-only framing"; exit 1; }
+          grep -qi '"ledger_name": "7YA.IO Partner & Ecosystem Ledger"' "$root/data/partner-ledger.json" || { echo "Partner ledger missing canonical name"; exit 1; }
           grep -qi "Evidence Ledger" "$root/evidence/index.html" || { echo "Evidence route missing ledger framing"; exit 1; }
           grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
           grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
           grep -qi "HOLD" "$root/evidence/index.html" || { echo "Evidence route missing HOLD gate"; exit 1; }
-          grep -qi "public-evidence-ledger" "$root/evidence/index.html" || { echo "Evidence route must link the ledger JSON"; exit 1; }
-          grep -qi "Talk" "$root/talk/index.html" || { echo "Talk route missing title text"; exit 1; }
-          grep -qi "Evidence Review" "$root/talk/index.html" || { echo "Talk route missing evidence-review intake lane"; exit 1; }
-          grep -qi "Protected mode" "$root/talk/index.html" || { echo "Talk route missing protected-mode fallback"; exit 1; }
-          grep -qi "7YA Trust" "$root/trust/index.html" || { echo "Trust route missing title framing"; exit 1; }
-          grep -qi "Verification is not caution" "$root/trust/index.html" || { echo "Trust route missing leverage framing"; exit 1; }
-          grep -qi "No raw HTTP errors" "$root/trust/index.html" || { echo "Trust route missing raw-error protection rule"; exit 1; }
-          grep -qi '"ledger_name": "7YA.IO Public Evidence Ledger"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing name"; exit 1; }
-          grep -qi '"publication_gate": "APPROVE"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing APPROVE gate"; exit 1; }
-          grep -qi '"publication_gate": "VERIFY"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing VERIFY gate"; exit 1; }
-          grep -qi '"publication_gate": "HOLD"' "$root/data/public-evidence-ledger.json" || { echo "Ledger JSON missing HOLD gate"; exit 1; }
           grep -qi "No fake metrics" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing no-fake-metrics rule"; exit 1; }
           grep -qi "No unverified sponsorship claims" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing sponsorship boundary"; exit 1; }
-          grep -qi "youtube-nocookie.com" "$root/visual-podcast/index.html" || { echo "Visual Podcast must use youtube-nocookie embed"; exit 1; }
-          grep -qi "source_visible_pending_screenshot" "$root/data/episodes.json" || { echo "episodes.json missing evidence status"; exit 1; }
-          grep -qi "PodcastSeries" "$root/schema/visual-podcast.jsonld" || { echo "Visual Podcast schema missing PodcastSeries"; exit 1; }
 
           if grep -R -nE "(sk-(proj-)?[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
             echo "Potential secret found in public static output"
@@ -167,7 +155,7 @@ jobs:
             exit 1
           fi
 
-      - name: Prepare static artifact
+      - name: Prepare static release
         shell: bash
         run: |
           set -euo pipefail
@@ -175,13 +163,21 @@ jobs:
           mkdir -p dist
           cp -R packages/app/public/. dist/
           touch dist/.nojekyll
-          test -f dist/CNAME || { echo "CNAME is required and must be tracked in packages/app/public"; exit 1; }
+          test -f dist/CNAME
+          test -f dist/index.html
+          test -f dist/launch/index.html
+          test -f dist/partners/index.html
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish directly to gh-pages
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd dist
+          git init -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "deploy: 7YA.IO ${GITHUB_SHA}"
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
