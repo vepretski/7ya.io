@@ -65,6 +65,55 @@ jobs:
           test -s "$release_root/index.html"
           test "$(cat "$release_root/CNAME")" = "7ya.io"
 
+      - name: Inject privacy-first analytics into every public page
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -s dist-deploy/assets/7ya-analytics.js
+          node --check dist-deploy/assets/7ya-analytics.js
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path("dist-deploy")
+          marker = "/assets/7ya-analytics.js"
+          snippet = '  <script defer src="/assets/7ya-analytics.js?v=20260711"></script>\n'
+          injected = 0
+          already_present = 0
+          skipped = []
+
+          for path in root.rglob("*.html"):
+              text = path.read_text(encoding="utf-8")
+              if marker in text:
+                  already_present += 1
+                  continue
+
+              closing_head = text.lower().rfind("</head>")
+              if closing_head < 0:
+                  skipped.append(str(path))
+                  continue
+
+              path.write_text(
+                  text[:closing_head] + snippet + text[closing_head:],
+                  encoding="utf-8",
+              )
+              injected += 1
+
+          tracked = injected + already_present
+          if tracked == 0:
+              raise SystemExit("No HTML pages received the analytics loader")
+
+          if skipped:
+              print("Analytics injection skipped files without </head>:")
+              for item in skipped:
+                  print(f"- {item}")
+
+          print(f"Analytics active on {tracked} HTML pages ({injected} newly injected)")
+          PY
+
+          grep -q '/assets/7ya-analytics.js' dist-deploy/index.html
+
       - name: Normalize social sharing image inside snapshot
         continue-on-error: true
         shell: bash
