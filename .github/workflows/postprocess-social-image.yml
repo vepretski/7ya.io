@@ -1,0 +1,112 @@
+name: Postprocess 7YA Social Sharing Image
+
+on:
+  workflow_run:
+    workflows:
+      - Publish 7YA Static Site
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "7ya-social-image-postprocess"
+  cancel-in-progress: true
+
+jobs:
+  postprocess:
+    name: Render PNG and patch published metadata
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout published site
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+
+      - name: Install SVG renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends librsvg2-bin
+
+      - name: Render social sharing PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_image="images/igor-vepretski-7ya-og.svg"
+          output_image="images/igor-vepretski-7ya-og.png"
+
+          test -f "$source_image" || {
+            echo "Missing source social image: $source_image"
+            exit 1
+          }
+
+          rsvg-convert \
+            --width 1200 \
+            --height 630 \
+            --keep-aspect-ratio \
+            --output "$output_image" \
+            "$source_image"
+
+          test -s "$output_image"
+          file "$output_image" | grep -q "PNG image data"
+
+      - name: Replace SVG metadata references with PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          old = 'https://7ya.io/images/igor-vepretski-7ya-og.svg'
+          new = 'https://7ya.io/images/igor-vepretski-7ya-og.png'
+          changed = []
+
+          for path in root.rglob('*'):
+              if not path.is_file() or path.suffix.lower() not in {'.html', '.json', '.jsonld', '.xml'}:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              if old not in text:
+                  continue
+              path.write_text(text.replace(old, new), encoding='utf-8')
+              changed.append(str(path))
+
+          if not changed:
+              raise SystemExit('No published metadata references were updated')
+
+          print('Updated metadata references:')
+          for item in changed:
+              print(f'- {item}')
+          PY
+
+          grep -R -n "https://7ya.io/images/igor-vepretski-7ya-og.png" --include='*.html' . >/dev/null
+          if grep -R -n "https://7ya.io/images/igor-vepretski-7ya-og.svg" --include='*.html' .; then
+            echo "Published HTML still contains SVG Open Graph references"
+            exit 1
+          fi
+
+      - name: Publish corrected gh-pages branch
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/igor-vepretski-7ya-og.png '*.html' '**/*.html' '*.json' '**/*.json' '*.jsonld' '**/*.jsonld' '*.xml' '**/*.xml' || true
+
+          if git diff --cached --quiet; then
+            echo "No post-processing changes to publish"
+            exit 0
+          fi
+
+          git commit -m "fix(pages): publish PNG social sharing image"
+          git push origin HEAD:gh-pages
