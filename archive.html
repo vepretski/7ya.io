@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Archive | 7YA</title>
+  <meta name="description" content="7YA production rebuild for Igor Vepretski: personal, media-rich, archive-driven." />
+  <meta property="og:title" content="Archive | 7YA" />
+  <meta property="og:description" content="A living archive of voice, impact, media, culture, and signal." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://7ya.io/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='28' fill='black'/%3E%3Ctext x='60' y='72' font-size='50' text-anchor='middle' fill='white' font-family='Arial'%3E7%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a href="index.html" class="brand">
+        <div class="brand-mark">7</div>
+        <div class="brand-copy">
+          <strong>7YA</strong>
+          <span data-site-tagline>Not fashion. Force.</span>
+        </div>
+      </a>
+      <nav class="nav-links"><a class="" href="index.html">Home</a><a class="" href="about.html">About</a><a class="" href="media.html">Media</a><a class="active" href="archive.html">Archive</a></nav>
+    </div>
+  </header>
+  
+<main>
+  <section class="hero">
+    <div class="shell">
+      <div class="eyebrow">Archive · Structured search</div>
+      <h1 style="font-size:clamp(46px,6vw,94px)">One source map.<br />Many contexts.</h1>
+      <p class="lead">
+        Every public item can live once in the archive, then surface wherever it belongs:
+        home, about, media, StartOn, force, music, or deeper timeline pages later.
+      </p>
+      <div class="filters">
+        <input class="input" id="archiveSearch" type="search" placeholder="Search title, summary, source, context..." />
+        <select class="select" id="archiveContext"></select>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div id="archiveItems" class="archive-grid"></div>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div>7YA production rebuild · GitHub Pages ready · custom domain file included</div>
+      <div>Built from public sources and structured to grow as a living archive.</div>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

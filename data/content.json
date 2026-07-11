@@ -1,0 +1,347 @@
+{
+  "site": {
+    "title": "IGOR VEPRETSKI | 7YA",
+    "tagline": "Not fashion. Force.",
+    "subtitle": "A living personal archive of voice, impact, media, culture, and signal.",
+    "description": "7YA is rebuilt as a personal media system: sharper identity, visible media, and one searchable archive for everything by/about Igor Vepretski."
+  },
+  "stats": [
+    {
+      "value": "4K+",
+      "label": "LinkedIn followers",
+      "source": "LinkedIn"
+    },
+    {
+      "value": "8.1K+",
+      "label": "Instagram followers",
+      "source": "Instagram"
+    },
+    {
+      "value": "2.57K",
+      "label": "YouTube subscribers",
+      "source": "YouTube"
+    },
+    {
+      "value": "12+",
+      "label": "Phase‑1 public source records",
+      "source": "Archive"
+    }
+  ],
+  "pillars": [
+    {
+      "id": "person",
+      "title": "Person",
+      "copy": "Public voice, biography, fatherhood, essays, interviews, and the through-line behind the signal."
+    },
+    {
+      "id": "starton",
+      "title": "StartOn",
+      "copy": "Youth, technology, community, leadership, and the mission layer that anchors public credibility."
+    },
+    {
+      "id": "force",
+      "title": "7YA / Force",
+      "copy": "Identity, media, culture, music, fashion-energy, and the movement logic behind the brand."
+    },
+    {
+      "id": "media",
+      "title": "Media",
+      "copy": "Public interviews, videos, posts, articles, podcasts, and source-backed proof."
+    }
+  ],
+  "featured": [
+    {
+      "title": "7ya.io",
+      "kicker": "Live flagship",
+      "summary": "The live site already frames 7YA around a strong manifesto. This rebuild keeps the force, but adds person, media, and archive depth.",
+      "href": "https://7ya.io/"
+    },
+    {
+      "title": "Living archive reference",
+      "kicker": "Editorial model",
+      "summary": "The museum-style reference proves the right direction: numbered sections, source-backed cards, public proof, and living-archive structure.",
+      "href": "https://igor-7ya-digital-museum.igor-vepretski.chatgpt.site/"
+    },
+    {
+      "title": "Linktree source map",
+      "kicker": "Channel hub",
+      "summary": "Linktree is currently the richest public routing layer across Instagram, Facebook, YouTube, TikTok, LinkedIn, Spotify, Apple Music, Apple Podcasts, Telegram, and more.",
+      "href": "https://linktr.ee/igor.vepretski"
+    }
+  ],
+  "channels": [
+    {
+      "name": "Instagram",
+      "value": "8.1K+ followers",
+      "note": "Builder / creator positioning with heavy ongoing output.",
+      "href": "https://www.instagram.com/igor.vepretski/"
+    },
+    {
+      "name": "LinkedIn",
+      "value": "4K+ followers",
+      "note": "Profile, articles, and mission-led posts spanning StartOn, 7YA, education, and public voice.",
+      "href": "https://il.linkedin.com/in/vepretski"
+    },
+    {
+      "name": "YouTube",
+      "value": "2.57K subscribers",
+      "note": "Podcast, social commentary, and creator signal with channel identity around impact and truth.",
+      "href": "https://www.youtube.com/@Igor.vepretski"
+    },
+    {
+      "name": "Facebook",
+      "value": "Active video + post archive",
+      "note": "High-volume public video and post history tied directly to #7ya and personal storytelling.",
+      "href": "https://www.facebook.com/igor7vepretski/"
+    },
+    {
+      "name": "Apple Music",
+      "value": "Official artist catalog",
+      "note": "Music layer under Ido Vepretski connecting identity and cultural output.",
+      "href": "https://music.apple.com/artist/ido-vepretski/1498836606"
+    },
+    {
+      "name": "Spotify",
+      "value": "Official artist page",
+      "note": "Parallel music footprint that should be visible, but not dominate the main identity.",
+      "href": "https://open.spotify.com/artist/0fgRoQ6PoCHlVCIr8a5d6u"
+    }
+  ],
+  "timeline": [
+    {
+      "period": "2011",
+      "title": "Early public profile",
+      "copy": "An early media footprint already appears in mainstream Hebrew press, showing public visibility long before the current 7YA phase."
+    },
+    {
+      "period": "2022",
+      "title": "StartOn mission becomes public",
+      "copy": "The StartOn story enters public interviews and articles as a transition from security/public service toward youth and community impact."
+    },
+    {
+      "period": "2024",
+      "title": "Writing + public signal deepen",
+      "copy": "Articles, LinkedIn writing, and culture/identity messaging get sharper and more explicitly authored."
+    },
+    {
+      "period": "2025–2026",
+      "title": "7YA accelerates",
+      "copy": "The brand identity hardens into force-language while video, reels, short-form public speech, and archive volume expand."
+    }
+  ],
+  "items": [
+    {
+      "id": "source-linktree",
+      "title": "Linktree public source map",
+      "kind": "hub",
+      "dateLabel": "Current public hub",
+      "context": [
+        "home",
+        "media",
+        "archive"
+      ],
+      "summary": "Aggregates Instagram, Facebook, YouTube, TikTok, LinkedIn, Spotify, Apple Music, Apple Podcasts, WhatsApp, Snapchat, Threads, Telegram, plus articles and viral items.",
+      "href": "https://linktr.ee/igor.vepretski",
+      "source": "Linktree"
+    },
+    {
+      "id": "profile-linkedin",
+      "title": "LinkedIn profile",
+      "kind": "profile",
+      "dateLabel": "Current profile",
+      "context": [
+        "home",
+        "about",
+        "archive"
+      ],
+      "summary": "Public profile centered on systems, communities, and initiatives; shows 4K+ followers and article output.",
+      "href": "https://il.linkedin.com/in/vepretski",
+      "source": "LinkedIn"
+    },
+    {
+      "id": "profile-instagram",
+      "title": "Instagram profile",
+      "kind": "social",
+      "dateLabel": "Current profile",
+      "context": [
+        "home",
+        "media",
+        "force",
+        "archive"
+      ],
+      "summary": "High-output creator/public-figure profile with 8.1K+ followers and a strong #7ya identity layer.",
+      "href": "https://www.instagram.com/igor.vepretski/",
+      "source": "Instagram"
+    },
+    {
+      "id": "channel-youtube",
+      "title": "YouTube channel",
+      "kind": "video",
+      "dateLabel": "Current channel",
+      "context": [
+        "home",
+        "media",
+        "archive"
+      ],
+      "summary": "Video/podcast channel framed as a microphone for changing reality, with 2.57K subscribers surfaced in public search results.",
+      "href": "https://www.youtube.com/@Igor.vepretski",
+      "source": "YouTube"
+    },
+    {
+      "id": "page-facebook",
+      "title": "Facebook page and video stream",
+      "kind": "social",
+      "dateLabel": "Active in 2026",
+      "context": [
+        "media",
+        "force",
+        "archive"
+      ],
+      "summary": "Public video stream with many #7ya posts and short-form personal/public commentary.",
+      "href": "https://www.facebook.com/igor7vepretski/",
+      "source": "Facebook"
+    },
+    {
+      "id": "music-apple",
+      "title": "Apple Music artist page",
+      "kind": "music",
+      "dateLabel": "Official catalog",
+      "context": [
+        "force",
+        "music",
+        "archive"
+      ],
+      "summary": "Official Ido Vepretski artist page, including releases such as \"אני עידו\", \"פרח במדבר\", and \"חצופה\".",
+      "href": "https://music.apple.com/artist/ido-vepretski/1498836606",
+      "source": "Apple Music"
+    },
+    {
+      "id": "music-spotify",
+      "title": "Spotify artist page",
+      "kind": "music",
+      "dateLabel": "Current artist page",
+      "context": [
+        "force",
+        "music",
+        "archive"
+      ],
+      "summary": "Spotify page extending the music footprint and reinforcing the culture layer of the identity.",
+      "href": "https://open.spotify.com/artist/0fgRoQ6PoCHlVCIr8a5d6u",
+      "source": "Spotify"
+    },
+    {
+      "id": "org-starton-site",
+      "title": "StartOn official website",
+      "kind": "organization",
+      "dateLabel": "Current organization site",
+      "context": [
+        "home",
+        "about",
+        "starton",
+        "archive"
+      ],
+      "summary": "Official mission layer for technology, youth, community, and impact.",
+      "href": "https://starton.org.il/",
+      "source": "StartOn"
+    },
+    {
+      "id": "org-starton-linkedin",
+      "title": "StartOn LinkedIn",
+      "kind": "organization",
+      "dateLabel": "Current company profile",
+      "context": [
+        "about",
+        "starton",
+        "archive"
+      ],
+      "summary": "Public company profile showing StartOn, Igor Vepretski, and posts connecting the mission with #7YA’s movement language.",
+      "href": "https://il.linkedin.com/company/starton-il",
+      "source": "LinkedIn"
+    },
+    {
+      "id": "press-mynet-holon",
+      "title": "חוזר לשכונה: איגור מחולון עזב הכל כדי להקים מרכז נוער בג'סי כהן",
+      "kind": "press",
+      "dateLabel": "2022 press coverage",
+      "context": [
+        "home",
+        "about",
+        "starton",
+        "media",
+        "archive"
+      ],
+      "summary": "Earned media framing the shift from police career to building an interactive center for youth at risk.",
+      "href": "https://holon.mynet.co.il/local_news/article/rj8tyjd75",
+      "source": "mynet Holon"
+    },
+    {
+      "id": "press-zman-author",
+      "title": "Zman Israel author page",
+      "kind": "writing",
+      "dateLabel": "Author archive",
+      "context": [
+        "about",
+        "media",
+        "archive"
+      ],
+      "summary": "Author page connecting criminology, social entrepreneurship, content creation, and communication studies.",
+      "href": "https://www.zman.co.il/writer/20815/",
+      "source": "Zman Israel"
+    },
+    {
+      "id": "press-makorrishon-2011",
+      "title": "Makor Rishon / Maariv 2011 mention",
+      "kind": "press",
+      "dateLabel": "2011",
+      "context": [
+        "about",
+        "archive"
+      ],
+      "summary": "An early public media trace that helps show continuity of identity over time.",
+      "href": "https://www.makorrishon.co.il/nrg/online/54/ART2/235/169.html",
+      "source": "Makor Rishon"
+    },
+    {
+      "id": "article-linkedin-education",
+      "title": "כללי המשחק השתנו - חינוך בעידן המודרני",
+      "kind": "article",
+      "dateLabel": "LinkedIn article",
+      "context": [
+        "about",
+        "starton",
+        "archive"
+      ],
+      "summary": "A public article connecting education, digital life, and modern reality.",
+      "href": "https://www.linkedin.com/posts/vepretski_%D7%A1%D7%98%D7%90%D7%A8%D7%98-%D7%98%D7%9B%D7%A0%D7%95%D7%9C%D7%95%D7%92%D7%99%D7%99%D7%9D-activity-7002325702758817794-XO_V",
+      "source": "LinkedIn"
+    },
+    {
+      "id": "article-linkedin-sponsor",
+      "title": "נשאר רק דבר אחד להגשמת החלום! [זקוקים לחברת טכנולוגיה למתן חסות]",
+      "kind": "article",
+      "dateLabel": "18 May 2024",
+      "context": [
+        "starton",
+        "archive"
+      ],
+      "summary": "A 2024 LinkedIn article pushing the StartOn mission toward practical backing and partnerships.",
+      "href": "https://il.linkedin.com/in/vepretski",
+      "source": "LinkedIn"
+    },
+    {
+      "id": "post-7ya-force",
+      "title": "We’re hiring: Brand Manager for #7YA",
+      "kind": "post",
+      "dateLabel": "2025 LinkedIn/StartOn repost",
+      "context": [
+        "home",
+        "force",
+        "media",
+        "archive"
+      ],
+      "summary": "Movement-language post framing 7YA as culture, art, music, and global force rather than fashion alone.",
+      "href": "https://il.linkedin.com/company/starton-il",
+      "source": "LinkedIn"
+    }
+  ]
+}
