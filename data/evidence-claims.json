@@ -1,0 +1,57 @@
+[
+  {
+    "id": "igor-public-identity",
+    "title": "Igor Vepretski public identity for 7YA",
+    "category": "Identity",
+    "status": "PARTIALLY VERIFIED",
+    "sourceType": "Repository metadata and public site ownership context",
+    "date": "2026-07-09",
+    "classification": "PUBLIC",
+    "explanation": "The site identifies Igor Vepretski as the public identity at the center of 7YA. This is publishable as a site self-description, but external identity corroboration should be attached before stronger biographical claims are made.",
+    "sourceLink": "SOURCE PENDING: add official profile or public registry link"
+  },
+  {
+    "id": "starton-mission",
+    "title": "StartOn mission: technology hubs for youth at risk",
+    "category": "Social impact",
+    "status": "SOURCE PENDING",
+    "sourceType": "Founder statement / project narrative",
+    "date": "2026-07-09",
+    "classification": "PUBLIC",
+    "explanation": "The mission can be presented as an active intention and project direction. Numbers, beneficiaries, sites, funders, and partner names must remain unpublished until documentation is attached.",
+    "sourceLink": "SOURCE PENDING: add project deck, registration, article, grant, or public partner page"
+  },
+  {
+    "id": "seven-ya-evidence-oracle",
+    "title": "7YA Evidence Oracle concept and code lane",
+    "category": "Evidence systems",
+    "status": "VERIFIED",
+    "sourceType": "Repository source code",
+    "date": "2026-07-09",
+    "classification": "PUBLIC",
+    "explanation": "The repository contains an evidence-oracle package with modules for canonicalization, record handling, hashing, Merkle verification, logging, and HTTP verification surfaces.",
+    "sourceLink": "packages/evidence-oracle/src/"
+  },
+  {
+    "id": "public-safety-background",
+    "title": "Public-safety / intelligence / municipal security background",
+    "category": "Service background",
+    "status": "SOURCE PENDING",
+    "sourceType": "Personal history requiring documentation",
+    "date": "2026-07-09",
+    "classification": "NEEDS VERIFICATION",
+    "explanation": "The site may describe this as a background lane pending proof. Unit details, operational specifics, dates, locations, and third-party names should not be published without careful review.",
+    "sourceLink": "SOURCE PENDING: add approved public bio, certificate, article, or redacted document"
+  },
+  {
+    "id": "family-sensitive-details",
+    "title": "Family details and intimate personal history",
+    "category": "Privacy boundary",
+    "status": "PRIVATE",
+    "sourceType": "Privacy policy classification",
+    "date": "2026-07-09",
+    "classification": "PRIVATE",
+    "explanation": "Family details, intimate relationships, sensitive legal or financial details, and third-party personal information are not part of the public trust system unless Igor explicitly approves a narrow, sourced public use.",
+    "sourceLink": "PRIVATE: no public source"
+  }
+]

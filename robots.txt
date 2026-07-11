@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://7ya.io/sitemap.xml
+# deployment trigger: 2026-07-10T16:32+03:00
