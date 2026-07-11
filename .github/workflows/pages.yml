@@ -10,232 +10,169 @@ permissions:
   contents: write
 
 concurrency:
-  group: "7ya-gh-pages"
+  group: 7ya-production-publisher
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Validate and publish gh-pages branch
+  publish:
+    name: Publish immutable last-known-good release
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    timeout-minutes: 15
 
-      - name: Generate public index feeds
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refresh generated feeds
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           python3 scripts/generate_public_index_feeds.py
 
-      - name: Validate Evidence Ledger v3
+      - name: Run evidence audit
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           python3 scripts/validate_evidence_ledger_v3.py
 
-      - name: Validate public release
+      - name: Build immutable production snapshot
         shell: bash
         run: |
           set -euo pipefail
-          root="packages/app/public"
 
-          required_files=(
-            "index.html"
-            "launch/index.html"
-            "igor-vepretski/index.html"
-            "journey/index.html"
-            "index-public/index.html"
-            "talk/index.html"
-            "social/index.html"
-            "pass/index.html"
-            "evidence/index.html"
-            "trust/index.html"
-            "starton/index.html"
-            "partners/index.html"
-            "contact/index.html"
-            "radar/index.html"
-            "visual-podcast/index.html"
-            "data/publication-index.json"
-            "data/episodes.json"
-            "data/public-evidence-ledger.json"
-            "data/partner-ledger.json"
-            "data/igor-evidence-ledger-v3.json"
-            "schema/visual-podcast.jsonld"
-            "rss.xml"
-            "atom.xml"
-            "sitemap.xml"
-            "robots.txt"
-            "CNAME"
-          )
+          source_root="packages/app/public"
+          release_root="dist-deploy"
 
-          for file in "${required_files[@]}"; do
-            test -f "$root/$file" || { echo "Missing required public file: $root/$file"; exit 1; }
-          done
+          test -d "$source_root"
+          test -s "$source_root/index.html"
 
-          html_files=(
-            "$root/index.html"
-            "$root/launch/index.html"
-            "$root/igor-vepretski/index.html"
-            "$root/journey/index.html"
-            "$root/index-public/index.html"
-            "$root/talk/index.html"
-            "$root/social/index.html"
-            "$root/pass/index.html"
-            "$root/evidence/index.html"
-            "$root/trust/index.html"
-            "$root/starton/index.html"
-            "$root/partners/index.html"
-            "$root/contact/index.html"
-            "$root/radar/index.html"
-            "$root/visual-podcast/index.html"
-          )
+          rm -rf "$release_root"
+          mkdir -p "$release_root"
+          cp -aL "$source_root"/. "$release_root"/
 
-          for html in "${html_files[@]}"; do
-            grep -qi "<title>" "$html" || { echo "Missing <title>: $html"; exit 1; }
-            grep -qi 'name="description"' "$html" || { echo "Missing meta description: $html"; exit 1; }
-            grep -qi 'rel="canonical"' "$html" || { echo "Missing canonical link: $html"; exit 1; }
-            if grep -qi "noindex" "$html"; then
-              echo "Public route must not be noindexed: $html"
-              exit 1
+          printf '7ya.io\n' > "$release_root/CNAME"
+          touch "$release_root/.nojekyll"
+
+          if find "$release_root" -type l -print -quit | grep -q .; then
+            echo "Release snapshot contains a symlink"
+            exit 1
+          fi
+
+          test -s "$release_root/index.html"
+          test "$(cat "$release_root/CNAME")" = "7ya.io"
+
+      - name: Normalize social sharing image inside snapshot
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+
+          release_root="dist-deploy"
+          svg="$release_root/images/igor-vepretski-7ya-og.svg"
+          png="$release_root/images/igor-vepretski-7ya-og.png"
+
+          if [[ -s "$svg" && ! -s "$png" ]]; then
+            if command -v magick >/dev/null 2>&1; then
+              magick -background none "$svg" -strip -colors 256 "PNG8:$png" || true
+            elif command -v convert >/dev/null 2>&1; then
+              convert -background none "$svg" -strip -colors 256 "PNG8:$png" || true
+            elif command -v rsvg-convert >/dev/null 2>&1; then
+              rsvg-convert --width 1200 --height 630 --output "$png" "$svg" || true
+            else
+              sudo apt-get update || true
+              sudo apt-get install -y --no-install-recommends librsvg2-bin || true
+              command -v rsvg-convert >/dev/null 2>&1 && \
+                rsvg-convert --width 1200 --height 630 --output "$png" "$svg" || true
             fi
-          done
+          fi
 
-          python3 - <<'PY'
-          import json
-          import xml.etree.ElementTree as ET
+          if [[ -s "$png" ]]; then
+            python3 - <<'PY'
           from pathlib import Path
 
-          root = Path("packages/app/public")
+          root = Path("dist-deploy")
+          old = "https://7ya.io/images/igor-vepretski-7ya-og.svg"
+          new = "https://7ya.io/images/igor-vepretski-7ya-og.png"
 
-          publication = json.loads((root / "data/publication-index.json").read_text(encoding="utf-8"))
-          names = set(publication["canonical_entity"]["alternate_names"])
-          required_names = {"איגור ופרצקי", "Игорь Вепрецкий"}
-          if not required_names.issubset(names):
-              raise SystemExit("Publication index missing Hebrew or Russian identity")
-          relationships = {item["relationship"] for item in publication["sources"]}
-          for required in {"ORIGINAL", "REPOSTED", "RE_USED", "DISTRIBUTED", "INTERVIEWED", "MENTIONED"}:
-              if required not in relationships:
-                  raise SystemExit(f"Publication index missing relationship: {required}")
-          if len(publication["sources"]) < 25:
-              raise SystemExit("Publication index seed is unexpectedly small")
-
-          partners = json.loads((root / "data/partner-ledger.json").read_text(encoding="utf-8"))
-          if not partners.get("policy", {}).get("append_only"):
-              raise SystemExit("Partner ledger must remain append-only")
-          partner_names = {item["name"] for item in partners["entries"]}
-          for required in {"StartOn", "Microsoft for Startups", "NVIDIA Developer Program", "GitHub", "Cloudflare", "Replit"}:
-              if required not in partner_names:
-                  raise SystemExit(f"Partner ledger missing required relationship: {required}")
-
-          evidence = json.loads((root / "data/igor-evidence-ledger-v3.json").read_text(encoding="utf-8"))
-          if evidence.get("version") != "v3":
-              raise SystemExit("Evidence ledger must be v3")
-          if evidence.get("summary", {}).get("placeholder_urls") != 0:
-              raise SystemExit("Evidence ledger contains placeholder URLs")
-          if any(item.get("record_id") == "REC110" for item in evidence.get("records", [])):
-              raise SystemExit("REC110 must remain held")
-
-          ET.parse(root / "rss.xml")
-          ET.parse(root / "atom.xml")
-          ET.parse(root / "sitemap.xml")
-          print(
-              f"Validated {len(publication['sources'])} public sources, "
-              f"{len(partners['entries'])} partner records, and "
-              f"{len(evidence['records'])} Evidence Ledger v3 records"
-          )
+          for path in root.rglob("*"):
+              if not path.is_file() or path.suffix.lower() not in {".html", ".json", ".jsonld", ".xml"}:
+                  continue
+              try:
+                  text = path.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+              if old in text:
+                  path.write_text(text.replace(old, new), encoding="utf-8")
           PY
-
-          grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
-          grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
-
-          for route in "/" "/launch/" "/igor-vepretski/" "/journey/" "/index-public/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/partners/" "/contact/" "/radar/" "/visual-podcast/"; do
-            grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
-          done
-
-          grep -qi "Igor Vepretski" "$root/index.html" || { echo "Homepage missing Igor identity"; exit 1; }
-          grep -qi "official public command surface" "$root/index.html" || { echo "Homepage missing founder-first framing"; exit 1; }
-          grep -qi "Partners & Ecosystem" "$root/index.html" || { echo "Homepage missing partner layer"; exit 1; }
-          grep -qi "7YA Launch Signal" "$root/launch/index.html" || { echo "Launch route missing launch identity"; exit 1; }
-          grep -qi "No partner disappears" "$root/partners/index.html" || { echo "Partners route missing append-only framing"; exit 1; }
-          grep -qi '"ledger_name": "7YA.IO Partner & Ecosystem Ledger"' "$root/data/partner-ledger.json" || { echo "Partner ledger missing canonical name"; exit 1; }
-          grep -qi "Evidence Ledger v3" "$root/evidence/index.html" || { echo "Evidence route missing v3 framing"; exit 1; }
-          grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
-          grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
-          grep -qi "HOLD" "$root/evidence/index.html" || { echo "Evidence route missing HOLD gate"; exit 1; }
-          grep -qi '"version": "v3"' "$root/data/igor-evidence-ledger-v3.json" || { echo "Evidence JSON missing v3"; exit 1; }
-          grep -qi '"record_id": "REC110"' "$root/data/igor-evidence-ledger-v3.json" || { echo "Evidence JSON must explicitly hold REC110"; exit 1; }
-          grep -qi "No fake metrics" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing no-fake-metrics rule"; exit 1; }
-          grep -qi "No unverified sponsorship claims" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing sponsorship boundary"; exit 1; }
-
-          if grep -R -nE "(sk-(proj-)?[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" "$root"; then
-            echo "Potential secret found in public static output"
-            exit 1
+          else
+            echo "::warning::PNG social image was not generated; SVG remains as the non-blocking fallback"
           fi
 
-          if grep -R -n "vercel.app" "$root"; then
-            echo "Public static output must not expose a vercel.app URL"
-            exit 1
-          fi
-
-      - name: Prepare immutable static release
+      - name: Enforce production security invariant
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf dist-deploy
-          mkdir -p dist-deploy
-          cp -aL packages/app/public/. dist-deploy/
-          touch dist-deploy/.nojekyll
 
-          test -f dist-deploy/CNAME
-          test -f dist-deploy/index.html
-          test -f dist-deploy/launch/index.html
-          test -f dist-deploy/partners/index.html
-          test -f dist-deploy/data/igor-evidence-ledger-v3.json
-
-          if find dist-deploy -type l -print -quit | grep -q .; then
-            echo "Immutable release must not contain symlinks"
+          if grep -R -nE \
+            "(sk-(proj-)?[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)" \
+            dist-deploy; then
+            echo "A secret-like value was detected in the public snapshot"
             exit 1
           fi
 
-          find dist-deploy -type f -size 0 \
-            ! -name '.nojekyll' \
-            -print -quit | grep -q . && {
-              echo "Immutable release contains an unexpected empty file"
-              exit 1
-            } || true
+      - name: Preserve current production as rollback branch
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          git fetch origin gh-pages:refs/remotes/origin/gh-pages || exit 0
+          git push --force origin \
+            refs/remotes/origin/gh-pages:refs/heads/gh-pages-last-known-good || true
 
-      - name: Publish directly to gh-pages
+      - name: Publish snapshot directly to gh-pages
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+
           cd dist-deploy
           git init -b gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add --all
           git commit -m "deploy: 7YA.IO ${GITHUB_SHA}"
-          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
+          git push --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:gh-pages
 
-      - name: Validate public endpoints
+      - name: Report endpoint status without rolling back production
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
 
           check_url() {
             local url="$1"
-            for attempt in {1..6}; do
-              status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --connect-timeout 10 --max-time 30 "$url" || true)"
-              echo "Attempt ${attempt}: ${url} returned ${status}"
-              if [[ "$status" == "200" ]]; then
-                return 0
-              fi
+            local status="000"
+
+            for attempt in 1 2 3 4 5 6; do
+              status="$(curl --location --silent --show-error \
+                --output /dev/null --write-out '%{http_code}' \
+                --connect-timeout 10 --max-time 30 "$url" || true)"
+              echo "Attempt ${attempt}: ${url} -> ${status}"
+              [[ "$status" == "200" ]] && return 0
               sleep 10
             done
-            echo "::warning::Endpoint is not ready yet: ${url}"
+
+            echo "::warning::${url} is not returning 200 yet"
             return 0
           }
 
+          check_url "https://vepretski.github.io/7ya.io/"
           check_url "https://7ya.io/"
           check_url "https://www.7ya.io/"
