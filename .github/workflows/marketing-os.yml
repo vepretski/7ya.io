@@ -1,0 +1,97 @@
+name: Build 7YA Marketing Review Queue
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 4 * * *"
+  push:
+    branches:
+      - dev
+    paths:
+      - "marketing/**"
+      - "scripts/build_marketing_os.py"
+      - "packages/app/public/data/publication-index.json"
+      - ".github/workflows/marketing-os.yml"
+  pull_request:
+    paths:
+      - "marketing/**"
+      - "scripts/build_marketing_os.py"
+      - "packages/app/public/data/publication-index.json"
+      - ".github/workflows/marketing-os.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: marketing-os-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-review-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Python
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/build_marketing_os.py
+
+      - name: Validate strategy JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          config = json.loads(Path("marketing/viral-archetypes.json").read_text(encoding="utf-8"))
+          assert config["schema_version"] == "1.0"
+          assert config["safety"]["require_manual_approval"] is True
+          assert set(config["languages"]) == {"he", "ru", "en"}
+          print("Strategy configuration validated")
+          PY
+
+      - name: Build source-gated queue
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/build_marketing_os.py
+
+      - name: Validate generated artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          queue_path = Path("artifacts/marketing/marketing-queue.json")
+          brief_path = Path("artifacts/marketing/marketing-brief.md")
+          assert queue_path.is_file()
+          assert brief_path.is_file()
+
+          data = json.loads(queue_path.read_text(encoding="utf-8"))
+          assert data["policy"]["evidence_first"] is True
+          assert data["policy"]["manual_approval_required"] is True
+          assert data["policy"]["auto_publish_enabled"] is False
+          assert len(data["queue"]) == 21
+          assert all(item["publication_gate"] == "APPROVE" for item in data["queue"])
+          assert all(item["manual_review_required"] is True for item in data["queue"])
+          assert all(item["source_url"] for item in data["queue"])
+          print(
+              f"Validated {len(data['queue'])} review briefs from "
+              f"{data['source_summary']['eligible_records']} eligible source records"
+          )
+          PY
+
+      - name: Upload review queue
+        uses: actions/upload-artifact@v4
+        with:
+          name: 7ya-marketing-review-queue
+          path: artifacts/marketing/
+          if-no-files-found: error
+          retention-days: 30
