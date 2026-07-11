@@ -27,6 +27,12 @@ jobs:
           set -euo pipefail
           python3 scripts/generate_public_index_feeds.py
 
+      - name: Validate Evidence Ledger v3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_evidence_ledger_v3.py
+
       - name: Validate public release
         shell: bash
         run: |
@@ -53,6 +59,7 @@ jobs:
             "data/episodes.json"
             "data/public-evidence-ledger.json"
             "data/partner-ledger.json"
+            "data/igor-evidence-ledger-v3.json"
             "schema/visual-podcast.jsonld"
             "rss.xml"
             "atom.xml"
@@ -99,6 +106,7 @@ jobs:
           from pathlib import Path
 
           root = Path("packages/app/public")
+
           publication = json.loads((root / "data/publication-index.json").read_text(encoding="utf-8"))
           names = set(publication["canonical_entity"]["alternate_names"])
           required_names = {"איגור ופרצקי", "Игорь Вепрецкий"}
@@ -119,10 +127,22 @@ jobs:
               if required not in partner_names:
                   raise SystemExit(f"Partner ledger missing required relationship: {required}")
 
+          evidence = json.loads((root / "data/igor-evidence-ledger-v3.json").read_text(encoding="utf-8"))
+          if evidence.get("version") != "v3":
+              raise SystemExit("Evidence ledger must be v3")
+          if evidence.get("summary", {}).get("placeholder_urls") != 0:
+              raise SystemExit("Evidence ledger contains placeholder URLs")
+          if any(item.get("record_id") == "REC110" for item in evidence.get("records", [])):
+              raise SystemExit("REC110 must remain held")
+
           ET.parse(root / "rss.xml")
           ET.parse(root / "atom.xml")
           ET.parse(root / "sitemap.xml")
-          print(f"Validated {len(publication['sources'])} public sources and {len(partners['entries'])} partner records")
+          print(
+              f"Validated {len(publication['sources'])} public sources, "
+              f"{len(partners['entries'])} partner records, and "
+              f"{len(evidence['records'])} Evidence Ledger v3 records"
+          )
           PY
 
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
@@ -138,10 +158,12 @@ jobs:
           grep -qi "7YA Launch Signal" "$root/launch/index.html" || { echo "Launch route missing launch identity"; exit 1; }
           grep -qi "No partner disappears" "$root/partners/index.html" || { echo "Partners route missing append-only framing"; exit 1; }
           grep -qi '"ledger_name": "7YA.IO Partner & Ecosystem Ledger"' "$root/data/partner-ledger.json" || { echo "Partner ledger missing canonical name"; exit 1; }
-          grep -qi "Evidence Ledger" "$root/evidence/index.html" || { echo "Evidence route missing ledger framing"; exit 1; }
+          grep -qi "Evidence Ledger v3" "$root/evidence/index.html" || { echo "Evidence route missing v3 framing"; exit 1; }
           grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
           grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
           grep -qi "HOLD" "$root/evidence/index.html" || { echo "Evidence route missing HOLD gate"; exit 1; }
+          grep -qi '"version": "v3"' "$root/data/igor-evidence-ledger-v3.json" || { echo "Evidence JSON missing v3"; exit 1; }
+          grep -qi '"record_id": "REC110"' "$root/data/igor-evidence-ledger-v3.json" || { echo "Evidence JSON must explicitly hold REC110"; exit 1; }
           grep -qi "No fake metrics" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing no-fake-metrics rule"; exit 1; }
           grep -qi "No unverified sponsorship claims" "$root/visual-podcast/index.html" || { echo "Visual Podcast missing sponsorship boundary"; exit 1; }
 
@@ -167,6 +189,7 @@ jobs:
           test -f dist/index.html
           test -f dist/launch/index.html
           test -f dist/partners/index.html
+          test -f dist/data/igor-evidence-ledger-v3.json
 
       - name: Publish directly to gh-pages
         shell: bash
