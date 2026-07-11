@@ -26,6 +26,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate public index feeds
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/generate_public_index_feeds.py
+
       - name: Validate required static routes
         shell: bash
         run: |
@@ -36,6 +42,7 @@ jobs:
             "index.html"
             "igor-vepretski/index.html"
             "journey/index.html"
+            "index-public/index.html"
             "talk/index.html"
             "social/index.html"
             "pass/index.html"
@@ -45,9 +52,12 @@ jobs:
             "contact/index.html"
             "radar/index.html"
             "visual-podcast/index.html"
+            "data/publication-index.json"
             "data/episodes.json"
             "data/public-evidence-ledger.json"
             "schema/visual-podcast.jsonld"
+            "rss.xml"
+            "atom.xml"
             "sitemap.xml"
             "robots.txt"
             "CNAME"
@@ -61,6 +71,7 @@ jobs:
             "$root/index.html"
             "$root/igor-vepretski/index.html"
             "$root/journey/index.html"
+            "$root/index-public/index.html"
             "$root/talk/index.html"
             "$root/social/index.html"
             "$root/pass/index.html"
@@ -82,10 +93,32 @@ jobs:
             fi
           done
 
+          python3 - <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          root = Path("packages/app/public")
+          data = json.loads((root / "data/publication-index.json").read_text(encoding="utf-8"))
+          names = set(data["canonical_entity"]["alternate_names"])
+          required_names = {"איגור ופרצקי", "Игорь Вепрецкий"}
+          if not required_names.issubset(names):
+              raise SystemExit("Publication index missing Hebrew or Russian identity")
+          relationships = {item["relationship"] for item in data["sources"]}
+          for required in {"ORIGINAL", "REPOSTED", "RE_USED", "DISTRIBUTED", "INTERVIEWED", "MENTIONED"}:
+              if required not in relationships:
+                  raise SystemExit(f"Publication index missing relationship: {required}")
+          if len(data["sources"]) < 25:
+              raise SystemExit("Publication index seed is unexpectedly small")
+          ET.parse(root / "rss.xml")
+          ET.parse(root / "atom.xml")
+          print(f"Validated public index with {len(data['sources'])} source records")
+          PY
+
           grep -q "https://7ya.io/sitemap.xml" "$root/robots.txt" || { echo "robots.txt must point to sitemap.xml"; exit 1; }
           grep -q "^7ya.io$" "$root/CNAME" || { echo "CNAME must be exactly 7ya.io"; exit 1; }
 
-          for route in "/" "/igor-vepretski/" "/journey/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
+          for route in "/" "/igor-vepretski/" "/journey/" "/index-public/" "/talk/" "/social/" "/pass/" "/evidence/" "/trust/" "/starton/" "/contact/" "/radar/" "/visual-podcast/"; do
             grep -q "https://7ya.io${route}" "$root/sitemap.xml" || { echo "Missing sitemap route: $route"; exit 1; }
           done
 
@@ -100,6 +133,9 @@ jobs:
           grep -qi "Public history" "$root/journey/index.html" || { echo "Journey missing public-history framing"; exit 1; }
           grep -qi "The road to 7YA" "$root/journey/index.html" || { echo "Journey missing timeline heading"; exit 1; }
           grep -qi "Protected by design" "$root/journey/index.html" || { echo "Journey missing privacy boundary"; exit 1; }
+          grep -qi "Igor Vepretski Public Index" "$root/index-public/index.html" || { echo "Public index missing canonical heading"; exit 1; }
+          grep -qi "RE-USED" "$root/index-public/index.html" || { echo "Public index missing re-use classification"; exit 1; }
+          grep -qi "application/rss+xml" "$root/index-public/index.html" || { echo "Public index missing RSS discovery link"; exit 1; }
           grep -qi "Evidence Ledger" "$root/evidence/index.html" || { echo "Evidence route missing ledger framing"; exit 1; }
           grep -qi "APPROVE" "$root/evidence/index.html" || { echo "Evidence route missing APPROVE gate"; exit 1; }
           grep -qi "VERIFY" "$root/evidence/index.html" || { echo "Evidence route missing VERIFY gate"; exit 1; }
