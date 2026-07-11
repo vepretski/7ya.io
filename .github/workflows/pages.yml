@@ -177,19 +177,32 @@ jobs:
             exit 1
           fi
 
-      - name: Prepare static release
+      - name: Prepare immutable static release
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf dist
-          mkdir -p dist
-          cp -R packages/app/public/. dist/
-          touch dist/.nojekyll
-          test -f dist/CNAME
-          test -f dist/index.html
-          test -f dist/launch/index.html
-          test -f dist/partners/index.html
-          test -f dist/data/igor-evidence-ledger-v3.json
+          rm -rf dist-deploy
+          mkdir -p dist-deploy
+          cp -aL packages/app/public/. dist-deploy/
+          touch dist-deploy/.nojekyll
+
+          test -f dist-deploy/CNAME
+          test -f dist-deploy/index.html
+          test -f dist-deploy/launch/index.html
+          test -f dist-deploy/partners/index.html
+          test -f dist-deploy/data/igor-evidence-ledger-v3.json
+
+          if find dist-deploy -type l -print -quit | grep -q .; then
+            echo "Immutable release must not contain symlinks"
+            exit 1
+          fi
+
+          find dist-deploy -type f -size 0 \
+            ! -name '.nojekyll' \
+            -print -quit | grep -q . && {
+              echo "Immutable release contains an unexpected empty file"
+              exit 1
+            } || true
 
       - name: Publish directly to gh-pages
         shell: bash
@@ -197,10 +210,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          cd dist
+          cd dist-deploy
           git init -b gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add --all
           git commit -m "deploy: 7YA.IO ${GITHUB_SHA}"
           git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
+
+      - name: Validate public endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          check_url() {
+            local url="$1"
+            for attempt in {1..6}; do
+              status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --connect-timeout 10 --max-time 30 "$url" || true)"
+              echo "Attempt ${attempt}: ${url} returned ${status}"
+              if [[ "$status" == "200" ]]; then
+                return 0
+              fi
+              sleep 10
+            done
+            echo "::warning::Endpoint is not ready yet: ${url}"
+            return 0
+          }
+
+          check_url "https://7ya.io/"
+          check_url "https://www.7ya.io/"
