@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://7ya.io/schemas/claim-card.schema.json",
+  "title": "7YA Claim Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claim_id","claim","safe_public_wording","status","evidence_tier","confidence_score","sources","publication_decision","risk_flags","next_action"],
+  "properties": {
+    "claim_id": {"type":"string","pattern":"^CLM-[A-Z0-9-]+$"},
+    "claim": {"type":"string","minLength":1},
+    "safe_public_wording": {"type":"string"},
+    "status": {"enum":["VERIFIED_SOURCE","ATTRIBUTED_SOURCE","CONTEXT_NOTE","SOURCE_PENDING","SCREENSHOT_REQUIRED","SCREENSHOT_ONLY","MANUAL_REVIEW","DISPUTED","BLOCKED"]},
+    "evidence_tier": {"enum":["T0","T1","T2","T3","T4","T5"]},
+    "confidence_score": {"type":"number","minimum":0,"maximum":1},
+    "sources": {
+      "type":"array",
+      "items": {
+        "type":"object",
+        "additionalProperties":false,
+        "required":["source_id","url","title","publisher","reliability_score","reliability_label","why_relevant","captured_at"],
+        "properties": {
+          "source_id":{"type":"string","pattern":"^SRC-[A-Z0-9-]+$"},
+          "url":{"type":"string","format":"uri"},
+          "title":{"type":"string"},
+          "publisher":{"type":"string"},
+          "reliability_score":{"type":"number","minimum":0,"maximum":1},
+          "reliability_label":{"type":"string"},
+          "why_relevant":{"type":"string"},
+          "captured_at":{"type":["string","null"],"format":"date-time"}
+        }
+      }
+    },
+    "publication_decision":{"enum":["ALLOW_PUBLIC","ALLOW_WITH_LABEL","PRIVATE_ONLY","MANUAL_REVIEW","BLOCK_PUBLICATION"]},
+    "risk_flags":{"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "next_action":{"type":"string"}
+  },
+  "allOf": [
+    {
+      "if":{"properties":{"publication_decision":{"const":"ALLOW_PUBLIC"}}},
+      "then":{
+        "properties":{
+          "status":{"enum":["VERIFIED_SOURCE","ATTRIBUTED_SOURCE"]},
+          "sources":{"minItems":1}
+        }
+      }
+    },
+    {
+      "if":{"properties":{"status":{"const":"VERIFIED_SOURCE"}}},
+      "then":{"properties":{"sources":{"minItems":1}}}
+    }
+  ]
+}
