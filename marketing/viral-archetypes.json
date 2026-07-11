@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "system": "7YA Viral Memory Engine",
+  "objective": "Convert verified historic public signals into review-ready multilingual campaign briefs without manufacturing metrics or engagement.",
+  "cadence": {
+    "days": 7,
+    "slots_per_day": 3
+  },
+  "languages": [
+    "he",
+    "ru",
+    "en"
+  ],
+  "platform_lanes": {
+    "short_video": [
+      "TikTok",
+      "Instagram Reels",
+      "YouTube Shorts",
+      "Facebook Reels"
+    ],
+    "authority": [
+      "LinkedIn",
+      "7ya.io",
+      "Newsletter"
+    ],
+    "conversation": [
+      "Facebook",
+      "X",
+      "Threads"
+    ]
+  },
+  "pillar_rules": [
+    {
+      "pillar": "origin_to_service",
+      "keywords": [
+        "כנגד כל הסיכויים",
+        "חייל",
+        "שירות",
+        "officer",
+        "police",
+        "security",
+        "משטרה",
+        "שוטר"
+      ]
+    },
+    {
+      "pillar": "fatherhood_and_presence",
+      "keywords": [
+        "אבא",
+        "father",
+        "parent",
+        "גננת"
+      ]
+    },
+    {
+      "pillar": "immigrant_identity",
+      "keywords": [
+        "רוסי מסריח",
+        "immigrant",
+        "репатриант",
+        "עולה"
+      ]
+    },
+    {
+      "pillar": "protection_and_trust",
+      "keywords": [
+        "הונאה",
+        "fraud",
+        "קשישים",
+        "elder"
+      ]
+    },
+    {
+      "pillar": "starton_social_impact",
+      "keywords": [
+        "starton",
+        "נוער",
+        "youth",
+        "social",
+        "ג'סי כהן",
+        "טכנולוגי"
+      ]
+    },
+    {
+      "pillar": "public_safety_explainer",
+      "keywords": [
+        "обстрела",
+        "safety",
+        "בטיחות",
+        "אזהרה"
+      ]
+    },
+    {
+      "pillar": "creator_archive",
+      "keywords": [
+        "youtube",
+        "music",
+        "podcast",
+        "ראיון",
+        "interview",
+        "טיקטוק",
+        "tiktok"
+      ]
+    }
+  ],
+  "priority_sources": {
+    "PRESS-2011": {
+      "bonus": 20,
+      "reason": "foundational documented origin-to-service story"
+    },
+    "EXT-FB101": {
+      "bonus": 18,
+      "reason": "third-party repost of fatherhood narrative"
+    },
+    "EXT-FB102": {
+      "bonus": 12,
+      "reason": "third-party repost of relatable parenting story"
+    },
+    "EXT-FB103": {
+      "bonus": 18,
+      "reason": "third-party repost of immigrant-identity narrative"
+    },
+    "EXT-IG101": {
+      "bonus": 16,
+      "reason": "third-party repost of elder-fraud protection story"
+    },
+    "PRESS-2022-MYNET": {
+      "bonus": 18,
+      "reason": "local press validation of StartOn return-to-neighborhood mission"
+    },
+    "TV-2022-13": {
+      "bonus": 18,
+      "reason": "national television interview about transition to social impact"
+    },
+    "EDU-NITZ": {
+      "bonus": 15,
+      "reason": "education-sector framing of creator-led social change"
+    },
+    "ORG-STARTON": {
+      "bonus": 20,
+      "reason": "canonical owned social-impact mission"
+    },
+    "OWN-YT": {
+      "bonus": 10,
+      "reason": "large owned long-form and video archive"
+    },
+    "DIST-ILB01": {
+      "bonus": 10,
+      "reason": "party distribution signal; requires political review"
+    }
+  },
+  "safety": {
+    "require_manual_approval": true,
+    "forbid": [
+      "invented metrics",
+      "automated likes/follows/comments",
+      "unsupported endorsements",
+      "private-family details beyond public source",
+      "publishing VERIFY records as fact"
+    ]
+  }
+}
