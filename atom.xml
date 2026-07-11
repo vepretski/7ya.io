@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://7ya.io/index-public/</id>
+  <title>Igor Vepretski · איגור ופרצקי · Игорь Вепрецкий — Public Index</title>
+  <updated>2026-07-11T07:30:00Z</updated>
+  <link href="https://7ya.io/atom.xml" rel="self" type="application/atom+xml" />
+  <link href="https://7ya.io/index-public/" rel="alternate" type="text/html" />
+  <subtitle>Source-aware records of original publication, sharing, mentions, interviews, distribution and re-use.</subtitle>
+  <entry>
+    <id>urn:7ya:public-index:OWN-7YA</id>
+    <title>Official public home</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://7ya.io/" />
+    <author><name>7YA.IO</name></author>
+    <category term="ORIGINAL" />
+    <category term="Web" />
+    <content type="text">ORIGINAL record on Web; published by 7YA.IO; verification: VERIFIED_SOURCE. Language: multi. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-IG</id>
+    <title>Instagram public archive</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.instagram.com/igor.vepretski/" />
+    <author><name>@igor.vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="Instagram" />
+    <content type="text">ORIGINAL record on Instagram; published by @igor.vepretski; verification: PUBLIC_SNAPSHOT. Language: multi. Verification: PUBLIC_SNAPSHOT.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-TT</id>
+    <title>TikTok public archive</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.tiktok.com/@igor.vepretski" />
+    <author><name>@igor.vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="TikTok" />
+    <content type="text">ORIGINAL record on TikTok; published by @igor.vepretski; verification: USER_EXPORT_VERIFIED. Language: multi. Verification: USER_EXPORT_VERIFIED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-FB1</id>
+    <title>Facebook creator page</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/igor7vepretski/" />
+    <author><name>Igor Ido Vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="Facebook" />
+    <content type="text">ORIGINAL record on Facebook; published by Igor Ido Vepretski; verification: PUBLIC_SNAPSHOT. Language: multi. Verification: PUBLIC_SNAPSHOT.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-FB2</id>
+    <title>Facebook public profile and posts</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/vepretski/" />
+    <author><name>Igor Vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="Facebook" />
+    <content type="text">ORIGINAL record on Facebook; published by Igor Vepretski; verification: PUBLIC_INDEXED. Language: multi. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-YT</id>
+    <title>YouTube video archive</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.youtube.com/c/IgorIdoVepretski" />
+    <author><name>Igor Vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="YouTube" />
+    <content type="text">ORIGINAL record on YouTube; published by Igor Vepretski; verification: CURATED_SOURCE. Language: multi. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-LI</id>
+    <title>Professional posts and articles</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://il.linkedin.com/in/vepretski" />
+    <author><name>Igor Vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="LinkedIn" />
+    <content type="text">ORIGINAL record on LinkedIn; published by Igor Vepretski; verification: PUBLIC_SNAPSHOT. Language: multi. Verification: PUBLIC_SNAPSHOT.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-X</id>
+    <title>X public account</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://x.com/igorvepretski" />
+    <author><name>@igorvepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="X" />
+    <content type="text">ORIGINAL record on X; published by @igorvepretski; verification: CURATED_SOURCE. Language: multi. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-TH</id>
+    <title>Threads public account</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.threads.com/@igor.vepretski" />
+    <author><name>@igor.vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="Threads" />
+    <content type="text">ORIGINAL record on Threads; published by @igor.vepretski; verification: CURATED_SOURCE. Language: multi. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-GH</id>
+    <title>Public repositories and technical documentation</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://github.com/vepretski" />
+    <author><name>vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="GitHub" />
+    <content type="text">ORIGINAL record on GitHub; published by vepretski; verification: VERIFIED_SOURCE. Language: en. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:OWN-LT</id>
+    <title>Public link hub and curated viral-post links</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://linktr.ee/igor.vepretski" />
+    <author><name>Igor Vepretski</name></author>
+    <category term="ORIGINAL" />
+    <category term="Linktree" />
+    <content type="text">ORIGINAL record on Linktree; published by Igor Vepretski; verification: CURATED_SOURCE. Language: multi. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB101</id>
+    <title>אבא מושלם - זה אבא ששם</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/lan2lan.sta2sim/posts/760747985420866/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB102</id>
+    <title>תחילת שבוע, הגננת מתקשרת</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/lan2lan.sta2sim/posts/845465816949082/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB103</id>
+    <title>בשנות ה-90 קראו לי רוסי מסריח</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/lan2lan.sta2sim/posts/812358646926466/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB104</id>
+    <title>תכירו את הנרי האלוף</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/lan2lan.sta2sim/posts/pfbid0fLDvPkLmF846Jhme65ETbkcNRTcTK8z3s3XojRtfe3eCdTnmSCK4icTmn5rdxcCRl" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: CURATED_SOURCE. Language: he. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB105</id>
+    <title>להיות שוטר בשומר חומות</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/share/p/8re8YuCrThhjPEse/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: CURATED_SOURCE. Language: he. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB106</id>
+    <title>אבהות בגיל צעיר</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/share/dqGdZ7qSWmim9wjA/?mibextid=WC7FNe" />
+    <author><name>הצינור</name></author>
+    <category term="RE_USED" />
+    <category term="Facebook" />
+    <content type="text">RE_USED record on Facebook; published by הצינור; verification: CURATED_SOURCE. Language: he. Verification: CURATED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB107</id>
+    <title>מרתיח אותי המצב הזה</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/lan2lan.sta2sim/posts/667549874740678/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-FB108</id>
+    <title>אבא פגום - שירות, הקרבה והורות</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://m.facebook.com/lan2lan.sta2sim/photos/10160005588472176/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-IG101</id>
+    <title>סבתא שלי נפלה קורבן להונאה</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.instagram.com/p/CoXykBwq3Zr/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Instagram" />
+    <content type="text">REPOSTED record on Instagram; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-IG102</id>
+    <title>רוסי מסריח</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.instagram.com/p/CsnfS5WoSw8/" />
+    <author><name>סטטוסים מצייצים</name></author>
+    <category term="REPOSTED" />
+    <category term="Instagram" />
+    <content type="text">REPOSTED record on Instagram; published by סטטוסים מצייצים; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EXT-LI101</id>
+    <title>אבא מושלם זה אבא ששם</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.linkedin.com/posts/vepretski_%D7%9B%D7%A9%D7%94%D7%94%D7%94%D7%95%D7%A8%D7%99%D7%9D-%D7%A9%D7%9C%D7%99-%D7%94%D7%AA%D7%92%D7%A8%D7%A9%D7%95-%D7%90%D7%91%D7%90-%D7%A9%D7%9C%D7%99-%D7%97%D7%AA%D7%9D-%D7%93%D7%99%D7%9C-activity-7032741993654988800-IRtv" />
+    <author><name>Igor Vepretski</name></author>
+    <category term="OWNED_MIRROR" />
+    <category term="LinkedIn" />
+    <content type="text">OWNED_MIRROR record on LinkedIn; published by Igor Vepretski; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:DIST-ILB01</id>
+    <title>יוצא כוחות הביטחון: איפה הניצחון המוחלט?</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/beytenu/videos/26702411802682636/" />
+    <author><name>ישראל ביתנו</name></author>
+    <category term="DISTRIBUTED" />
+    <category term="Facebook" />
+    <content type="text">DISTRIBUTED record on Facebook; published by ישראל ביתנו; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:DIST-YILB01</id>
+    <title>הגיע הזמן למנהיגים, לא פוליטיקאים</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/israelbeytenuyoung/videos/7646000955435359/" />
+    <author><name>צעירי ישראל ביתנו</name></author>
+    <category term="DISTRIBUTED" />
+    <category term="Facebook" />
+    <content type="text">DISTRIBUTED record on Facebook; published by צעירי ישראל ביתנו; verification: PUBLIC_INDEXED. Language: he. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:DIST-RU01</id>
+    <title>Что нельзя делать во время обстрела</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/beytenurusskiy/videos/3176491592494318/" />
+    <author><name>ישראל ביתנו ברוסית</name></author>
+    <category term="RE_USED" />
+    <category term="Facebook" />
+    <content type="text">RE_USED record on Facebook; published by ישראל ביתנו ברוסית; verification: PUBLIC_INDEXED. Language: ru. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:DIST-RU02</id>
+    <title>Родители чистили картошку - поколение 1.5</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/beytenurusskiy/photos/1022380992585309/" />
+    <author><name>ישראל ביתנו ברוסית</name></author>
+    <category term="RE_USED" />
+    <category term="Facebook" />
+    <content type="text">RE_USED record on Facebook; published by ישראל ביתנו ברוסית; verification: PUBLIC_INDEXED. Language: ru. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:DIST-RU03</id>
+    <title>Весь молодёжь?! Могло бы быть лучше</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.facebook.com/kostya.kolganov/videos/549647320879228/" />
+    <author><name>Kostya Kolganov</name></author>
+    <category term="REPOSTED" />
+    <category term="Facebook" />
+    <content type="text">REPOSTED record on Facebook; published by Kostya Kolganov; verification: PUBLIC_INDEXED. Language: ru. Verification: PUBLIC_INDEXED.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:PRESS-2011</id>
+    <title>כנגד כל הסיכויים: סיפורו של הילד המוכה שהפך לחייל מצטיין</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.makorrishon.co.il/nrg/online/54/ART2/235/169.html" />
+    <author><name>מקור ראשון / NRG</name></author>
+    <category term="MENTIONED" />
+    <category term="Press" />
+    <content type="text">MENTIONED record on Press; published by מקור ראשון / NRG; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:PRESS-2022-MYNET</id>
+    <title>חוזר לשכונה כדי לבנות מרכז טכנולוגי לנוער</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://holon.mynet.co.il/local_news/article/hjxqegkiq" />
+    <author><name>mynet חולון</name></author>
+    <category term="INTERVIEWED" />
+    <category term="Press" />
+    <content type="text">INTERVIEWED record on Press; published by mynet חולון; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:TV-2022-13</id>
+    <title>ראיון על המעבר לעשייה חברתית</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://prod.13tv.co.il/item/news/haolam-haboker/season-01/clips/u0uoy-903061791/?pid=44" />
+    <author><name>חדשות 13 / העולם הבוקר</name></author>
+    <category term="INTERVIEWED" />
+    <category term="Television" />
+    <content type="text">INTERVIEWED record on Television; published by חדשות 13 / העולם הבוקר; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:PRESS-ZMAN</id>
+    <title>פרופיל כותב: איגור ופרצקי</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.zman.co.il/writer/20815/" />
+    <author><name>זמן ישראל</name></author>
+    <category term="ORIGINAL" />
+    <category term="Press" />
+    <content type="text">ORIGINAL record on Press; published by זמן ישראל; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:EDU-NITZ</id>
+    <title>איך כוכב טיקטוק משנה את העולם</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.nitzotzot.org.il/spark/%D7%90%D7%99%D7%9A-%D7%9B%D7%95%D7%9B%D7%91-%D7%98%D7%99%D7%A7%D7%98%D7%95%D7%A7-%D7%9E%D7%A9%D7%A0%D7%94-%D7%90%D7%AA-%D7%94%D7%A2%D7%95%D7%9C%D7%9D/" />
+    <author><name>ניצוצות</name></author>
+    <category term="MENTIONED" />
+    <category term="Education" />
+    <content type="text">MENTIONED record on Education; published by ניצוצות; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:POD-MINDSET</id>
+    <title>מנער בסיכון ליזם חברתי</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://mindset.org.il/%D7%9E%D7%A0%D7%A2%D7%A8-%D7%91%D7%A1%D7%99%D7%9B%D7%95%D7%9F-%D7%9C%D7%99%D7%96%D7%9D-%D7%97%D7%91%D7%A8%D7%AA%D7%99-%D7%90%D7%99%D7%92%D7%95%D7%A8-%D7%95%D7%A4%D7%A8%D7%A6%D7%A7%D7%99-%D7%A4/" />
+    <author><name>Mindset</name></author>
+    <category term="INTERVIEWED" />
+    <category term="Podcast" />
+    <content type="text">INTERVIEWED record on Podcast; published by Mindset; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:PRESS-HID</id>
+    <title>אבא מושלם - זה אבא ששם</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://www.hidabroot.org/article/1179015" />
+    <author><name>הידברות</name></author>
+    <category term="RE_USED" />
+    <category term="Press" />
+    <content type="text">RE_USED record on Press; published by הידברות; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+  <entry>
+    <id>urn:7ya:public-index:ORG-STARTON</id>
+    <title>StartOn - הבית הטכנולוגי הבטוח</title>
+    <updated>2026-07-11T07:30:00Z</updated>
+    <link href="https://starton.org.il/" />
+    <author><name>StartOn</name></author>
+    <category term="ORIGINAL" />
+    <category term="Web" />
+    <content type="text">ORIGINAL record on Web; published by StartOn; verification: VERIFIED_SOURCE. Language: he. Verification: VERIFIED_SOURCE.</content>
+  </entry>
+</feed>
