@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "ledger_name": "7YA.IO Partner & Ecosystem Ledger",
+  "canonical_subject": "Igor Vepretski",
+  "updated_at": "2026-07-11",
+  "policy": {
+    "append_only": true,
+    "rule": "No relationship is erased. Each entry is described by role, evidence class, public wording boundary, and verification status.",
+    "status_definitions": {
+      "PUBLIC_VERIFIED": "Supported by a public source visible to visitors.",
+      "PRIVATE_EVIDENCE_ON_FILE": "Supported by private correspondence or account records; sensitive material is not published.",
+      "USER_STATED_VERIFY": "Relationship stated by Igor Vepretski and retained in the ledger pending a suitable public source.",
+      "PLATFORM_PRESENCE": "A service, publishing surface, or infrastructure provider; not presented as an endorsement or formal partnership."
+    }
+  },
+  "entries": [
+    {
+      "name": "StartOn",
+      "category": "FOUNDED_INITIATIVE",
+      "role": "Social-impact initiative founded by Igor Vepretski for technology infrastructure serving youth at risk.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Founded initiative",
+      "source_url": "https://7ya.io/starton/"
+    },
+    {
+      "name": "President's Residence of Israel",
+      "category": "INSTITUTIONAL_ECOSYSTEM",
+      "role": "Institutional relationship connected to StartOn's public-impact history.",
+      "status": "USER_STATED_VERIFY",
+      "public_wording": "Relationship retained pending a suitable public source"
+    },
+    {
+      "name": "Microsoft for Startups",
+      "category": "PROGRAM_ECOSYSTEM",
+      "role": "Startup and technology ecosystem relationship connected to StartOn and Igor Vepretski's development work.",
+      "status": "USER_STATED_VERIFY",
+      "public_wording": "Program relationship; no endorsement claim"
+    },
+    {
+      "name": "Erez-Ir",
+      "category": "SOCIAL_IMPACT_ECOSYSTEM",
+      "role": "Relationship connected to StartOn's social-impact development.",
+      "status": "USER_STATED_VERIFY",
+      "public_wording": "Relationship retained pending source normalization"
+    },
+    {
+      "name": "Holon Municipality",
+      "category": "MUNICIPAL_ECOSYSTEM",
+      "role": "Municipal dialogue and local development context for StartOn and the Jessie Cohen community.",
+      "status": "USER_STATED_VERIFY",
+      "public_wording": "Municipal engagement; scope requires source-level confirmation"
+    },
+    {
+      "name": "NVIDIA Developer Program",
+      "category": "DEVELOPER_ECOSYSTEM",
+      "role": "Developer-program and AI infrastructure ecosystem used in 7YA technical exploration.",
+      "status": "USER_STATED_VERIFY",
+      "public_wording": "Program participation; no sponsorship or endorsement claim"
+    },
+    {
+      "name": "GitHub",
+      "category": "SOURCE_AND_RELEASE_INFRASTRUCTURE",
+      "role": "Source control, public repository, review history, automation, and release infrastructure for 7YA.IO.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Infrastructure provider",
+      "source_url": "https://github.com/vepretski/7ya.io"
+    },
+    {
+      "name": "Cloudflare",
+      "category": "DOMAIN_INFRASTRUCTURE",
+      "role": "Authoritative DNS infrastructure for 7ya.io.",
+      "status": "PRIVATE_EVIDENCE_ON_FILE",
+      "public_wording": "DNS provider; no endorsement claim"
+    },
+    {
+      "name": "Replit",
+      "category": "LEGACY_HOSTING_AND_DOMAIN_OPERATIONS",
+      "role": "Legacy production hosting and domain-support relationship during the 7ya.io migration.",
+      "status": "PRIVATE_EVIDENCE_ON_FILE",
+      "public_wording": "Service provider and historical host"
+    },
+    {
+      "name": "Name.com",
+      "category": "DOMAIN_REGISTRATION",
+      "role": "Domain registrar and account-transfer destination for 7ya.io.",
+      "status": "PRIVATE_EVIDENCE_ON_FILE",
+      "public_wording": "Registrar; no endorsement claim"
+    },
+    {
+      "name": "Vercel",
+      "category": "DEPLOYMENT_ECOSYSTEM",
+      "role": "Historical deployment integration appearing in the 7YA repository release history.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Deployment service; current production status is tracked separately"
+    },
+    {
+      "name": "OpenAI",
+      "category": "AI_TOOLING_ECOSYSTEM",
+      "role": "AI tooling used in 7YA research, drafting, coding, and evidence workflows.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Technology platform usage; no partnership or endorsement claim"
+    },
+    {
+      "name": "Channel 13",
+      "category": "PUBLIC_MEDIA_SURFACE",
+      "role": "Public broadcast coverage and interviews connected to Igor Vepretski and StartOn.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Media coverage; not described as a formal partner"
+    },
+    {
+      "name": "Channel 14",
+      "category": "PUBLIC_MEDIA_SURFACE",
+      "role": "Public interview coverage connected to Igor Vepretski and StartOn.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Media coverage; not described as a formal partner"
+    },
+    {
+      "name": "Zman Yisrael",
+      "category": "PUBLIC_PUBLISHING_SURFACE",
+      "role": "Public author and publication surface associated with Igor Vepretski.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Publication surface"
+    },
+    {
+      "name": "LinkedIn",
+      "category": "PUBLIC_DISTRIBUTION_PLATFORM",
+      "role": "Long-form writing, public posts, professional identity, and source-visible engagement snapshots.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Publishing platform; no endorsement claim"
+    },
+    {
+      "name": "YouTube",
+      "category": "PUBLIC_DISTRIBUTION_PLATFORM",
+      "role": "Video interviews, playlists, explainers, and public archive distribution.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Distribution platform; no endorsement claim"
+    },
+    {
+      "name": "TikTok",
+      "category": "PUBLIC_DISTRIBUTION_PLATFORM",
+      "role": "Creator archive, short-form public influence, and dated analytics evidence.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Distribution platform; no endorsement claim"
+    },
+    {
+      "name": "Meta platforms",
+      "category": "PUBLIC_DISTRIBUTION_PLATFORM",
+      "role": "Facebook, Instagram, and Threads surfaces used for public identity and distribution.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Distribution platforms; no endorsement claim"
+    },
+    {
+      "name": "Medium",
+      "category": "PUBLIC_PUBLISHING_SURFACE",
+      "role": "Public writing and archival distribution surface.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Publishing platform; no endorsement claim"
+    },
+    {
+      "name": "Spotify",
+      "category": "PUBLIC_MEDIA_SURFACE",
+      "role": "Podcast and audio distribution surface containing public appearances.",
+      "status": "PLATFORM_PRESENCE",
+      "public_wording": "Distribution platform; no endorsement claim"
+    },
+    {
+      "name": "Wikimedia Commons",
+      "category": "PUBLIC_ARCHIVE_SURFACE",
+      "role": "Publicly reusable image and identity archive surface.",
+      "status": "PUBLIC_VERIFIED",
+      "public_wording": "Public archive; no endorsement claim"
+    }
+  ]
+}
