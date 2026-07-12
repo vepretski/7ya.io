@@ -1,10 +1,10 @@
 name: Deploy GitHub Pages
 
+# GitHub currently rejects Actions jobs before runner startup. Keep the verified
+# production deployment available on demand without creating a failed status on
+# every dev or gh-pages push. Restore automatic triggers only after a manual
+# smoke/deploy run starts successfully.
 on:
-  push:
-    branches:
-      - dev
-      - gh-pages
   workflow_dispatch:
 
 permissions:
