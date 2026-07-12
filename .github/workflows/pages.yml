@@ -1,0 +1,118 @@
+name: Publish 7YA Production Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "404.html"
+      - "styles/**"
+      - "evidence/**"
+      - "journey/**"
+      - "starton/**"
+      - "oracle/**"
+      - "business/**"
+      - "talk/**"
+      - "contact/**"
+      - "speaker/**"
+      - "media/**"
+      - "7ya/**"
+      - "igor-vepretski/**"
+      - "influence/**"
+      - "social/**"
+      - "articles/**"
+      - "data/**"
+      - "assets/**"
+      - "images/**"
+      - "sw.js"
+      - "service-worker.js"
+      - "scripts/inject-ga4.mjs"
+      - "robots.txt"
+      - "sitemap.xml"
+      - "favicon.svg"
+      - "CNAME"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate public release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f 404.html
+          test -f CNAME
+          test -f assets/igor-home-portrait-20260712.webp
+          test -f assets/igor-home-portrait-20260712.jpg
+          test -f assets/igor-home-og-20260712.jpg
+          test -f favicon.svg
+          test -f sw.js
+          test -f service-worker.js
+          test -f scripts/inject-ga4.mjs
+          test "$(cat CNAME)" = "7ya.io"
+          grep -qi "איגור ופרצקי" index.html
+          grep -qi "IGOR VEPRETSKI" index.html
+          grep -qi "Evidence Ledger" index.html
+          grep -qi "Igor before infrastructure" index.html
+          for route in evidence journey starton oracle business talk contact speaker media 7ya igor-vepretski influence articles; do
+            test -f "$route/index.html" || { echo "Missing route: $route"; exit 1; }
+          done
+
+      - name: Assemble immutable production artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf dist
+          mkdir -p dist
+          cp index.html 404.html CNAME robots.txt sitemap.xml favicon.svg sw.js service-worker.js dist/
+          for path in styles evidence journey starton oracle business talk contact speaker media 7ya igor-vepretski influence social articles data assets images; do
+            if [ -e "$path" ]; then cp -RL "$path" dist/; fi
+          done
+          touch dist/.nojekyll
+          test -f dist/assets/igor-home-portrait-20260712.webp
+          test -f dist/assets/igor-home-og-20260712.jpg
+          du -sh dist
+
+      - name: Inject and verify GA4 tracking
+        shell: bash
+        env:
+          GA_MEASUREMENT_ID: G-1028S7MMGQ
+        run: |
+          set -euo pipefail
+          node scripts/inject-ga4.mjs dist
+          expected="$(find dist -type f -name '*.html' | wc -l | tr -d ' ')"
+          configured="$(grep -RIl "googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}" dist --include='*.html' | wc -l | tr -d ' ')"
+          test "$expected" = "$configured" || {
+            echo "GA4 coverage mismatch: expected=$expected configured=$configured"
+            exit 1
+          }
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
