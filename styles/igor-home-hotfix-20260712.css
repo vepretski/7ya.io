@@ -1,0 +1,152 @@
+/* 7YA homepage production hotfix — mobile-first visual stability */
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 1px 0 rgba(22, 19, 18, .04);
+}
+
+.hero {
+  min-height: calc(100svh - 76px);
+  display: flex;
+  align-items: center;
+}
+
+.hero-inner {
+  min-height: min(760px, calc(100svh - 150px));
+}
+
+.portrait-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.portrait-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 38px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 58%, rgba(20, 12, 13, .22));
+}
+
+.button,
+.contact-button,
+.media-grid a {
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: calc(100svh - 62px);
+    padding: 10px 0 30px;
+    align-items: flex-start;
+  }
+
+  .hero-inner {
+    min-height: 0;
+    gap: 16px;
+  }
+
+  .portrait-card img {
+    width: 100%;
+    height: clamp(320px, 52svh, 540px);
+    object-position: 54% 32%;
+  }
+
+  .hero-copy {
+    padding: 2px 0 8px;
+  }
+
+  .english-name {
+    margin-top: 0;
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 15.5vw, 5.8rem);
+    line-height: .86;
+  }
+
+  .hero-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .hero-actions .button-primary {
+    grid-column: 1 / -1;
+  }
+
+  .button {
+    min-height: 50px;
+  }
+
+  .section-heading h2,
+  .section-wine h2 {
+    max-width: 12ch;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand small {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 6px;
+  }
+
+  .portrait-card img {
+    height: clamp(300px, 50svh, 460px);
+    object-position: 54% 30%;
+  }
+
+  h1 {
+    font-size: clamp(3.25rem, 16vw, 4.85rem);
+    letter-spacing: -.065em;
+  }
+
+  .identity {
+    max-width: 27ch;
+    line-height: 1.38;
+  }
+
+  .button {
+    padding-inline: 10px;
+    font-size: .88rem;
+  }
+
+  .section {
+    padding: 58px 0;
+  }
+
+  .section-copy .lead,
+  .wide-lead {
+    font-size: clamp(1.16rem, 5.2vw, 1.42rem);
+  }
+
+  .media-grid a {
+    min-height: 180px;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand b {
+    font-size: .74rem;
+  }
+
+  .hero-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-actions .button-primary {
+    grid-column: auto;
+  }
+}
