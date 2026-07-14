@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: f1946e1eca880f82dc766965bbc5f5ea27eeb27b
+  CANONICAL_SHA: c98afbe5f25986b71437db8b35f052347068d859
 
 jobs:
   deploy:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: f1946e1eca880f82dc766965bbc5f5ea27eeb27b
+          ref: c98afbe5f25986b71437db8b35f052347068d859
           path: canonical
           fetch-depth: 1
 
@@ -54,7 +54,7 @@ jobs:
           grep -qi "איגור ופרצקי" index.html
           grep -qi "IGOR VEPRETSKI" index.html
           grep -qi "Evidence Ledger" index.html
-          grep -qi "Igor before infrastructure" index.html
+          grep -qi "Igor before infrastructure" 7ya/index.html
           if grep -R -nE "Igor Ido Vepretski|Ido Vepretski|עידו ופרצקי" \
             index.html igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact; then
             echo "Unsupported identity alias found"
