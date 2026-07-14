@@ -1,4 +1,4 @@
-name: Deploy canonical 7YA.IO
+name: Deploy canonical 7YA.IO — The History Song
 
 on:
   push:
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 9f506ddd84a94621327da6ed30fdd23b3f194455
+  CANONICAL_SHA: 164c3892f9961aee42ca55ddf1d356d4840a82d2
 
 jobs:
   deploy:
@@ -33,30 +33,48 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 9f506ddd84a94621327da6ed30fdd23b3f194455
+          ref: 164c3892f9961aee42ca55ddf1d356d4840a82d2
           path: canonical
           fetch-depth: 1
 
-      - name: Validate public release
+      - name: Validate History Song public release
         shell: bash
         run: |
           set -euo pipefail
           cd canonical
           test "$(cat CNAME)" = "7ya.io"
-          for file in index.html 404.html robots.txt sitemap.xml favicon.svg sw.js service-worker.js; do
+          for file in index.html 404.html robots.txt sitemap.xml favicon.svg sw.js service-worker.js release.json; do
             test -s "$file" || { echo "Missing public file: $file"; exit 1; }
           done
-          for route in igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact delta-audit; do
+          for route in history igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact delta-audit; do
             test -s "$route/index.html" || { echo "Missing route: $route"; exit 1; }
+          done
+          test -s styles/history-song-20260714.css
+          test -s scripts/history-song-20260714.js
+          for part in 1 2 3 4; do
+            test -s "knowledge/history-song-records-${part}.json"
           done
           test -s assets/igor-home-portrait-20260712.webp
           test -s assets/igor-home-og-20260712.jpg
-          grep -qi "איגור ופרצקי" index.html
-          grep -qi "IGOR VEPRETSKI" index.html
-          grep -qi "Evidence Ledger" index.html
-          grep -qi "Igor before infrastructure" 7ya/index.html
+          grep -Fq "שיר" index.html
+          grep -Fq "ההיסטוריה" index.html
+          grep -Fq "כל פוסט הוא שורה." index.html
+          grep -Fq "הפירורים הפכו לארכיון." index.html
+          grep -Fq 'id="archiveGrid"' index.html
+          grep -Fq 'history-song-archive-20260714-1' history/index.html
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const records = [1,2,3,4].flatMap(part => JSON.parse(fs.readFileSync(`knowledge/history-song-records-${part}.json`, 'utf8')).records);
+          if (records.length !== 36) throw new Error(`Expected 36 records, received ${records.length}`);
+          if (new Set(records.map(record => record.id)).size !== records.length) throw new Error('Duplicate archive IDs');
+          for (const record of records) {
+            if (!record.title || !record.url?.startsWith('https://') || !record.evidence_tier) throw new Error(`Invalid record ${record.id}`);
+            if (record.metric && !record.metric.as_of) throw new Error(`Undated metric ${record.id}`);
+          }
+          console.log('HISTORY_SONG_DATA_CONTRACT: PASS');
+          NODE
           if grep -R -nE "Igor Ido Vepretski|Ido Vepretski|עידו ופרצקי" \
-            index.html igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact; then
+            index.html history igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact; then
             echo "Unsupported identity alias found"
             exit 1
           fi
@@ -69,7 +87,7 @@ jobs:
           cp canonical/index.html canonical/404.html canonical/CNAME canonical/robots.txt \
             canonical/sitemap.xml canonical/favicon.svg canonical/sw.js \
             canonical/service-worker.js dist/
-          for path in styles scripts assets images data knowledge igor-vepretski journey \
+          for path in styles scripts assets images data knowledge history igor-vepretski journey \
             starton influence evidence 7ya speaker talk media articles contact delta-audit \
             legacy about social oracle business pass member-pass radar work systems \
             public-service music healthz; do
@@ -77,7 +95,7 @@ jobs:
           done
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-$CANONICAL_SHA" \
+            --arg release "github-pages-history-song-$CANONICAL_SHA" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
              .source_sha = $sha |
@@ -87,9 +105,17 @@ jobs:
              .environment = "production"' \
             canonical/release.json > dist/release.json
           touch dist/.nojekyll
+          test -s dist/index.html
+          test -s dist/history/index.html
+          test -s dist/styles/history-song-20260714.css
+          test -s dist/scripts/history-song-20260714.js
+          for part in 1 2 3 4; do
+            test -s "dist/knowledge/history-song-records-${part}.json"
+          done
           test -s dist/release.json
-          test -s dist/contact/index.html
           test -s dist/assets/igor-home-portrait-20260712.webp
+          grep -Fq 'history-song-editorial-archive-20260714-1' dist/index.html
+          echo 'PAGES_HISTORY_SONG_ARTIFACT: PASS'
           du -sh dist
 
       - name: Configure Pages
