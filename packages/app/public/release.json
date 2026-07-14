@@ -1,0 +1,22 @@
+{
+  "service": "7ya-frontend",
+  "provider": "vercel",
+  "status": "CANDIDATE",
+  "release": "2026-07-14-history-song",
+  "canonical_repository": "7guard-io/7ya.io",
+  "canonical_sha": "164c3892f9961aee42ca55ddf1d356d4840a82d2",
+  "mirror_repository": "vepretski/7ya.io",
+  "environment": "production",
+  "experience": "IGOR_HISTORY_SONG_PUBLIC_MEDIA_SYSTEM",
+  "data_contract": {
+    "record_count": 36,
+    "parts": [
+      "/knowledge/history-song-records-1.json",
+      "/knowledge/history-song-records-2.json",
+      "/knowledge/history-song-records-3.json",
+      "/knowledge/history-song-records-4.json"
+    ],
+    "policy": "Evidence before amplification; metrics require dated snapshots."
+  },
+  "rollback": "The previous Vercel production deployment remains available as a rollback candidate."
+}
