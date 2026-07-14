@@ -1,37 +1,12 @@
-name: Publish 7YA Production Site
+name: Deploy canonical 7YA.IO
 
 on:
   push:
-    branches: [main]
+    branches:
+      - gh-pages
     paths:
-      - "index.html"
-      - "404.html"
-      - "styles/**"
-      - "evidence/**"
-      - "journey/**"
-      - "starton/**"
-      - "oracle/**"
-      - "business/**"
-      - "talk/**"
-      - "contact/**"
-      - "speaker/**"
-      - "media/**"
-      - "7ya/**"
-      - "igor-vepretski/**"
-      - "influence/**"
-      - "social/**"
-      - "articles/**"
-      - "data/**"
-      - "assets/**"
-      - "images/**"
-      - "sw.js"
-      - "service-worker.js"
-      - "scripts/inject-ga4.mjs"
-      - "robots.txt"
-      - "sitemap.xml"
-      - "favicon.svg"
-      - "CNAME"
       - ".github/workflows/pages.yml"
+      - ".pages-trigger"
   workflow_dispatch:
 
 permissions:
@@ -43,6 +18,10 @@ concurrency:
   group: github-pages
   cancel-in-progress: true
 
+env:
+  CANONICAL_REPOSITORY: 7guard-io/7ya.io
+  CANONICAL_SHA: f1946e1eca880f82dc766965bbc5f5ea27eeb27b
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -50,60 +29,68 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
+      - name: Checkout immutable canonical source
         uses: actions/checkout@v4
+        with:
+          repository: 7guard-io/7ya.io
+          ref: f1946e1eca880f82dc766965bbc5f5ea27eeb27b
+          path: canonical
+          fetch-depth: 1
 
       - name: Validate public release
         shell: bash
         run: |
           set -euo pipefail
-          test -f index.html
-          test -f 404.html
-          test -f CNAME
-          test -f assets/igor-home-portrait-20260712.webp
-          test -f assets/igor-home-portrait-20260712.jpg
-          test -f assets/igor-home-og-20260712.jpg
-          test -f favicon.svg
-          test -f sw.js
-          test -f service-worker.js
-          test -f scripts/inject-ga4.mjs
+          cd canonical
           test "$(cat CNAME)" = "7ya.io"
+          for file in index.html 404.html robots.txt sitemap.xml favicon.svg sw.js service-worker.js; do
+            test -s "$file" || { echo "Missing public file: $file"; exit 1; }
+          done
+          for route in igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact delta-audit; do
+            test -s "$route/index.html" || { echo "Missing route: $route"; exit 1; }
+          done
+          test -s assets/igor-home-portrait-20260712.webp
+          test -s assets/igor-home-og-20260712.jpg
           grep -qi "איגור ופרצקי" index.html
           grep -qi "IGOR VEPRETSKI" index.html
           grep -qi "Evidence Ledger" index.html
           grep -qi "Igor before infrastructure" index.html
-          for route in evidence journey starton oracle business talk contact speaker media 7ya igor-vepretski influence articles; do
-            test -f "$route/index.html" || { echo "Missing route: $route"; exit 1; }
-          done
+          if grep -R -nE "Igor Ido Vepretski|Ido Vepretski|עידו ופרצקי" \
+            index.html igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact; then
+            echo "Unsupported identity alias found"
+            exit 1
+          fi
 
       - name: Assemble immutable production artifact
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf dist
           mkdir -p dist
-          cp index.html 404.html CNAME robots.txt sitemap.xml favicon.svg sw.js service-worker.js dist/
-          for path in styles evidence journey starton oracle business talk contact speaker media 7ya igor-vepretski influence social articles data assets images; do
-            if [ -e "$path" ]; then cp -RL "$path" dist/; fi
+          cp canonical/index.html canonical/404.html canonical/CNAME canonical/robots.txt \
+            canonical/sitemap.xml canonical/favicon.svg canonical/sw.js \
+            canonical/service-worker.js dist/
+          for path in styles scripts assets images data knowledge igor-vepretski journey \
+            starton influence evidence 7ya speaker talk media articles contact delta-audit \
+            legacy about social oracle business pass member-pass radar work systems \
+            public-service music healthz; do
+            if [ -e "canonical/$path" ]; then cp -RL "canonical/$path" dist/; fi
           done
+          jq \
+            --arg sha "$CANONICAL_SHA" \
+            --arg release "github-pages-$CANONICAL_SHA" \
+            '.source_repository = "7guard-io/7ya.io" |
+             .source_path = "/" |
+             .source_sha = $sha |
+             .provider = "github-pages" |
+             .status = "READY" |
+             .release = $release |
+             .environment = "production"' \
+            canonical/release.json > dist/release.json
           touch dist/.nojekyll
-          test -f dist/assets/igor-home-portrait-20260712.webp
-          test -f dist/assets/igor-home-og-20260712.jpg
+          test -s dist/release.json
+          test -s dist/contact/index.html
+          test -s dist/assets/igor-home-portrait-20260712.webp
           du -sh dist
-
-      - name: Inject and verify GA4 tracking
-        shell: bash
-        env:
-          GA_MEASUREMENT_ID: G-1028S7MMGQ
-        run: |
-          set -euo pipefail
-          node scripts/inject-ga4.mjs dist
-          expected="$(find dist -type f -name '*.html' | wc -l | tr -d ' ')"
-          configured="$(grep -RIl "googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}" dist --include='*.html' | wc -l | tr -d ' ')"
-          test "$expected" = "$configured" || {
-            echo "GA4 coverage mismatch: expected=$expected configured=$configured"
-            exit 1
-          }
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
