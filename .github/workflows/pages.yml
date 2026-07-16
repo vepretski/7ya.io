@@ -169,20 +169,21 @@ jobs:
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
                 -H 'Pragma: no-cache' \
                 "https://7ya.io/?release-check=${nonce}")"
+              css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/styles/igor-infostory-20260716.css?release-check=${nonce}")"
+              javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/scripts/igor-infostory-20260716.js?release-check=${nonce}")"
+              image_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/assets/infostory/01-origins.webp?release-check=${nonce}")"
+
               grep -Fq "$expected_build" <<<"$homepage"
               grep -Fq 'חיים דיגיטליים כמערכת סיפור' <<<"$homepage"
-              curl -fsSL --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/styles/igor-infostory-20260716.css?release-check=${nonce}" \
-                | grep -Fq -- '--ink:'
-              curl -fsSL --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/scripts/igor-infostory-20260716.js?release-check=${nonce}" \
-                | grep -Fq 'infostory'
-              curl -fsSI --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/assets/infostory/01-origins.webp?release-check=${nonce}" \
-                | grep -Eiq '^content-type: image/(webp|octet-stream)'
+              grep -Fq -- '--personal-bg:' <<<"$css"
+              grep -Fq 'infostory' <<<"$javascript"
+              grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$image_headers"
               echo 'PUBLIC_7YA_INFOSTORY_GATE: PASS'
               exit 0
             fi
