@@ -1,9 +1,9 @@
 {
-  "schema_version": 1,
-  "recorded_at": "2026-07-16T01:24:11.500Z",
-  "workflow_run_id": 29464002853,
+  "schema_version": 2,
+  "recorded_at": "2026-07-16T01:34:46.786Z",
+  "workflow_run_id": 29464447672,
   "workflow_run_attempt": 1,
-  "triggering_commit": "b85f63baa598a0541bef2dd5e87991e4cd7cf51d",
+  "triggering_commit": "d3b142bb0e5461be9a9dfdd8b323a913b33d2584",
   "source_repository": "7guard-io/7ya.io",
   "source_sha": "0db02d129724a8e16b4104c8ac4cad1a0864c63f",
   "expected_build": "igor-infostory-personal-os-20260716-1",
@@ -14,7 +14,8 @@
     "assemble": "success",
     "configure": "success",
     "upload": "success",
-    "deploy": "success"
+    "deploy": "success",
+    "public_verify": "failure"
   },
-  "result": "DEPLOYED"
+  "result": "DEPLOYED_PENDING_PUBLIC_CONVERGENCE"
 }
