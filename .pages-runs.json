@@ -1,16 +1,8 @@
 {
-  "schema_version": 3,
-  "recorded_at": "2026-07-16T01:36:58.006Z",
-  "observer_run_id": 29464551109,
+  "schema_version": 4,
+  "recorded_at": "2026-07-16T02:20:30.832Z",
+  "observer_run_id": 29466339965,
   "workflow": ".github/workflows/pages.yml",
-  "repair": {
-    "changed": false,
-    "commit_sha": null,
-    "error": {
-      "status": 403,
-      "message": "refusing to allow a GitHub App to create or update workflow `.github/workflows/pages.yml` without `workflows` permission"
-    }
-  },
   "dispatch": {
     "accepted": true,
     "error": null
@@ -18,15 +10,51 @@
   "list_error": null,
   "runs": [
     {
-      "id": 29464554590,
-      "name": "Deploy cinematic 7YA.IO — Igor Infostory",
+      "id": 29466344032,
+      "name": "Deploy 7YA.IO — Cinematic Life Story",
       "event": "workflow_dispatch",
       "status": "in_progress",
       "conclusion": null,
+      "head_sha": "d61ec46efd06b0ed4bf42f02feda7897391f5c53",
+      "run_attempt": 1,
+      "created_at": "2026-07-16T02:20:22Z",
+      "updated_at": "2026-07-16T02:20:28Z",
+      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29466344032"
+    },
+    {
+      "id": 29466289380,
+      "name": "Deploy 7YA.IO — Cinematic Life Story",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "c55cb2634385c47c5fd08e42e0a0297128e9f4aa",
+      "run_attempt": 1,
+      "created_at": "2026-07-16T02:19:02Z",
+      "updated_at": "2026-07-16T02:19:40Z",
+      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29466289380"
+    },
+    {
+      "id": 29464668656,
+      "name": "Deploy cinematic 7YA.IO — Igor Infostory",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b7a66775ed9d284b0d08ef0ee263f8ce272fc3a0",
+      "run_attempt": 1,
+      "created_at": "2026-07-16T01:39:36Z",
+      "updated_at": "2026-07-16T01:40:13Z",
+      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29464668656"
+    },
+    {
+      "id": 29464554590,
+      "name": "Deploy cinematic 7YA.IO — Igor Infostory",
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "failure",
       "head_sha": "17cefbbdbcabb3e23bbbf5a1505ff51249e2dffd",
       "run_attempt": 1,
       "created_at": "2026-07-16T01:36:50Z",
-      "updated_at": "2026-07-16T01:36:55Z",
+      "updated_at": "2026-07-16T01:37:27Z",
       "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29464554590"
     },
     {
@@ -100,162 +128,6 @@
       "created_at": "2026-07-14T20:03:41Z",
       "updated_at": "2026-07-14T20:04:38Z",
       "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29364225484"
-    },
-    {
-      "id": 29363834637,
-      "name": "Deploy canonical 7YA.IO — The History Song",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "a45728b9ed7ad4693816b677cae151c3d7119e17",
-      "run_attempt": 1,
-      "created_at": "2026-07-14T19:57:50Z",
-      "updated_at": "2026-07-14T19:58:38Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29363834637"
-    },
-    {
-      "id": 29352602079,
-      "name": "Deploy canonical 7YA.IO",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "440b5d2c38b8e952391b00c1719418d345148e9e",
-      "run_attempt": 1,
-      "created_at": "2026-07-14T17:09:36Z",
-      "updated_at": "2026-07-14T17:10:21Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29352602079"
-    },
-    {
-      "id": 29352035347,
-      "name": "Deploy canonical 7YA.IO",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "ebb715fcebe83c3e46e02b69a2c4e396d6ea4750",
-      "run_attempt": 1,
-      "created_at": "2026-07-14T17:01:22Z",
-      "updated_at": "2026-07-14T17:01:58Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29352035347"
-    },
-    {
-      "id": 29351728589,
-      "name": "Deploy canonical 7YA.IO",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "be277500dcb64eee18cc120e75074d8fcaa2c5df",
-      "run_attempt": 1,
-      "created_at": "2026-07-14T16:56:53Z",
-      "updated_at": "2026-07-14T16:57:23Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29351728589"
-    },
-    {
-      "id": 29168998379,
-      "name": "Deploy GitHub Pages",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "50a4f2176ce69231afe9649d925e65f9de99ba75",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T21:33:21Z",
-      "updated_at": "2026-07-11T21:33:40Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29168998379"
-    },
-    {
-      "id": 29166779513,
-      "name": "Deploy GitHub Pages",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "ef97f6dd0de96aff5d20bc0b1f52f7d46231b3cb",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T20:18:06Z",
-      "updated_at": "2026-07-11T20:18:22Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29166779513"
-    },
-    {
-      "id": 29166754574,
-      "name": "Deploy GitHub Pages",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "f5b68348ab187a9531ac0795c3071c97aa5bd9ac",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T20:17:14Z",
-      "updated_at": "2026-07-11T20:17:36Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29166754574"
-    },
-    {
-      "id": 29166705296,
-      "name": "Deploy GitHub Pages",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "73b000331c0f001b9b77d7be9308a80c9ed70b75",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T20:15:33Z",
-      "updated_at": "2026-07-11T20:15:48Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29166705296"
-    },
-    {
-      "id": 29165785761,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "189ac2c1c9eb0619faff110625541a35dd5835d5",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T19:44:14Z",
-      "updated_at": "2026-07-11T19:46:41Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29165785761"
-    },
-    {
-      "id": 29158278015,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "f9370001e4eb2ad5e5a5a9ca04c2a786fec0547d",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T15:38:11Z",
-      "updated_at": "2026-07-11T15:39:45Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29158278015"
-    },
-    {
-      "id": 29158256658,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "head_sha": "b56193e1b14c20d67872cb879fa149e7f30f3c04",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T15:37:30Z",
-      "updated_at": "2026-07-11T15:38:17Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29158256658"
-    },
-    {
-      "id": 29150006601,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "fc70b3939400c7a162f0949e87f527954b46a2a4",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T10:51:00Z",
-      "updated_at": "2026-07-11T10:52:37Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29150006601"
-    },
-    {
-      "id": 29149989796,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "head_sha": "1ade3834b8d19b7ea88a3886a8bef4e18395c7e4",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T10:50:24Z",
-      "updated_at": "2026-07-11T10:51:15Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29149989796"
     }
   ]
 }
