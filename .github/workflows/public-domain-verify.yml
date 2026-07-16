@@ -1,0 +1,118 @@
+name: Verify public 7YA.IO Infostory
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/public-domain-verify.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify canonical public domain
+        id: public
+        shell: bash
+        env:
+          EXPECTED_SHA: 0db02d129724a8e16b4104c8ac4cad1a0864c63f
+          EXPECTED_BUILD: igor-infostory-personal-os-20260716-1
+          EXPECTED_EXPERIENCE: IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            nonce="${GITHUB_RUN_ID}-${attempt}-$(date +%s)"
+            echo "Public verification attempt ${attempt}/30"
+
+            release="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+              -H 'Cache-Control: no-cache, no-store, max-age=0' \
+              -H 'Pragma: no-cache' \
+              "https://7ya.io/release.json?release-check=${nonce}" || true)"
+
+            if jq -e \
+              --arg sha "$EXPECTED_SHA" \
+              --arg experience "$EXPECTED_EXPERIENCE" \
+              '.source_sha == $sha and .experience == $experience and .status == "READY"' \
+              <<<"$release" >/dev/null 2>&1; then
+              homepage="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                -H 'Pragma: no-cache' \
+                "https://7ya.io/?release-check=${nonce}")"
+              css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/styles/igor-infostory-20260716.css?release-check=${nonce}")"
+              javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/scripts/igor-infostory-20260716.js?release-check=${nonce}")"
+              image_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/assets/infostory/01-origins.webp?release-check=${nonce}")"
+
+              grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
+              grep -Fq 'חיים דיגיטליים כמערכת סיפור' <<<"$homepage"
+              grep -Fq -- '--personal-bg:' <<<"$css"
+              grep -Fq 'infostory' <<<"$javascript"
+              grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$image_headers"
+
+              echo "verified_sha=$EXPECTED_SHA" >> "$GITHUB_OUTPUT"
+              echo 'PUBLIC_7YA_INFOSTORY_GATE: PASS'
+              exit 0
+            fi
+
+            current_sha="$(jq -r '.source_sha // "unavailable"' <<<"$release" 2>/dev/null || echo unavailable)"
+            current_experience="$(jq -r '.experience // "unavailable"' <<<"$release" 2>/dev/null || echo unavailable)"
+            echo "Current public SHA: ${current_sha}; experience: ${current_experience}"
+            sleep 10
+          done
+
+          echo 'Public domain did not converge to the expected release.'
+          exit 1
+
+      - name: Record public verification state
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          VERIFY_OUTCOME: ${{ steps.public.outcome }}
+          VERIFIED_SHA: ${{ steps.public.outputs.verified_sha }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const branch = 'dev';
+            const path = '.public-verify-status.json';
+            const success = process.env.VERIFY_OUTCOME === 'success';
+            const state = {
+              schema_version: 1,
+              recorded_at: new Date().toISOString(),
+              workflow_run_id: context.runId,
+              triggering_commit: context.sha,
+              public_domain: 'https://7ya.io/',
+              expected_source_sha: '0db02d129724a8e16b4104c8ac4cad1a0864c63f',
+              expected_build: 'igor-infostory-personal-os-20260716-1',
+              expected_experience: 'IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY',
+              verified_source_sha: process.env.VERIFIED_SHA || null,
+              outcome: process.env.VERIFY_OUTCOME || 'unknown',
+              result: success ? 'PUBLICLY_VERIFIED' : 'PUBLIC_VERIFICATION_FAILED'
+            };
+            let sha;
+            try {
+              const current = await github.rest.repos.getContent({ owner, repo, path, ref: branch });
+              sha = current.data.sha;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
+            await github.rest.repos.createOrUpdateFileContents({
+              owner,
+              repo,
+              path,
+              branch,
+              message: `ops: record public 7ya.io verification as ${state.result}`,
+              content: Buffer.from(JSON.stringify(state, null, 2) + '\n').toString('base64'),
+              sha
+            });
