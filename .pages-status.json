@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "recorded_at": "2026-07-16T01:34:46.786Z",
-  "workflow_run_id": 29464447672,
+  "recorded_at": "2026-07-16T01:37:23.708Z",
+  "workflow_run_id": 29464554590,
   "workflow_run_attempt": 1,
-  "triggering_commit": "d3b142bb0e5461be9a9dfdd8b323a913b33d2584",
+  "triggering_commit": "17cefbbdbcabb3e23bbbf5a1505ff51249e2dffd",
   "source_repository": "7guard-io/7ya.io",
   "source_sha": "0db02d129724a8e16b4104c8ac4cad1a0864c63f",
   "expected_build": "igor-infostory-personal-os-20260716-1",
