@@ -20,9 +20,9 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: ad2fa8db211e80bc12069898442ee744b2b6ee38
-  EXPECTED_BUILD: igor-story-cinema-guide-20260716-3
-  EXPECTED_EXPERIENCE: IGOR_CINEMATIC_GUIDED_CONTENT_INTELLIGENCE
+  CANONICAL_SHA: 8588a844c75a34061ffe246803c1c2afdf602ded
+  EXPECTED_BUILD: igor-personal-hero-20260716-1
+  EXPECTED_EXPERIENCE: IGOR_PERSONAL_HERO_EVIDENCE_ACTION
 
 jobs:
   deploy:
@@ -32,15 +32,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout immutable cinematic story source
+      - name: Checkout immutable personal homepage source
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: ad2fa8db211e80bc12069898442ee744b2b6ee38
+          ref: 8588a844c75a34061ffe246803c1c2afdf602ded
           path: canonical
           fetch-depth: 1
 
-      - name: Validate cinematic life-story release
+      - name: Validate personal hero release
         id: validate
         shell: bash
         run: |
@@ -56,43 +56,29 @@ jobs:
             test -s "$route/index.html" || { echo "Missing route: $route"; exit 1; }
           done
 
-          test -s styles/igor-story-cinema-20260716.css
-          test -s styles/7ya-experience-guide-20260716.css
-          test -s scripts/igor-story-cinema-20260716.js
-          test -s scripts/7ya-experience-guide-20260716.js
-          test -s assets/igor-hero-storm-20260716.webp
-          test -s assets/igor-home-portrait-20260712.webp
-          test -s assets/igor-home-portrait-20260712.jpg
-          for image in 01-origins.webp 02-public-voice.webp 03-creator-night.webp 04-force-system.webp; do
-            test -s "assets/infostory/$image" || { echo "Missing narrative scene asset: $image"; exit 1; }
+          test -s styles/igor-personal-hero-20260716.css
+          test -s scripts/igor-personal-hero-20260716.js
+          for image in igor-hero.webp igor-executive.webp igor-speaker.webp igor-public-service.webp igor-closeup.webp; do
+            test -s "assets/personal-hero-20260716/$image" || { echo "Missing personal homepage asset: $image"; exit 1; }
           done
 
-          grep -Fq 'איגור ופרצקי | סיפור של כוח שבונה' index.html
+          grep -Fq 'איגור ופרצקי | אדם. ראיות. פעולה.' index.html
           grep -Fq "$EXPECTED_BUILD" index.html
-          for scene in opening origins service voice human starton system finale; do
-            grep -Fq "id=\"$scene\"" index.html || { echo "Missing story scene: $scene"; exit 1; }
+          for section in main impact person sources starton; do
+            grep -Fq "id=\"$section\"" index.html || { echo "Missing homepage section: $section"; exit 1; }
           done
-          grep -Fq '/styles/igor-story-cinema-20260716.css?v=2' index.html
-          grep -Fq '/styles/7ya-experience-guide-20260716.css?v=1' index.html
-          grep -Fq '/scripts/igor-story-cinema-20260716.js' index.html
-          grep -Fq '/scripts/7ya-experience-guide-20260716.js' index.html
-          grep -Fq 'id="discover"' index.html
-          grep -Fq 'id="guidePanel"' index.html
-          grep -Fq '7 / השומר' index.html
-          ! grep -Fq 'history-song-20260714.css' index.html
-          ! grep -Fq 'igor-infostory-20260716.css' index.html
-          ! grep -Fq 'history-song-20260714.js' index.html
-          ! grep -Fq 'igor-infostory-20260716.js' index.html
+          grep -Fq '/styles/igor-personal-hero-20260716.css?v=1' index.html
+          grep -Fq '/scripts/igor-personal-hero-20260716.js' index.html
+          grep -Fq 'אדם.</span><span>ראיות.</span><strong>פעולה.' index.html
           test "$(grep -o '<h1\b' index.html | wc -l | tr -d ' ')" = "1"
-          node --check scripts/igor-story-cinema-20260716.js
-          node --check scripts/7ya-experience-guide-20260716.js
+          node --check scripts/igor-personal-hero-20260716.js
 
-          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-story-cinema-20260716.css scripts/igor-story-cinema-20260716.js; then
+          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-personal-hero-20260716.css scripts/igor-personal-hero-20260716.js; then
             echo "Unicode replacement character found in release files"
             exit 1
           fi
 
-          echo 'IGOR_CINEMATIC_STORY_SOURCE_GATE: PASS'
+          echo 'IGOR_PERSONAL_HERO_SOURCE_GATE: PASS'
 
       - name: Assemble immutable Pages artifact
         id: assemble
@@ -118,7 +104,7 @@ jobs:
 
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-igor-cinematic-story-$CANONICAL_SHA" \
+            --arg release "github-pages-igor-personal-hero-$CANONICAL_SHA" \
             --arg experience "$EXPECTED_EXPERIENCE" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
@@ -136,16 +122,14 @@ jobs:
           test -s dist/index.html
           test -s dist/museum/index.html
           test -s dist/create/index.html
-          test -s dist/styles/igor-story-cinema-20260716.css
-          test -s dist/styles/7ya-experience-guide-20260716.css
-          test -s dist/scripts/igor-story-cinema-20260716.js
-          test -s dist/scripts/7ya-experience-guide-20260716.js
-          test -s dist/assets/igor-hero-storm-20260716.webp
+          test -s dist/styles/igor-personal-hero-20260716.css
+          test -s dist/scripts/igor-personal-hero-20260716.js
+          test -s dist/assets/personal-hero-20260716/igor-hero.webp
           test -s dist/release.json
           grep -Fq "$EXPECTED_BUILD" dist/index.html
           grep -Fq "$EXPECTED_EXPERIENCE" dist/release.json
 
-          echo 'PAGES_IGOR_CINEMATIC_STORY_ARTIFACT: PASS'
+          echo 'PAGES_IGOR_PERSONAL_HERO_ARTIFACT: PASS'
           du -sh dist
 
       - name: Configure Pages
@@ -162,7 +146,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify 7ya.io serves cinematic life story
+      - name: Verify 7ya.io serves personal hero release
         id: verify_public
         shell: bash
         run: |
@@ -188,32 +172,23 @@ jobs:
                 "https://7ya.io/?release-check=${nonce}")"
               css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/styles/igor-story-cinema-20260716.css?release-check=${nonce}")"
+                "https://7ya.io/styles/igor-personal-hero-20260716.css?release-check=${nonce}")"
               javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/scripts/igor-story-cinema-20260716.js?release-check=${nonce}")"
-              guide_css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/styles/7ya-experience-guide-20260716.css?release-check=${nonce}")"
-              guide_javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/scripts/7ya-experience-guide-20260716.js?release-check=${nonce}")"
+                "https://7ya.io/scripts/igor-personal-hero-20260716.js?release-check=${nonce}")"
               hero_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/assets/igor-hero-storm-20260716.webp?release-check=${nonce}")"
+                "https://7ya.io/assets/personal-hero-20260716/igor-hero.webp?release-check=${nonce}")"
 
               grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
-              grep -Fq 'סיפור של כוח שבונה' <<<"$homepage"
-              grep -Fq 'id="origins"' <<<"$homepage"
-              grep -Fq 'id="human"' <<<"$homepage"
-              grep -Fq 'id="discover"' <<<"$homepage"
-              grep -Fq 'id="guidePanel"' <<<"$homepage"
-              grep -Fq -- '--gold:#c6a062' <<<"$css"
-              grep -Fq 'sceneVisibility' <<<"$javascript"
-              grep -Fq '.content-intelligence' <<<"$guide_css"
-              grep -Fq 'public-universe-records-20260715.json' <<<"$guide_javascript"
+              grep -Fq 'אדם.</span><span>ראיות.</span><strong>פעולה.' <<<"$homepage"
+              grep -Fq 'id="person"' <<<"$homepage"
+              grep -Fq 'id="sources"' <<<"$homepage"
+              grep -Fq 'id="starton"' <<<"$homepage"
+              grep -Fq -- '--gold:#c7a266' <<<"$css"
+              grep -Fq 'IntersectionObserver' <<<"$javascript"
               grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$hero_headers"
-              echo 'PUBLIC_7YA_CINEMATIC_STORY_GATE: PASS'
+              echo 'PUBLIC_7YA_PERSONAL_HERO_GATE: PASS'
               exit 0
             fi
 
@@ -223,7 +198,7 @@ jobs:
             sleep 10
           done
 
-          echo 'Public domain did not converge to the cinematic life-story release within the verification window.'
+          echo 'Public domain did not converge to the personal hero release within the verification window.'
           exit 1
 
       - name: Record deterministic deployment state
