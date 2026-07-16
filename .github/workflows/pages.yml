@@ -1,4 +1,4 @@
-name: Deploy cinematic 7YA.IO — Igor Infostory
+name: Deploy 7YA.IO — Cinematic Life Story
 
 on:
   push:
@@ -20,7 +20,9 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 0db02d129724a8e16b4104c8ac4cad1a0864c63f
+  CANONICAL_SHA: ca79a7262a129a329634e3b1195e87bba5e03a0e
+  EXPECTED_BUILD: igor-story-cinema-20260716-1
+  EXPECTED_EXPERIENCE: IGOR_CINEMATIC_LIFE_STORY
 
 jobs:
   deploy:
@@ -30,15 +32,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout immutable cinematic source
+      - name: Checkout immutable cinematic story source
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 0db02d129724a8e16b4104c8ac4cad1a0864c63f
+          ref: ca79a7262a129a329634e3b1195e87bba5e03a0e
           path: canonical
           fetch-depth: 1
 
-      - name: Validate Igor Infostory release
+      - name: Validate cinematic life-story release
         id: validate
         shell: bash
         run: |
@@ -54,28 +56,35 @@ jobs:
             test -s "$route/index.html" || { echo "Missing route: $route"; exit 1; }
           done
 
-          test -s styles/history-song-20260714.css
-          test -s styles/igor-infostory-20260716.css
-          test -s scripts/igor-infostory-20260716.js
+          test -s styles/igor-story-cinema-20260716.css
+          test -s scripts/igor-story-cinema-20260716.js
+          test -s assets/igor-hero-storm-20260715.webp
           test -s assets/igor-home-portrait-20260712.webp
-          test -s assets/igor-home-og-20260712.jpg
+          test -s assets/igor-home-portrait-20260712.jpg
           for image in 01-origins.webp 02-public-voice.webp 03-creator-night.webp 04-force-system.webp; do
-            test -s "assets/infostory/$image" || { echo "Missing Infostory image: $image"; exit 1; }
+            test -s "assets/infostory/$image" || { echo "Missing narrative scene asset: $image"; exit 1; }
           done
 
-          grep -Fq 'איגור ופרצקי | 7YA — חיים דיגיטליים כמערכת סיפור' index.html
-          grep -Fq 'igor-infostory-personal-os-20260716-1' index.html
-          grep -Fq 'id="infostory"' index.html
-          grep -Fq '/museum/' index.html
-          grep -Fq '/create/' index.html
-          node --check scripts/igor-infostory-20260716.js
+          grep -Fq 'איגור ופרצקי | סיפור של כוח שבונה' index.html
+          grep -Fq "$EXPECTED_BUILD" index.html
+          for scene in opening origins service voice human starton system finale; do
+            grep -Fq "id=\"$scene\"" index.html || { echo "Missing story scene: $scene"; exit 1; }
+          done
+          grep -Fq '/styles/igor-story-cinema-20260716.css?v=1' index.html
+          grep -Fq '/scripts/igor-story-cinema-20260716.js' index.html
+          ! grep -Fq 'history-song-20260714.css' index.html
+          ! grep -Fq 'igor-infostory-20260716.css' index.html
+          ! grep -Fq 'history-song-20260714.js' index.html
+          ! grep -Fq 'igor-infostory-20260716.js' index.html
+          test "$(grep -o '<h1\b' index.html | wc -l | tr -d ' ')" = "1"
+          node --check scripts/igor-story-cinema-20260716.js
 
-          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-infostory-20260716.css scripts/igor-infostory-20260716.js; then
+          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-story-cinema-20260716.css scripts/igor-story-cinema-20260716.js; then
             echo "Unicode replacement character found in release files"
             exit 1
           fi
 
-          echo 'IGOR_INFOSTORY_SOURCE_GATE: PASS'
+          echo 'IGOR_CINEMATIC_STORY_SOURCE_GATE: PASS'
 
       - name: Assemble immutable Pages artifact
         id: assemble
@@ -101,7 +110,8 @@ jobs:
 
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-igor-infostory-$CANONICAL_SHA" \
+            --arg release "github-pages-igor-cinematic-story-$CANONICAL_SHA" \
+            --arg experience "$EXPECTED_EXPERIENCE" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
              .source_sha = $sha |
@@ -110,7 +120,7 @@ jobs:
              .status = "READY" |
              .release = $release |
              .environment = "production" |
-             .experience = "IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY"' \
+             .experience = $experience' \
             canonical/release.json > dist/release.json
 
           touch dist/.nojekyll
@@ -118,14 +128,14 @@ jobs:
           test -s dist/index.html
           test -s dist/museum/index.html
           test -s dist/create/index.html
-          test -s dist/styles/igor-infostory-20260716.css
-          test -s dist/scripts/igor-infostory-20260716.js
-          test -s dist/assets/infostory/01-origins.webp
+          test -s dist/styles/igor-story-cinema-20260716.css
+          test -s dist/scripts/igor-story-cinema-20260716.js
+          test -s dist/assets/igor-hero-storm-20260715.webp
           test -s dist/release.json
-          grep -Fq 'igor-infostory-personal-os-20260716-1' dist/index.html
-          grep -Fq 'IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY' dist/release.json
+          grep -Fq "$EXPECTED_BUILD" dist/index.html
+          grep -Fq "$EXPECTED_EXPERIENCE" dist/release.json
 
-          echo 'PAGES_IGOR_INFOSTORY_ARTIFACT: PASS'
+          echo 'PAGES_IGOR_CINEMATIC_STORY_ARTIFACT: PASS'
           du -sh dist
 
       - name: Configure Pages
@@ -142,14 +152,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify 7ya.io serves the deployed release
+      - name: Verify 7ya.io serves cinematic life story
         id: verify_public
         shell: bash
         run: |
           set -euo pipefail
-          expected_sha="$CANONICAL_SHA"
-          expected_build="igor-infostory-personal-os-20260716-1"
-          expected_experience="IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY"
 
           for attempt in $(seq 1 30); do
             nonce="${GITHUB_RUN_ID}-${attempt}-$(date +%s)"
@@ -161,8 +168,8 @@ jobs:
               "https://7ya.io/release.json?release-check=${nonce}" || true)"
 
             if jq -e \
-              --arg sha "$expected_sha" \
-              --arg experience "$expected_experience" \
+              --arg sha "$CANONICAL_SHA" \
+              --arg experience "$EXPECTED_EXPERIENCE" \
               '.source_sha == $sha and .experience == $experience and .status == "READY"' \
               <<<"$release" >/dev/null 2>&1; then
               homepage="$(curl -fsSL --connect-timeout 8 --max-time 20 \
@@ -171,20 +178,22 @@ jobs:
                 "https://7ya.io/?release-check=${nonce}")"
               css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/styles/igor-infostory-20260716.css?release-check=${nonce}")"
+                "https://7ya.io/styles/igor-story-cinema-20260716.css?release-check=${nonce}")"
               javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/scripts/igor-infostory-20260716.js?release-check=${nonce}")"
-              image_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
+                "https://7ya.io/scripts/igor-story-cinema-20260716.js?release-check=${nonce}")"
+              hero_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/assets/infostory/01-origins.webp?release-check=${nonce}")"
+                "https://7ya.io/assets/igor-hero-storm-20260715.webp?release-check=${nonce}")"
 
-              grep -Fq "$expected_build" <<<"$homepage"
-              grep -Fq 'חיים דיגיטליים כמערכת סיפור' <<<"$homepage"
-              grep -Fq -- '--personal-bg:' <<<"$css"
-              grep -Fq 'infostory' <<<"$javascript"
-              grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$image_headers"
-              echo 'PUBLIC_7YA_INFOSTORY_GATE: PASS'
+              grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
+              grep -Fq 'סיפור של כוח שבונה' <<<"$homepage"
+              grep -Fq 'id="origins"' <<<"$homepage"
+              grep -Fq 'id="human"' <<<"$homepage"
+              grep -Fq -- '--gold:#c6a062' <<<"$css"
+              grep -Fq 'sceneVisibility' <<<"$javascript"
+              grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$hero_headers"
+              echo 'PUBLIC_7YA_CINEMATIC_STORY_GATE: PASS'
               exit 0
             fi
 
@@ -194,7 +203,7 @@ jobs:
             sleep 10
           done
 
-          echo 'Public domain did not converge to the deployed Infostory release within the verification window.'
+          echo 'Public domain did not converge to the cinematic life-story release within the verification window.'
           exit 1
 
       - name: Record deterministic deployment state
@@ -225,15 +234,15 @@ jobs:
             };
             const fullyVerified = outcomes.deploy === 'success' && outcomes.public_verify === 'success';
             const state = {
-              schema_version: 2,
+              schema_version: 3,
               recorded_at: new Date().toISOString(),
               workflow_run_id: context.runId,
               workflow_run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT || 1),
               triggering_commit: context.sha,
               source_repository: process.env.CANONICAL_REPOSITORY,
               source_sha: process.env.CANONICAL_SHA,
-              expected_build: 'igor-infostory-personal-os-20260716-1',
-              expected_experience: 'IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY',
+              expected_build: process.env.EXPECTED_BUILD,
+              expected_experience: process.env.EXPECTED_EXPERIENCE,
               page_url: process.env.PAGE_URL || null,
               outcomes,
               result: fullyVerified ? 'PUBLICLY_VERIFIED' : (outcomes.deploy === 'success' ? 'DEPLOYED_PENDING_PUBLIC_CONVERGENCE' : 'FAILED')
