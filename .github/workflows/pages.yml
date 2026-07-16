@@ -25,6 +25,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -141,6 +142,60 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Verify 7ya.io serves the deployed release
+        id: verify_public
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_sha="$CANONICAL_SHA"
+          expected_build="igor-infostory-personal-os-20260716-1"
+          expected_experience="IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY"
+
+          for attempt in $(seq 1 30); do
+            nonce="${GITHUB_RUN_ID}-${attempt}-$(date +%s)"
+            echo "Public verification attempt ${attempt}/30"
+
+            release="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+              -H 'Cache-Control: no-cache, no-store, max-age=0' \
+              -H 'Pragma: no-cache' \
+              "https://7ya.io/release.json?release-check=${nonce}" || true)"
+
+            if jq -e \
+              --arg sha "$expected_sha" \
+              --arg experience "$expected_experience" \
+              '.source_sha == $sha and .experience == $experience and .status == "READY"' \
+              <<<"$release" >/dev/null 2>&1; then
+              homepage="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                -H 'Pragma: no-cache' \
+                "https://7ya.io/?release-check=${nonce}")"
+              grep -Fq "$expected_build" <<<"$homepage"
+              grep -Fq 'חיים דיגיטליים כמערכת סיפור' <<<"$homepage"
+              curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/styles/igor-infostory-20260716.css?release-check=${nonce}" \
+                | grep -Fq -- '--ink:'
+              curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/scripts/igor-infostory-20260716.js?release-check=${nonce}" \
+                | grep -Fq 'infostory'
+              curl -fsSI --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/assets/infostory/01-origins.webp?release-check=${nonce}" \
+                | grep -Eiq '^content-type: image/(webp|octet-stream)'
+              echo 'PUBLIC_7YA_INFOSTORY_GATE: PASS'
+              exit 0
+            fi
+
+            current_sha="$(jq -r '.source_sha // "unavailable"' <<<"$release" 2>/dev/null || echo unavailable)"
+            current_experience="$(jq -r '.experience // "unavailable"' <<<"$release" 2>/dev/null || echo unavailable)"
+            echo "Current public SHA: ${current_sha}; experience: ${current_experience}"
+            sleep 10
+          done
+
+          echo 'Public domain did not converge to the deployed Infostory release within the verification window.'
+          exit 1
+
       - name: Record deterministic deployment state
         if: always()
         uses: actions/github-script@v7
@@ -150,6 +205,7 @@ jobs:
           CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
           UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
           DEPLOY_OUTCOME: ${{ steps.deployment.outcome }}
+          PUBLIC_VERIFY_OUTCOME: ${{ steps.verify_public.outcome }}
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -163,10 +219,12 @@ jobs:
               assemble: process.env.ASSEMBLE_OUTCOME || 'unknown',
               configure: process.env.CONFIGURE_OUTCOME || 'unknown',
               upload: process.env.UPLOAD_OUTCOME || 'unknown',
-              deploy: process.env.DEPLOY_OUTCOME || 'unknown'
+              deploy: process.env.DEPLOY_OUTCOME || 'unknown',
+              public_verify: process.env.PUBLIC_VERIFY_OUTCOME || 'unknown'
             };
+            const fullyVerified = outcomes.deploy === 'success' && outcomes.public_verify === 'success';
             const state = {
-              schema_version: 1,
+              schema_version: 2,
               recorded_at: new Date().toISOString(),
               workflow_run_id: context.runId,
               workflow_run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT || 1),
@@ -177,7 +235,7 @@ jobs:
               expected_experience: 'IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY',
               page_url: process.env.PAGE_URL || null,
               outcomes,
-              result: outcomes.deploy === 'success' ? 'DEPLOYED' : 'FAILED'
+              result: fullyVerified ? 'PUBLICLY_VERIFIED' : (outcomes.deploy === 'success' ? 'DEPLOYED_PENDING_PUBLIC_CONVERGENCE' : 'FAILED')
             };
             let existingSha;
             try {
