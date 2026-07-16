@@ -1,0 +1,155 @@
+name: 7YA AppDeploy DNS Cutover
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/7ya-appdeploy-cutover.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: 7ya-appdeploy-dns-cutover
+  cancel-in-progress: false
+
+jobs:
+  cutover:
+    name: Reconcile only 7ya.io web records
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Apply guarded DNS transaction
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "CLOUDFLARE_API_TOKEN is not configured in this repository."
+            exit 2
+          fi
+
+          node <<'NODE'
+          const API = 'https://api.cloudflare.com/client/v4';
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          const zoneName = '7ya.io';
+          const mutableTypes = new Set(['A', 'AAAA', 'CNAME']);
+          const desired = [
+            { type: 'A', name: '7ya.io', content: '18.232.7.146', ttl: 1, proxied: false },
+            { type: 'CNAME', name: 'www.7ya.io', content: 'proxy-v2.appdeploy.ai', ttl: 1, proxied: false },
+          ];
+
+          function normalize(value) {
+            return String(value ?? '').replace(/\.$/, '').toLowerCase();
+          }
+
+          async function cf(path, options = {}) {
+            const response = await fetch(`${API}${path}`, {
+              ...options,
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'User-Agent': '7ya-appdeploy-dns-cutover/20260716',
+                ...(options.headers || {}),
+              },
+            });
+            const payload = await response.json().catch(() => null);
+            if (!response.ok || !payload?.success) {
+              const details = payload?.errors?.map((item) => `${item.code ?? 'unknown'}:${item.message}`).join('; ') || response.statusText;
+              throw new Error(`Cloudflare API ${response.status}: ${details}`);
+            }
+            return payload.result;
+          }
+
+          async function listExact(zoneId, hostname) {
+            return cf(`/zones/${zoneId}/dns_records?name=${encodeURIComponent(hostname)}&per_page=100`);
+          }
+
+          function payloadOf(record) {
+            const result = {
+              type: record.type,
+              name: record.name,
+              content: record.content,
+              ttl: Number(record.ttl) || 1,
+              proxied: Boolean(record.proxied),
+            };
+            if (record.priority !== undefined && record.priority !== null) result.priority = record.priority;
+            return result;
+          }
+
+          async function replaceMutable(zoneId, hostname, records) {
+            const current = await listExact(zoneId, hostname);
+            for (const record of current.filter((item) => mutableTypes.has(item.type))) {
+              await cf(`/zones/${zoneId}/dns_records/${record.id}`, { method: 'DELETE' });
+            }
+            for (const record of records) {
+              await cf(`/zones/${zoneId}/dns_records`, {
+                method: 'POST',
+                body: JSON.stringify(payloadOf(record)),
+              });
+            }
+          }
+
+          function exactMatch(record, expected) {
+            return record.type === expected.type
+              && normalize(record.name) === normalize(expected.name)
+              && normalize(record.content) === normalize(expected.content)
+              && Boolean(record.proxied) === false;
+          }
+
+          const zones = await cf(`/zones?name=${encodeURIComponent(zoneName)}&status=active&per_page=50`);
+          const zone = zones.find((item) => item.name === zoneName && item.status === 'active');
+          if (!zone) throw new Error('Active Cloudflare zone 7ya.io was not found for this token.');
+
+          const snapshots = new Map();
+          for (const target of desired) {
+            const records = await listExact(zone.id, target.name);
+            const mutable = records.filter((item) => mutableTypes.has(item.type)).map(payloadOf);
+            const protectedRecords = records.filter((item) => !mutableTypes.has(item.type));
+            if (target.type === 'CNAME' && protectedRecords.length > 0) {
+              throw new Error(`Refusing CNAME creation because protected records coexist at ${target.name}: ${protectedRecords.map((item) => item.type).join(', ')}`);
+            }
+            snapshots.set(target.name, mutable);
+          }
+
+          let transactionStarted = false;
+          try {
+            transactionStarted = true;
+            for (const target of desired) {
+              await replaceMutable(zone.id, target.name, [target]);
+              const readback = (await listExact(zone.id, target.name)).filter((item) => mutableTypes.has(item.type));
+              if (readback.length !== 1 || !exactMatch(readback[0], target)) {
+                throw new Error(`Read-back verification failed for ${target.name}.`);
+              }
+              console.log(`VERIFIED ${target.type} ${target.name} -> ${target.content} (DNS only)`);
+            }
+          } catch (error) {
+            if (transactionStarted) {
+              console.error(`Cutover failed: ${error instanceof Error ? error.message : error}`);
+              console.error('Restoring previous mutable DNS snapshots.');
+              const rollbackErrors = [];
+              for (const target of [...desired].reverse()) {
+                try {
+                  await replaceMutable(zone.id, target.name, snapshots.get(target.name) || []);
+                } catch (rollbackError) {
+                  rollbackErrors.push(`${target.name}: ${rollbackError instanceof Error ? rollbackError.message : rollbackError}`);
+                }
+              }
+              if (rollbackErrors.length > 0) {
+                throw new Error(`DNS cutover and rollback failed: ${rollbackErrors.join('; ')}`);
+              }
+              throw new Error('DNS cutover failed; previous web records were restored successfully.');
+            }
+            throw error;
+          }
+
+          console.log('7YA_DNS_CUTOVER_COMPLETE');
+          NODE
