@@ -57,7 +57,7 @@ jobs:
           test -s scripts/igor-infostory-20260716.js
           test -s assets/igor-home-portrait-20260712.webp
           test -s assets/igor-home-og-20260712.jpg
-          for image in 01-origins.webp 02-public-service.webp 03-creator.webp 04-starton.webp; do
+          for image in 01-origins.webp 02-public-voice.webp 03-creator-night.webp 04-force-system.webp; do
             test -s "assets/infostory/$image" || { echo "Missing Infostory image: $image"; exit 1; }
           done
 
