@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: f0e68572a214609e91c431355c8d59aae6910627
+  CANONICAL_SHA: 7148c5ea3bcabbdc7e668648d86345565c5d5acf
   EXPECTED_BUILD: igor-story-cinema-guide-20260716-2
   EXPECTED_EXPERIENCE: IGOR_CINEMATIC_GUIDED_CONTENT_INTELLIGENCE
 
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: f0e68572a214609e91c431355c8d59aae6910627
+          ref: 7148c5ea3bcabbdc7e668648d86345565c5d5acf
           path: canonical
           fetch-depth: 1
 
