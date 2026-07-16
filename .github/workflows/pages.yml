@@ -20,9 +20,9 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: ca79a7262a129a329634e3b1195e87bba5e03a0e
-  EXPECTED_BUILD: igor-story-cinema-20260716-1
-  EXPECTED_EXPERIENCE: IGOR_CINEMATIC_LIFE_STORY
+  CANONICAL_SHA: f0e68572a214609e91c431355c8d59aae6910627
+  EXPECTED_BUILD: igor-story-cinema-guide-20260716-2
+  EXPECTED_EXPERIENCE: IGOR_CINEMATIC_GUIDED_CONTENT_INTELLIGENCE
 
 jobs:
   deploy:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: ca79a7262a129a329634e3b1195e87bba5e03a0e
+          ref: f0e68572a214609e91c431355c8d59aae6910627
           path: canonical
           fetch-depth: 1
 
@@ -57,7 +57,9 @@ jobs:
           done
 
           test -s styles/igor-story-cinema-20260716.css
+          test -s styles/7ya-experience-guide-20260716.css
           test -s scripts/igor-story-cinema-20260716.js
+          test -s scripts/7ya-experience-guide-20260716.js
           test -s assets/igor-hero-storm-20260715.webp
           test -s assets/igor-home-portrait-20260712.webp
           test -s assets/igor-home-portrait-20260712.jpg
@@ -71,13 +73,19 @@ jobs:
             grep -Fq "id=\"$scene\"" index.html || { echo "Missing story scene: $scene"; exit 1; }
           done
           grep -Fq '/styles/igor-story-cinema-20260716.css?v=1' index.html
+          grep -Fq '/styles/7ya-experience-guide-20260716.css?v=1' index.html
           grep -Fq '/scripts/igor-story-cinema-20260716.js' index.html
+          grep -Fq '/scripts/7ya-experience-guide-20260716.js' index.html
+          grep -Fq 'id="discover"' index.html
+          grep -Fq 'id="guidePanel"' index.html
+          grep -Fq '7 / השומר' index.html
           ! grep -Fq 'history-song-20260714.css' index.html
           ! grep -Fq 'igor-infostory-20260716.css' index.html
           ! grep -Fq 'history-song-20260714.js' index.html
           ! grep -Fq 'igor-infostory-20260716.js' index.html
           test "$(grep -o '<h1\b' index.html | wc -l | tr -d ' ')" = "1"
           node --check scripts/igor-story-cinema-20260716.js
+          node --check scripts/7ya-experience-guide-20260716.js
 
           if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-story-cinema-20260716.css scripts/igor-story-cinema-20260716.js; then
             echo "Unicode replacement character found in release files"
@@ -129,7 +137,9 @@ jobs:
           test -s dist/museum/index.html
           test -s dist/create/index.html
           test -s dist/styles/igor-story-cinema-20260716.css
+          test -s dist/styles/7ya-experience-guide-20260716.css
           test -s dist/scripts/igor-story-cinema-20260716.js
+          test -s dist/scripts/7ya-experience-guide-20260716.js
           test -s dist/assets/igor-hero-storm-20260715.webp
           test -s dist/release.json
           grep -Fq "$EXPECTED_BUILD" dist/index.html
@@ -182,6 +192,12 @@ jobs:
               javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
                 "https://7ya.io/scripts/igor-story-cinema-20260716.js?release-check=${nonce}")"
+              guide_css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/styles/7ya-experience-guide-20260716.css?release-check=${nonce}")"
+              guide_javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/scripts/7ya-experience-guide-20260716.js?release-check=${nonce}")"
               hero_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
                 "https://7ya.io/assets/igor-hero-storm-20260715.webp?release-check=${nonce}")"
@@ -190,8 +206,12 @@ jobs:
               grep -Fq 'סיפור של כוח שבונה' <<<"$homepage"
               grep -Fq 'id="origins"' <<<"$homepage"
               grep -Fq 'id="human"' <<<"$homepage"
+              grep -Fq 'id="discover"' <<<"$homepage"
+              grep -Fq 'id="guidePanel"' <<<"$homepage"
               grep -Fq -- '--gold:#c6a062' <<<"$css"
               grep -Fq 'sceneVisibility' <<<"$javascript"
+              grep -Fq '.content-intelligence' <<<"$guide_css"
+              grep -Fq 'public-universe-records-20260715.json' <<<"$guide_javascript"
               grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$hero_headers"
               echo 'PUBLIC_7YA_CINEMATIC_STORY_GATE: PASS'
               exit 0
