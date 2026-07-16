@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-16T01:38:02.604Z",
+  "workflow_run_id": 29464600499,
+  "triggering_commit": "5f6c078e391e185314cd6d2220b2e2bf20da01af",
+  "public_domain": "https://7ya.io/",
+  "expected_source_sha": "0db02d129724a8e16b4104c8ac4cad1a0864c63f",
+  "expected_build": "igor-infostory-personal-os-20260716-1",
+  "expected_experience": "IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY",
+  "verified_source_sha": "0db02d129724a8e16b4104c8ac4cad1a0864c63f",
+  "outcome": "success",
+  "result": "PUBLICLY_VERIFIED"
+}
