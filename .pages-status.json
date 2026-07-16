@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-16T01:24:11.500Z",
+  "workflow_run_id": 29464002853,
+  "workflow_run_attempt": 1,
+  "triggering_commit": "b85f63baa598a0541bef2dd5e87991e4cd7cf51d",
+  "source_repository": "7guard-io/7ya.io",
+  "source_sha": "0db02d129724a8e16b4104c8ac4cad1a0864c63f",
+  "expected_build": "igor-infostory-personal-os-20260716-1",
+  "expected_experience": "IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY",
+  "page_url": "https://7ya.io/",
+  "outcomes": {
+    "validate": "success",
+    "assemble": "success",
+    "configure": "success",
+    "upload": "success",
+    "deploy": "success"
+  },
+  "result": "DEPLOYED"
+}
