@@ -1,4 +1,4 @@
-name: Observe canonical Pages runs
+name: Dispatch and observe canonical Pages
 
 on:
   push:
@@ -9,44 +9,74 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: read
+  actions: write
   contents: write
 
 jobs:
   observe:
     runs-on: ubuntu-latest
     steps:
-      - name: Record canonical Pages workflow runs
+      - name: Dispatch and record canonical Pages workflow
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const response = await github.rest.actions.listWorkflowRuns({
-              owner,
-              repo,
-              workflow_id: 'pages.yml',
-              branch: 'dev',
-              per_page: 20
-            });
-            const runs = response.data.workflow_runs.map(run => ({
-              id: run.id,
-              name: run.name,
-              event: run.event,
-              status: run.status,
-              conclusion: run.conclusion,
-              head_sha: run.head_sha,
-              run_attempt: run.run_attempt,
-              created_at: run.created_at,
-              updated_at: run.updated_at,
-              html_url: run.html_url
-            }));
+            let dispatch = { accepted: false, error: null };
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id: 'pages.yml',
+                ref: 'dev'
+              });
+              dispatch.accepted = true;
+            } catch (error) {
+              dispatch.error = {
+                status: error.status || null,
+                message: error.message || String(error)
+              };
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 7000));
+
+            let runs = [];
+            let listError = null;
+            try {
+              const response = await github.rest.actions.listWorkflowRuns({
+                owner,
+                repo,
+                workflow_id: 'pages.yml',
+                branch: 'dev',
+                per_page: 20
+              });
+              runs = response.data.workflow_runs.map(run => ({
+                id: run.id,
+                name: run.name,
+                event: run.event,
+                status: run.status,
+                conclusion: run.conclusion,
+                head_sha: run.head_sha,
+                run_attempt: run.run_attempt,
+                created_at: run.created_at,
+                updated_at: run.updated_at,
+                html_url: run.html_url
+              }));
+            } catch (error) {
+              listError = {
+                status: error.status || null,
+                message: error.message || String(error)
+              };
+            }
+
             const payload = {
-              schema_version: 1,
+              schema_version: 2,
               recorded_at: new Date().toISOString(),
               observer_run_id: context.runId,
               workflow: '.github/workflows/pages.yml',
+              dispatch,
+              list_error: listError,
               runs
             };
             const path = '.pages-runs.json';
@@ -62,7 +92,7 @@ jobs:
               repo,
               path,
               branch: 'dev',
-              message: `ops: snapshot canonical Pages runs from ${context.runId}`,
+              message: `ops: dispatch and snapshot Pages from ${context.runId}`,
               content: Buffer.from(JSON.stringify(payload, null, 2) + '\n').toString('base64'),
               sha
             });
