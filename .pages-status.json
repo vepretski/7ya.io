@@ -1,12 +1,12 @@
 {
   "schema_version": 3,
-  "recorded_at": "2026-07-16T06:58:20.702Z",
-  "workflow_run_id": 29478315035,
+  "recorded_at": "2026-07-16T07:40:11.595Z",
+  "workflow_run_id": 29480665261,
   "workflow_run_attempt": 1,
-  "triggering_commit": "076eb57db3c754d6d2eacaf16c43fe34619f3288",
+  "triggering_commit": "bf0fa96debce8f21b46d2057e2bae154cba4d6da",
   "source_repository": "7guard-io/7ya.io",
-  "source_sha": "7148c5ea3bcabbdc7e668648d86345565c5d5acf",
-  "expected_build": "igor-story-cinema-guide-20260716-2",
+  "source_sha": "ad2fa8db211e80bc12069898442ee744b2b6ee38",
+  "expected_build": "igor-story-cinema-guide-20260716-3",
   "expected_experience": "IGOR_CINEMATIC_GUIDED_CONTENT_INTELLIGENCE",
   "page_url": "https://7ya.io/",
   "outcomes": {
