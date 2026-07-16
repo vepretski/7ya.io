@@ -20,8 +20,8 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 7148c5ea3bcabbdc7e668648d86345565c5d5acf
-  EXPECTED_BUILD: igor-story-cinema-guide-20260716-2
+  CANONICAL_SHA: ad2fa8db211e80bc12069898442ee744b2b6ee38
+  EXPECTED_BUILD: igor-story-cinema-guide-20260716-3
   EXPECTED_EXPERIENCE: IGOR_CINEMATIC_GUIDED_CONTENT_INTELLIGENCE
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 7148c5ea3bcabbdc7e668648d86345565c5d5acf
+          ref: ad2fa8db211e80bc12069898442ee744b2b6ee38
           path: canonical
           fetch-depth: 1
 
@@ -60,7 +60,7 @@ jobs:
           test -s styles/7ya-experience-guide-20260716.css
           test -s scripts/igor-story-cinema-20260716.js
           test -s scripts/7ya-experience-guide-20260716.js
-          test -s assets/igor-hero-storm-20260715.webp
+          test -s assets/igor-hero-storm-20260716.webp
           test -s assets/igor-home-portrait-20260712.webp
           test -s assets/igor-home-portrait-20260712.jpg
           for image in 01-origins.webp 02-public-voice.webp 03-creator-night.webp 04-force-system.webp; do
@@ -72,7 +72,7 @@ jobs:
           for scene in opening origins service voice human starton system finale; do
             grep -Fq "id=\"$scene\"" index.html || { echo "Missing story scene: $scene"; exit 1; }
           done
-          grep -Fq '/styles/igor-story-cinema-20260716.css?v=1' index.html
+          grep -Fq '/styles/igor-story-cinema-20260716.css?v=2' index.html
           grep -Fq '/styles/7ya-experience-guide-20260716.css?v=1' index.html
           grep -Fq '/scripts/igor-story-cinema-20260716.js' index.html
           grep -Fq '/scripts/7ya-experience-guide-20260716.js' index.html
@@ -140,7 +140,7 @@ jobs:
           test -s dist/styles/7ya-experience-guide-20260716.css
           test -s dist/scripts/igor-story-cinema-20260716.js
           test -s dist/scripts/7ya-experience-guide-20260716.js
-          test -s dist/assets/igor-hero-storm-20260715.webp
+          test -s dist/assets/igor-hero-storm-20260716.webp
           test -s dist/release.json
           grep -Fq "$EXPECTED_BUILD" dist/index.html
           grep -Fq "$EXPECTED_EXPERIENCE" dist/release.json
@@ -200,7 +200,7 @@ jobs:
                 "https://7ya.io/scripts/7ya-experience-guide-20260716.js?release-check=${nonce}")"
               hero_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/assets/igor-hero-storm-20260715.webp?release-check=${nonce}")"
+                "https://7ya.io/assets/igor-hero-storm-20260716.webp?release-check=${nonce}")"
 
               grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
               grep -Fq 'סיפור של כוח שבונה' <<<"$homepage"
