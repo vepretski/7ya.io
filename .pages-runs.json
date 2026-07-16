@@ -1,9 +1,26 @@
 {
-  "schema_version": 1,
-  "recorded_at": "2026-07-16T01:32:56.756Z",
-  "observer_run_id": 29464387367,
+  "schema_version": 2,
+  "recorded_at": "2026-07-16T01:34:23.204Z",
+  "observer_run_id": 29464443055,
   "workflow": ".github/workflows/pages.yml",
+  "dispatch": {
+    "accepted": true,
+    "error": null
+  },
+  "list_error": null,
   "runs": [
+    {
+      "id": 29464447672,
+      "name": "Deploy cinematic 7YA.IO — Igor Infostory",
+      "event": "workflow_dispatch",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "d3b142bb0e5461be9a9dfdd8b323a913b33d2584",
+      "run_attempt": 1,
+      "created_at": "2026-07-16T01:34:15Z",
+      "updated_at": "2026-07-16T01:34:20Z",
+      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29464447672"
+    },
     {
       "id": 29464002853,
       "name": "Deploy cinematic 7YA.IO — Igor Infostory",
@@ -231,18 +248,6 @@
       "created_at": "2026-07-11T10:42:39Z",
       "updated_at": "2026-07-11T10:44:11Z",
       "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29149780433"
-    },
-    {
-      "id": 29149776900,
-      "name": "Publish 7YA Static Site",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "head_sha": "2a38ab6ad98f4bb201862843560278b6c7618879",
-      "run_attempt": 1,
-      "created_at": "2026-07-11T10:42:31Z",
-      "updated_at": "2026-07-11T10:42:50Z",
-      "html_url": "https://github.com/vepretski/7ya.io/actions/runs/29149776900"
     }
   ]
 }
