@@ -1,4 +1,4 @@
-name: Deploy canonical 7YA.IO — The History Song
+name: Deploy cinematic 7YA.IO — Igor Infostory
 
 on:
   push:
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 164c3892f9961aee42ca55ddf1d356d4840a82d2
+  CANONICAL_SHA: 0db02d129724a8e16b4104c8ac4cad1a0864c63f
 
 jobs:
   deploy:
@@ -29,93 +29,100 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout immutable canonical source
+      - name: Checkout immutable cinematic source
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 164c3892f9961aee42ca55ddf1d356d4840a82d2
+          ref: 0db02d129724a8e16b4104c8ac4cad1a0864c63f
           path: canonical
           fetch-depth: 1
 
-      - name: Validate History Song public release
+      - name: Validate Igor Infostory release
         shell: bash
         run: |
           set -euo pipefail
           cd canonical
+
           test "$(cat CNAME)" = "7ya.io"
-          for file in index.html 404.html robots.txt sitemap.xml favicon.svg sw.js service-worker.js release.json; do
+          for file in index.html 404.html CNAME robots.txt sitemap.xml favicon.svg sw.js service-worker.js release.json; do
             test -s "$file" || { echo "Missing public file: $file"; exit 1; }
           done
-          for route in history igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact delta-audit; do
+
+          for route in museum create history igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact delta-audit; do
             test -s "$route/index.html" || { echo "Missing route: $route"; exit 1; }
           done
+
           test -s styles/history-song-20260714.css
-          test -s scripts/history-song-20260714.js
-          for part in 1 2 3 4; do
-            test -s "knowledge/history-song-records-${part}.json"
-          done
+          test -s styles/igor-infostory-20260716.css
+          test -s scripts/igor-infostory-20260716.js
           test -s assets/igor-home-portrait-20260712.webp
           test -s assets/igor-home-og-20260712.jpg
-          grep -Fq "שיר" index.html
-          grep -Fq "ההיסטוריה" index.html
-          grep -Fq "כל פוסט הוא שורה." index.html
-          grep -Fq "הפירורים הפכו לארכיון." index.html
-          grep -Fq 'id="archiveGrid"' index.html
-          grep -Fq 'history-song-archive-20260714-1' history/index.html
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const records = [1,2,3,4].flatMap(part => JSON.parse(fs.readFileSync(`knowledge/history-song-records-${part}.json`, 'utf8')).records);
-          if (records.length !== 36) throw new Error(`Expected 36 records, received ${records.length}`);
-          if (new Set(records.map(record => record.id)).size !== records.length) throw new Error('Duplicate archive IDs');
-          for (const record of records) {
-            if (!record.title || !record.url?.startsWith('https://') || !record.evidence_tier) throw new Error(`Invalid record ${record.id}`);
-            if (record.metric && !record.metric.as_of) throw new Error(`Undated metric ${record.id}`);
-          }
-          console.log('HISTORY_SONG_DATA_CONTRACT: PASS');
-          NODE
-          if grep -R -nE "Igor Ido Vepretski|Ido Vepretski|עידו ופרצקי" \
-            index.html history igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact; then
-            echo "Unsupported identity alias found"
+          for image in 01-origins.webp 02-public-service.webp 03-creator.webp 04-starton.webp; do
+            test -s "assets/infostory/$image" || { echo "Missing Infostory image: $image"; exit 1; }
+          done
+
+          grep -Fq 'איגור ופרצקי | 7YA — חיים דיגיטליים כמערכת סיפור' index.html
+          grep -Fq 'igor-infostory-personal-os-20260716-1' index.html
+          grep -Fq 'id="infostory"' index.html
+          grep -Fq '/museum/' index.html
+          grep -Fq '/create/' index.html
+          node --check scripts/igor-infostory-20260716.js
+
+          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-infostory-20260716.css scripts/igor-infostory-20260716.js; then
+            echo "Unicode replacement character found in release files"
             exit 1
           fi
 
-      - name: Assemble immutable production artifact
+          echo 'IGOR_INFOSTORY_SOURCE_GATE: PASS'
+
+      - name: Assemble immutable Pages artifact
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
+
           cp canonical/index.html canonical/404.html canonical/CNAME canonical/robots.txt \
             canonical/sitemap.xml canonical/favicon.svg canonical/sw.js \
             canonical/service-worker.js dist/
-          for path in styles scripts assets images data knowledge history igor-vepretski journey \
-            starton influence evidence 7ya speaker talk media articles contact delta-audit \
-            legacy about social oracle business pass member-pass radar work systems \
+
+          for optional in manifest.webmanifest site.webmanifest browserconfig.xml; do
+            if [ -s "canonical/$optional" ]; then cp "canonical/$optional" dist/; fi
+          done
+
+          for path in styles scripts assets images data knowledge history museum create entity response-ai \
+            igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact \
+            delta-audit legacy about social oracle business pass member-pass radar work systems \
             public-service music healthz; do
             if [ -e "canonical/$path" ]; then cp -RL "canonical/$path" dist/; fi
           done
+
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-history-song-$CANONICAL_SHA" \
+            --arg release "github-pages-igor-infostory-$CANONICAL_SHA" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
              .source_sha = $sha |
+             .source_ref = $sha |
              .provider = "github-pages" |
              .status = "READY" |
              .release = $release |
-             .environment = "production"' \
+             .environment = "production" |
+             .experience = "IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY"' \
             canonical/release.json > dist/release.json
+
           touch dist/.nojekyll
+
           test -s dist/index.html
-          test -s dist/history/index.html
-          test -s dist/styles/history-song-20260714.css
-          test -s dist/scripts/history-song-20260714.js
-          for part in 1 2 3 4; do
-            test -s "dist/knowledge/history-song-records-${part}.json"
-          done
+          test -s dist/museum/index.html
+          test -s dist/create/index.html
+          test -s dist/styles/igor-infostory-20260716.css
+          test -s dist/scripts/igor-infostory-20260716.js
+          test -s dist/assets/infostory/01-origins.webp
           test -s dist/release.json
-          test -s dist/assets/igor-home-portrait-20260712.webp
-          grep -Fq 'history-song-editorial-archive-20260714-1' dist/index.html
-          echo 'PAGES_HISTORY_SONG_ARTIFACT: PASS'
+          grep -Fq 'igor-infostory-personal-os-20260716-1' dist/index.html
+          grep -Fq 'IGOR_CINEMATIC_DIGITAL_LIFE_INFOSTORY' dist/release.json
+
+          echo 'PAGES_IGOR_INFOSTORY_ARTIFACT: PASS'
           du -sh dist
 
       - name: Configure Pages
