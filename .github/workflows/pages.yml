@@ -1,4 +1,4 @@
-name: Deploy 7YA.IO — Cinematic Life Story
+name: Deploy 7YA.IO — Tactical Identity Ecosystem
 
 on:
   push:
@@ -20,27 +20,27 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 8588a844c75a34061ffe246803c1c2afdf602ded
-  EXPECTED_BUILD: igor-personal-hero-20260716-1
-  EXPECTED_EXPERIENCE: IGOR_PERSONAL_HERO_EVIDENCE_ACTION
+  CANONICAL_SHA: b56fd11d3b7319e6d9d2377c511acee17f978cbf
+  EXPECTED_BUILD: 7ya-tactical-ontology-20260717-1
+  EXPECTED_EXPERIENCE: IGOR_TACTICAL_ONTOLOGY_ECOSYSTEM
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout immutable personal homepage source
+      - name: Checkout immutable tactical homepage source
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 8588a844c75a34061ffe246803c1c2afdf602ded
+          ref: b56fd11d3b7319e6d9d2377c511acee17f978cbf
           path: canonical
           fetch-depth: 1
 
-      - name: Validate personal hero release
+      - name: Validate tactical ontology release
         id: validate
         shell: bash
         run: |
@@ -57,28 +57,42 @@ jobs:
           done
 
           test -s styles/igor-personal-hero-20260716.css
+          test -s styles/7ya-tactical-ontology-20260717.css
           test -s scripts/igor-personal-hero-20260716.js
+          test -s scripts/7ya-tactical-ontology-20260717.js
+          test -s data/7ya-system-v1.json
+
           for image in igor-hero.webp igor-executive.webp igor-speaker.webp igor-public-service.webp igor-closeup.webp; do
             test -s "assets/personal-hero-20260716/$image" || { echo "Missing personal homepage asset: $image"; exit 1; }
           done
 
-          grep -Fq 'איגור ופרצקי | אדם. ראיות. פעולה.' index.html
           grep -Fq "$EXPECTED_BUILD" index.html
-          for section in main impact person sources starton; do
+          grep -Fq 'IGOR</span><strong>VEPRETSKI' index.html
+          for section in identity impact trajectory systems starton frameworks media sources; do
             grep -Fq "id=\"$section\"" index.html || { echo "Missing homepage section: $section"; exit 1; }
           done
-          grep -Fq '/styles/igor-personal-hero-20260716.css?v=1' index.html
-          grep -Fq '/scripts/igor-personal-hero-20260716.js' index.html
-          grep -Fq 'אדם.</span><span>ראיות.</span><strong>פעולה.' index.html
+          grep -Fq '/styles/7ya-tactical-ontology-20260717.css?v=1' index.html
+          grep -Fq '/scripts/7ya-tactical-ontology-20260717.js?v=1' index.html
+          grep -Fq 'ארבעה צמתים.' index.html
+          grep -Fq 'PLAY</b>' index.html
+          grep -Fq 'Evidence before amplification' index.html || grep -Fq 'EVIDENCE BEFORE AMPLIFICATION' index.html
           test "$(grep -o '<h1\b' index.html | wc -l | tr -d ' ')" = "1"
-          node --check scripts/igor-personal-hero-20260716.js
 
-          if grep -RIl $'\xEF\xBF\xBD' index.html styles/igor-personal-hero-20260716.css scripts/igor-personal-hero-20260716.js; then
+          node --check scripts/igor-personal-hero-20260716.js
+          node --check scripts/7ya-tactical-ontology-20260717.js
+          node -e "const fs=require('fs'); const d=JSON.parse(fs.readFileSync('data/7ya-system-v1.json','utf8')); if(d.ontology_root!=='7ya_system_v1') process.exit(1); if(d.global_metrics.verified_media_exposure.public_disclosure!=='BLOCKED') process.exit(1);"
+
+          if grep -Fq '5.1B+' index.html; then
+            echo 'Blocked exposure metric leaked into the public homepage'
+            exit 1
+          fi
+
+          if grep -RIl $'\xEF\xBF\xBD' index.html styles/7ya-tactical-ontology-20260717.css scripts/7ya-tactical-ontology-20260717.js data/7ya-system-v1.json; then
             echo "Unicode replacement character found in release files"
             exit 1
           fi
 
-          echo 'IGOR_PERSONAL_HERO_SOURCE_GATE: PASS'
+          echo 'TACTICAL_ONTOLOGY_SOURCE_GATE: PASS'
 
       - name: Assemble immutable Pages artifact
         id: assemble
@@ -104,7 +118,7 @@ jobs:
 
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-igor-personal-hero-$CANONICAL_SHA" \
+            --arg release "github-pages-tactical-ontology-$CANONICAL_SHA" \
             --arg experience "$EXPECTED_EXPERIENCE" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
@@ -120,16 +134,15 @@ jobs:
           touch dist/.nojekyll
 
           test -s dist/index.html
-          test -s dist/museum/index.html
-          test -s dist/create/index.html
-          test -s dist/styles/igor-personal-hero-20260716.css
-          test -s dist/scripts/igor-personal-hero-20260716.js
+          test -s dist/styles/7ya-tactical-ontology-20260717.css
+          test -s dist/scripts/7ya-tactical-ontology-20260717.js
+          test -s dist/data/7ya-system-v1.json
           test -s dist/assets/personal-hero-20260716/igor-hero.webp
           test -s dist/release.json
           grep -Fq "$EXPECTED_BUILD" dist/index.html
           grep -Fq "$EXPECTED_EXPERIENCE" dist/release.json
 
-          echo 'PAGES_IGOR_PERSONAL_HERO_ARTIFACT: PASS'
+          echo 'PAGES_TACTICAL_ONTOLOGY_ARTIFACT: PASS'
           du -sh dist
 
       - name: Configure Pages
@@ -146,7 +159,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify 7ya.io serves personal hero release
+      - name: Verify 7ya.io serves tactical ontology release
         id: verify_public
         shell: bash
         run: |
@@ -172,23 +185,27 @@ jobs:
                 "https://7ya.io/?release-check=${nonce}")"
               css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/styles/igor-personal-hero-20260716.css?release-check=${nonce}")"
+                "https://7ya.io/styles/7ya-tactical-ontology-20260717.css?release-check=${nonce}")"
               javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/scripts/igor-personal-hero-20260716.js?release-check=${nonce}")"
+                "https://7ya.io/scripts/7ya-tactical-ontology-20260717.js?release-check=${nonce}")"
+              ontology="$(curl -fsSL --connect-timeout 8 --max-time 20 \
+                -H 'Cache-Control: no-cache, no-store, max-age=0' \
+                "https://7ya.io/data/7ya-system-v1.json?release-check=${nonce}")"
               hero_headers="$(curl -fsSI --connect-timeout 8 --max-time 20 \
                 -H 'Cache-Control: no-cache, no-store, max-age=0' \
                 "https://7ya.io/assets/personal-hero-20260716/igor-hero.webp?release-check=${nonce}")"
 
               grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
-              grep -Fq 'אדם.</span><span>ראיות.</span><strong>פעולה.' <<<"$homepage"
-              grep -Fq 'id="person"' <<<"$homepage"
-              grep -Fq 'id="sources"' <<<"$homepage"
+              grep -Fq 'IGOR</span><strong>VEPRETSKI' <<<"$homepage"
+              grep -Fq 'id="impact"' <<<"$homepage"
               grep -Fq 'id="starton"' <<<"$homepage"
-              grep -Fq -- '--gold:#c7a266' <<<"$css"
-              grep -Fq 'IntersectionObserver' <<<"$javascript"
+              grep -Fq 'id="frameworks"' <<<"$homepage"
+              grep -Fq '.ontology-grid' <<<"$css"
+              grep -Fq 'loadOntology' <<<"$javascript"
+              jq -e '.ontology_root == "7ya_system_v1" and .global_metrics.verified_media_exposure.public_disclosure == "BLOCKED"' <<<"$ontology" >/dev/null
               grep -Eiq '^content-type: image/(webp|octet-stream)' <<<"$hero_headers"
-              echo 'PUBLIC_7YA_PERSONAL_HERO_GATE: PASS'
+              echo 'PUBLIC_7YA_TACTICAL_ONTOLOGY_GATE: PASS'
               exit 0
             fi
 
@@ -198,7 +215,7 @@ jobs:
             sleep 10
           done
 
-          echo 'Public domain did not converge to the personal hero release within the verification window.'
+          echo 'Public domain did not converge to the tactical ontology release within the verification window.'
           exit 1
 
       - name: Record deterministic deployment state
@@ -229,7 +246,7 @@ jobs:
             };
             const fullyVerified = outcomes.deploy === 'success' && outcomes.public_verify === 'success';
             const state = {
-              schema_version: 3,
+              schema_version: 4,
               recorded_at: new Date().toISOString(),
               workflow_run_id: context.runId,
               workflow_run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT || 1),
