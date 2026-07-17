@@ -1,0 +1,186 @@
+{
+  "schema": {
+    "id": "7ya.content-ontology",
+    "version": "1.0.0",
+    "compiled_at": "2026-07-17T05:00:00+03:00",
+    "locale_default": "he",
+    "supported_locales": ["he", "en", "ru"]
+  },
+  "ontology_root": "7ya_system_v1",
+  "global_metrics": {
+    "verified_media_exposure": {
+      "value": 5100000000,
+      "unit": "estimated_exposure",
+      "source_status": "METHODOLOGY_PENDING",
+      "metric_status": "LOCKED_BY_OWNER",
+      "public_disclosure": "BLOCKED",
+      "description": "Owner-supplied aggregate. Not rendered publicly until a reproducible source ledger, date range and deduplication method are attached."
+    }
+  },
+  "identity": {
+    "names": [
+      {"value": "Igor Vepretski", "type": "PRIMARY_PUBLIC", "language": "en", "status": "VERIFIED"},
+      {"value": "איגור ופרצקי", "type": "PRIMARY_PUBLIC", "language": "he", "status": "VERIFIED"},
+      {"value": "Игорь Вепрецкий", "type": "PRIMARY_PUBLIC", "language": "ru", "status": "REVIEW_REQUIRED"},
+      {"value": "Ido Vepretski", "type": "ALTERNATE", "language": "en", "status": "REVIEW_REQUIRED"}
+    ],
+    "designations": [
+      "Systems Architect",
+      "Social Entrepreneur",
+      "Musical Artist"
+    ],
+    "chronological_trajectory": [
+      {
+        "epoch": "01",
+        "phase": "Defense & Security",
+        "phase_he": "ביטחון ושירות",
+        "description": "Foundational field discipline, operational responsibility and public-service protocols.",
+        "description_he": "משמעת שטח, אחריות מבצעית ופרוטוקולים של שירות ציבורי — ללא חשיפת מידע רגיש.",
+        "status": "PUBLIC_CONTEXT"
+      },
+      {
+        "epoch": "02",
+        "phase": "Police Force",
+        "phase_he": "משטרת ישראל",
+        "description": "Tactical execution, intelligence work and civic responsibility.",
+        "description_he": "עבודת שטח, מודיעין ואחריות אזרחית; מוצג רק מידע ציבורי ולא־מבצעי.",
+        "status": "PUBLIC_CONTEXT"
+      },
+      {
+        "epoch": "03",
+        "phase": "Social-Tech Transition",
+        "phase_he": "המעבר לחברה וטכנולוגיה",
+        "description": "Turning lived experience into youth opportunity, creative spaces and StartOn.",
+        "description_he": "הפיכת ניסיון חיים להזדמנות לנוער, מרחבי יצירה ומודל StartOn.",
+        "status": "ACTIVE_MISSION"
+      },
+      {
+        "epoch": "04",
+        "phase": "Systems Engineering",
+        "phase_he": "הנדסת מערכות",
+        "description": "Scaling evidence-governed digital identity, AI routing and public infrastructure.",
+        "description_he": "בניית זהות דיגיטלית נשלטת־ראיות, ניתוב AI ותשתיות ציבוריות ניתנות לבדיקה.",
+        "status": "ACTIVE"
+      }
+    ]
+  },
+  "mission_nodes": {
+    "node_7ya": {
+      "id": "node_infrastructure",
+      "order": 1,
+      "title": "7ya.io",
+      "title_he": "תשתית 7YA",
+      "classification": "Autonomous Digital Identity Ecosystem",
+      "classification_he": "מערכת זהות דיגיטלית אוטונומית",
+      "summary_he": "שכבת החיבור בין זהות, סיפור, ראיה, AI, ארכיון ופעולה.",
+      "engineering_focus": [
+        "Multi-provider AI fallback routers",
+        "Semantic routing protocols",
+        "Automated DevOps workflows",
+        "Evidence-governed content delivery"
+      ],
+      "route": "/7ya/",
+      "status": "BUILT_AND_EXPANDING"
+    },
+    "node_starton": {
+      "id": "node_social_impact",
+      "order": 2,
+      "title": "StartOn",
+      "title_he": "StartOn — השפעה",
+      "classification": "Social-Tech Organization",
+      "classification_he": "תשתית חברתית־טכנולוגית",
+      "summary_he": "מרחבי שייכות, טכנולוגיה, מדיה ומנטורים לנוער — מחזון לפיילוט מדיד.",
+      "core_facilities": [
+        "Interactive technological learning spaces",
+        "Transparent podcast and recording studios",
+        "Mentoring and community spaces"
+      ],
+      "active_pilots": [
+        {
+          "name": "AJCatalyst Israel Youth Resilience Pilot",
+          "duration": "90-day operational directive",
+          "status": "PROPOSED"
+        }
+      ],
+      "route": "/starton/",
+      "status": "ACTIVE_MISSION"
+    },
+    "node_academic": {
+      "id": "node_theoretical",
+      "order": 3,
+      "title": "Academic & Literature",
+      "title_he": "מחקר ומסגרות",
+      "classification": "Conceptual Frameworks",
+      "classification_he": "מסגרות רעיוניות ומתודולוגיות",
+      "summary_he": "מסמכי יסוד שמתרגמים ניסיון למודלים, שערים, משילות וארכיטקטורה.",
+      "publications": [
+        {"title": "Gastocratic Governance", "format": "Academic Whitepaper", "status": "DRAFT"},
+        {"title": "SUPERNOAH", "format": "Global Book Edition", "status": "ROADMAP_LOCKED"}
+      ],
+      "route": "/articles/",
+      "status": "DRAFTING"
+    },
+    "node_media_synthesis": {
+      "id": "node_creative",
+      "order": 4,
+      "title": "Audio & Media Production",
+      "title_he": "אודיו ומדיה",
+      "classification": "Creative Outputs",
+      "classification_he": "יצירה, קול והפצה",
+      "summary_he": "היפ־הופ, טראפ אלקטרוני, וידאו וארכיון תוכן כחלק ממערכת הזהות — לא כקישוט.",
+      "genres": ["Electronic Trap", "Hip-Hop"],
+      "automation_pipelines": [
+        "Automated FFmpeg video processing",
+        "Video script automation",
+        "Social distribution workflows"
+      ],
+      "route": "/influence/",
+      "status": "ACTIVE_CREATIVE"
+    }
+  },
+  "relational_mappings": [
+    {
+      "id": "edge_media_starton_001",
+      "source": "node_creative",
+      "target": "node_social_impact",
+      "relation_type": "APPLIES_CREATIVE_INFRASTRUCTURE_TO",
+      "connection_he": "כלי הפקה, אולפן וקרדיט יצירתי הופכים למסלול למידה ושייכות לנוער.",
+      "status": "ACTIVE_MODEL"
+    },
+    {
+      "id": "edge_7ya_starton_001",
+      "source": "node_infrastructure",
+      "target": "node_social_impact",
+      "relation_type": "PROVIDES_TECHNOLOGY_TO",
+      "connection_he": "7YA מספקת מעטפת זהות, נתונים, AI וממשק לפיילוטים מאושרים של StartOn.",
+      "status": "PROPOSED_IMPLEMENTATION"
+    },
+    {
+      "id": "edge_academic_7ya_001",
+      "source": "node_theoretical",
+      "target": "node_infrastructure",
+      "relation_type": "GOVERNS",
+      "connection_he": "המסגרות התיאורטיות מגדירות את כללי המשילות, הראיות והגבולות של המערכת.",
+      "status": "DRAFT"
+    },
+    {
+      "id": "edge_7ya_media_001",
+      "source": "node_infrastructure",
+      "target": "node_creative",
+      "relation_type": "ARCHIVES_AND_ROUTES",
+      "connection_he": "התוכן עובר מארכיון מפוזר לנכסים נרטיביים עם מקור, תאריך והקשר.",
+      "status": "ACTIVE"
+    }
+  ],
+  "public_metrics": [
+    {"value": "4", "label_he": "צמתי משימה מחוברים", "detail": "INFRASTRUCTURE · IMPACT · FRAMEWORKS · MEDIA"},
+    {"value": "4", "label_he": "תקופות במסלול", "detail": "FIELD → SERVICE → IMPACT → SYSTEMS"},
+    {"value": "3", "label_he": "שפות פעילות", "detail": "HE · RU · EN"},
+    {"value": "1", "label_he": "שכבת ראיות משותפת", "detail": "SOURCE · DATE · STATUS · CONTEXT"}
+  ],
+  "publication_policy": {
+    "principle": "Static identity. Structured evidence. Adaptive presentation.",
+    "blocked_statuses": ["METHODOLOGY_PENDING", "PRIVATE", "RESTRICTED"],
+    "render_only_when": "public_disclosure is APPROVED or the object is explicitly marked PUBLIC_CONTEXT"
+  }
+}
