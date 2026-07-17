@@ -1,1 +1,4 @@
-deploy-igor-infostory 0db02d129724a8e16b4104c8ac4cad1a0864c63f 2026-07-16T01:20:00Z
+deploy-tactical-ontology b56fd11d3b7319e6d9d2377c511acee17f978cbf 2026-07-17T12:08:00+03:00
+reason=igor-explicit-production-publish
+expected_build=7ya-tactical-ontology-20260717-1
+canonical_repository=7guard-io/7ya.io
