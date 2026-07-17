@@ -1,4 +1,5 @@
-deploy-tactical-ontology b56fd11d3b7319e6d9d2377c511acee17f978cbf 2026-07-17T12:08:00+03:00
-reason=igor-explicit-production-publish
-expected_build=7ya-tactical-ontology-20260717-1
+deploy-personal-static 4819b4dc2630e04e5f28c8e954a8bbd9c34158e6 2026-07-18T02:35:00+03:00
+reason=igor-explicit-production-fix
+expected_build=igor-personal-hero-20260716-1
+expected_experience=IGOR_VEPRETSKI_PERSONAL_STATIC_HOMEPAGE
 canonical_repository=7guard-io/7ya.io
