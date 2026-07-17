@@ -1,9 +1,9 @@
 {
   "schema_version": 4,
-  "recorded_at": "2026-07-17T02:24:08.230Z",
-  "workflow_run_id": 29549806068,
+  "recorded_at": "2026-07-17T09:13:54.231Z",
+  "workflow_run_id": 29569182407,
   "workflow_run_attempt": 1,
-  "triggering_commit": "5e6e1a2498b0662952cbffb63c0767bcd5c0b98c",
+  "triggering_commit": "28b86a6c6bafeb682689ad11ce13ed2ab4345a5d",
   "source_repository": "7guard-io/7ya.io",
   "source_sha": "b56fd11d3b7319e6d9d2377c511acee17f978cbf",
   "expected_build": "7ya-tactical-ontology-20260717-1",
