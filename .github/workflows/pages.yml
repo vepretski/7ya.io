@@ -1,13 +1,7 @@
-name: Deploy 7YA.IO — Personal Static Homepage
+name: Deploy 7YA.IO — Personal Life Album · All Pages
 
 on:
   push:
-    branches:
-      - dev
-    paths:
-      - ".github/workflows/pages.yml"
-      - ".pages-trigger"
-  pull_request:
     branches:
       - dev
     paths:
@@ -26,27 +20,28 @@ concurrency:
 
 env:
   CANONICAL_REPOSITORY: 7guard-io/7ya.io
-  CANONICAL_SHA: 4819b4dc2630e04e5f28c8e954a8bbd9c34158e6
+  CANONICAL_SHA: 07bf31fbaa958ec707fd7b12c281b93584cee5c7
   EXPECTED_BUILD: igor-personal-hero-20260716-1
-  EXPECTED_EXPERIENCE: IGOR_VEPRETSKI_PERSONAL_STATIC_HOMEPAGE
+  EXPECTED_GLOBAL_REPAIR: igor-global-page-repair-20260718-1
+  EXPECTED_EXPERIENCE: IGOR_VEPRETSKI_PERSONAL_LIFE_ALBUM_ALL_PAGES
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout immutable personal homepage source
+      - name: Checkout immutable canonical source
         uses: actions/checkout@v4
         with:
           repository: 7guard-io/7ya.io
-          ref: 4819b4dc2630e04e5f28c8e954a8bbd9c34158e6
+          ref: 07bf31fbaa958ec707fd7b12c281b93584cee5c7
           path: canonical
           fetch-depth: 1
 
-      - name: Validate personal static release
+      - name: Validate personal all-pages source
         shell: bash
         run: |
           set -euo pipefail
@@ -63,6 +58,10 @@ jobs:
 
           test -s styles/igor-personal-hero-20260716.css
           test -s scripts/igor-personal-hero-20260716.js
+          test -s styles/7ya-global-page-repair-20260718.css
+          test -s scripts/7ya-global-page-repair-20260718.js
+          test -s scripts/apply-global-page-repair.mjs
+
           for image in igor-hero.webp igor-executive.webp igor-speaker.webp igor-public-service.webp igor-closeup.webp; do
             test -s "assets/personal-hero-20260716/$image" || { echo "Missing personal homepage asset: $image"; exit 1; }
           done
@@ -75,13 +74,14 @@ jobs:
           grep -Fq 'id="starton"' index.html
           grep -Fq '/styles/igor-personal-hero-20260716.css?v=1' index.html
           grep -Fq '/scripts/igor-personal-hero-20260716.js' index.html
-          grep -Fq 'אדם.</span><span>ראיות.</span><strong>פעולה.' index.html
           test "$(grep -o '<h1\b' index.html | wc -l | tr -d ' ')" = "1"
 
           node --check scripts/igor-personal-hero-20260716.js
-          echo 'PERSONAL_STATIC_SOURCE_GATE: PASS'
+          node --check scripts/7ya-global-page-repair-20260718.js
+          node --check scripts/apply-global-page-repair.mjs
+          echo 'PERSONAL_ALL_PAGES_SOURCE_GATE: PASS'
 
-      - name: Assemble immutable Pages artifact
+      - name: Assemble and repair immutable Pages artifact
         shell: bash
         run: |
           set -euo pipefail
@@ -102,10 +102,13 @@ jobs:
             if [ -e "canonical/$path" ]; then cp -RL "canonical/$path" dist/; fi
           done
 
+          node canonical/scripts/apply-global-page-repair.mjs dist
+
           jq \
             --arg sha "$CANONICAL_SHA" \
-            --arg release "github-pages-personal-static-$CANONICAL_SHA" \
+            --arg release "github-pages-all-pages-$CANONICAL_SHA" \
             --arg experience "$EXPECTED_EXPERIENCE" \
+            --arg repair "$EXPECTED_GLOBAL_REPAIR" \
             '.source_repository = "7guard-io/7ya.io" |
              .source_path = "/" |
              .source_sha = $sha |
@@ -114,17 +117,38 @@ jobs:
              .status = "READY" |
              .release = $release |
              .environment = "production" |
-             .experience = $experience' \
+             .experience = $experience |
+             .global_page_repair = $repair |
+             .critical_surfaces = ["/","/igor-vepretski/","/journey/","/starton/","/influence/","/media/","/articles/","/evidence/","/speaker/","/talk/","/contact/","/museum/","/history/","/entity/","/create/","/7ya/","/response-ai/","/robots.txt","/sitemap.xml"] |
+             .rollback = "GitHub Pages deployment history plus rollback/pre-global-page-repair-20260718"' \
             canonical/release.json > dist/release.json
 
           touch dist/.nojekyll
           test -s dist/index.html
           test -s dist/styles/igor-personal-hero-20260716.css
           test -s dist/scripts/igor-personal-hero-20260716.js
+          test -s dist/styles/7ya-global-page-repair-20260718.css
+          test -s dist/scripts/7ya-global-page-repair-20260718.js
           test -s dist/assets/personal-hero-20260716/igor-hero.webp
+
           grep -Fq "$EXPECTED_BUILD" dist/index.html
+          grep -Fq "$EXPECTED_GLOBAL_REPAIR" dist/index.html
           grep -Fq "$EXPECTED_EXPERIENCE" dist/release.json
-          echo 'PAGES_PERSONAL_STATIC_ARTIFACT: PASS'
+          grep -Fq "$EXPECTED_GLOBAL_REPAIR" dist/release.json
+
+          for route in igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact museum history entity create response-ai; do
+            page="dist/$route/index.html"
+            test -s "$page" || { echo "Missing repaired route: $route"; exit 1; }
+            grep -Fq "$EXPECTED_GLOBAL_REPAIR" "$page" || { echo "Missing repair marker: $route"; exit 1; }
+            grep -Fq '/styles/7ya-global-page-repair-20260718.css' "$page" || { echo "Missing repair CSS: $route"; exit 1; }
+          done
+
+          if grep -R -E 'טוען את מפת המערכת|טוען מדדי מבנה|טוען את מסלול ההתפתחות|טוען את מפת הקשרים' dist --include='*.html'; then
+            echo 'Visible loading placeholder remained in the published HTML.'
+            exit 1
+          fi
+
+          echo 'PAGES_ALL_PAGES_ARTIFACT: PASS'
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -138,13 +162,12 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify public domain
-        if: github.event_name != 'pull_request'
+      - name: Verify public domain and critical routes
         shell: bash
         run: |
           set -euo pipefail
 
-          for attempt in $(seq 1 30); do
+          for attempt in $(seq 1 45); do
             nonce="${GITHUB_RUN_ID}-${attempt}-$(date +%s)"
             release="$(curl -fsSL --connect-timeout 8 --max-time 20 \
               -H 'Cache-Control: no-cache, no-store, max-age=0' \
@@ -153,28 +176,31 @@ jobs:
             if jq -e \
               --arg sha "$CANONICAL_SHA" \
               --arg experience "$EXPECTED_EXPERIENCE" \
-              '.source_sha == $sha and .experience == $experience and .status == "READY"' \
+              --arg repair "$EXPECTED_GLOBAL_REPAIR" \
+              '.source_sha == $sha and .experience == $experience and .global_page_repair == $repair and .status == "READY"' \
               <<<"$release" >/dev/null 2>&1; then
-              homepage="$(curl -fsSL --connect-timeout 8 --max-time 20 \
-                -H 'Cache-Control: no-cache, no-store, max-age=0' \
-                "https://7ya.io/?release-check=${nonce}")"
-              css="$(curl -fsSL --connect-timeout 8 --max-time 20 \
-                "https://7ya.io/styles/igor-personal-hero-20260716.css?release-check=${nonce}")"
-              javascript="$(curl -fsSL --connect-timeout 8 --max-time 20 \
-                "https://7ya.io/scripts/igor-personal-hero-20260716.js?release-check=${nonce}")"
 
+              homepage="$(curl -fsSL --connect-timeout 8 --max-time 20 -H 'Cache-Control: no-cache' "https://7ya.io/?release-check=${nonce}")"
               grep -Fq "$EXPECTED_BUILD" <<<"$homepage"
+              grep -Fq "$EXPECTED_GLOBAL_REPAIR" <<<"$homepage"
               grep -Fq '<title>איגור ופרצקי | אדם. ראיות. פעולה.</title>' <<<"$homepage"
-              grep -Fq 'id="person"' <<<"$homepage"
-              grep -Fq 'id="starton"' <<<"$homepage"
-              grep -Fq '.hero-image' <<<"$css"
-              grep -Fq 'IntersectionObserver' <<<"$javascript"
-              echo 'PUBLIC_7YA_PERSONAL_STATIC_GATE: PASS'
+
+              for route in igor-vepretski journey starton influence evidence 7ya speaker talk media articles contact museum history entity create response-ai; do
+                page="$(curl -fsSL --connect-timeout 8 --max-time 20 -H 'Cache-Control: no-cache' "https://7ya.io/$route/?release-check=${nonce}")"
+                grep -Fq "$EXPECTED_GLOBAL_REPAIR" <<<"$page" || { echo "Public route missing repair marker: $route"; exit 1; }
+              done
+
+              curl -fsSL --connect-timeout 8 --max-time 20 "https://7ya.io/styles/7ya-global-page-repair-20260718.css?release-check=${nonce}" | grep -Fq '.seven-global-header'
+              curl -fsSL --connect-timeout 8 --max-time 20 "https://7ya.io/scripts/7ya-global-page-repair-20260718.js?release-check=${nonce}" | grep -Fq 'sevenGlobalProgress'
+              curl -fsSL --connect-timeout 8 --max-time 20 "https://7ya.io/robots.txt?release-check=${nonce}" | grep -Fq 'sitemap.xml'
+              curl -fsSL --connect-timeout 8 --max-time 20 "https://7ya.io/sitemap.xml?release-check=${nonce}" | grep -Fq '<urlset'
+
+              echo 'PUBLIC_7YA_ALL_PAGES_GATE: PASS'
               exit 0
             fi
 
             sleep 10
           done
 
-          echo 'Public domain did not converge to the personal static release.'
+          echo 'Public domain did not converge to the repaired all-pages release.'
           exit 1
