@@ -1,5 +1,5 @@
-deploy-personal-static 4819b4dc2630e04e5f28c8e954a8bbd9c34158e6 2026-07-18T16:32:00+03:00
-reason=igor-explicit-production-and-public-verification
+deploy-personal-static 4819b4dc2630e04e5f28c8e954a8bbd9c34158e6 2026-07-18T16:39:00+03:00
+reason=observable-pr-diagnostic-and-production-release
 expected_build=igor-personal-hero-20260716-1
 expected_experience=IGOR_VEPRETSKI_PERSONAL_STATIC_HOMEPAGE
 canonical_repository=7guard-io/7ya.io
