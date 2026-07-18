@@ -7,6 +7,12 @@ on:
     paths:
       - ".github/workflows/pages.yml"
       - ".pages-trigger"
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/pages.yml"
+      - ".pages-trigger"
   workflow_dispatch:
 
 permissions:
@@ -133,6 +139,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Verify public domain
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
