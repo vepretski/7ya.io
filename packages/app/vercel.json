@@ -1,12 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "echo '7YA proxy release: no dependency install required'",
-  "buildCommand": "echo '7YA proxy release: canonical pages served by serverless repair layer'",
+  "installCommand": "echo '7YA static restoration: no dependency install required'",
+  "buildCommand": "set -eu; mkdir -p public/data; base64 -d .ledger/master.gz.b64 | gzip -dc > public/data/7ya-master-public-system.json; base64 -d .ledger/audit.gz.b64 | gzip -dc > public/data/7ya-public-web-audit.json; node -e \"const fs=require('fs');const m=JSON.parse(fs.readFileSync('public/data/7ya-master-public-system.json','utf8'));const a=JSON.parse(fs.readFileSync('public/data/7ya-public-web-audit.json','utf8'));const d=m.sources.map(x=>x.id).filter((x,i,v)=>v.indexOf(x)!==i);if(m.sources.length!==83||a.urls.length!==83||m.moments.length!==7||m.open_verification.length!==8||m.resolutions_and_discoveries.length!==11||d.length){throw new Error('7YA static ledger validation failed')}console.log('7YA ledger validated: sources=83 audit=83 moments=7 pending=8 discoveries=11 duplicates=0')\"",
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": true,
   "routes": [
+    { "src": "/igor-wall", "status": 308, "headers": { "Location": "/igor-vepretski/" } },
+    { "src": "/igor-wall/", "status": 308, "headers": { "Location": "/igor-vepretski/" } },
+    { "src": "/igor-vepretski", "dest": "/igor-vepretski/index.html" },
+    { "src": "/igor-vepretski/", "dest": "/igor-vepretski/index.html" },
+    { "src": "/igor-vepretski/(.*)", "dest": "/igor-vepretski/$1" },
+    { "src": "/data/7ya-master-public-system.json", "dest": "/data/7ya-master-public-system.json" },
+    { "src": "/data/7ya-public-web-audit.json", "dest": "/data/7ya-public-web-audit.json" },
     {
       "src": "/release\\.json",
       "dest": "/api/release",
