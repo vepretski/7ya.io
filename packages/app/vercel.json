@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "echo '7YA static restoration: no dependency install required'",
-  "buildCommand": "set -eu; mkdir -p public/data; base64 -d .ledger/master.gz.b64 | gzip -dc > public/data/7ya-master-public-system.json; base64 -d .ledger/audit.gz.b64 | gzip -dc > public/data/7ya-public-web-audit.json; node -e \"const fs=require('fs');const m=JSON.parse(fs.readFileSync('public/data/7ya-master-public-system.json','utf8'));const a=JSON.parse(fs.readFileSync('public/data/7ya-public-web-audit.json','utf8'));const d=m.sources.map(x=>x.id).filter((x,i,v)=>v.indexOf(x)!==i);if(m.sources.length!==83||a.urls.length!==83||m.moments.length!==7||m.open_verification.length!==8||m.resolutions_and_discoveries.length!==11||d.length){throw new Error('7YA static ledger validation failed')}console.log('7YA ledger validated: sources=83 audit=83 moments=7 pending=8 discoveries=11 duplicates=0')\"",
+  "buildCommand": "bash scripts/assemble-ledger.sh",
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": true,
