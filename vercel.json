@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "set -eu; node scripts/check-restoration-nvidia-chat.mjs; mkdir -p packages/app/public/data; base64 -d .tmp/ledger/master.gz.b64 | gzip -dc > packages/app/public/data/7ya-master-public-system.json; base64 -d .tmp/ledger/audit.gz.b64 | gzip -dc > packages/app/public/data/7ya-public-web-audit.json; node -e \"const fs=require('fs');const m=JSON.parse(fs.readFileSync('packages/app/public/data/7ya-master-public-system.json','utf8'));const a=JSON.parse(fs.readFileSync('packages/app/public/data/7ya-public-web-audit.json','utf8'));const d=m.sources.map(x=>x.id).filter((x,i,v)=>v.indexOf(x)!==i);if(m.sources.length!==83||a.urls.length!==83||m.moments.length<7||m.open_verification.length!==8||m.resolutions_and_discoveries.length!==11||d.length){throw new Error('7YA static ledger validation failed')}console.log('7YA static ledger validated: 83/83 URLs, 7 moments, 8 pending, 11 resolutions/discoveries')\"",
-  "outputDirectory": "packages/app/public"
+  "buildCommand": "set -eu; node scripts/check-restoration-nvidia-chat.mjs; node scripts/inject-restoration-nvidia-chat.mjs; mkdir -p packages/app/public/data; base64 -d .tmp/ledger/master.gz.b64 | gzip -dc > packages/app/public/data/7ya-master-public-system.json; base64 -d .tmp/ledger/audit.gz.b64 | gzip -dc > packages/app/public/data/7ya-public-web-audit.json; node -e \"const fs=require('fs');const m=JSON.parse(fs.readFileSync('packages/app/public/data/7ya-master-public-system.json','utf8'));const a=JSON.parse(fs.readFileSync('packages/app/public/data/7ya-public-web-audit.json','utf8'));const d=m.sources.map(x=>x.id).filter((x,i,v)=>v.indexOf(x)!==i);if(m.sources.length!==83||a.urls.length!==83||m.moments.length<7||m.open_verification.length!==8||m.resolutions_and_discoveries.length!==11||d.length){throw new Error('7YA static ledger validation failed')}console.log('7YA static ledger validated: 83/83 URLs, 7 moments, 8 pending, 11 resolutions/discoveries')\"",
+  "outputDirectory": "packages/app/public",
+  "functions": {
+    "api/guide.js": {
+      "maxDuration": 45
+    }
+  }
 }
