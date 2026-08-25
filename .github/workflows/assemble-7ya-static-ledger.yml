@@ -1,0 +1,52 @@
+name: Assemble 7YA static ledger
+
+on:
+  push:
+    branches:
+      - restoration-plus/ui-shell-20260815
+    paths:
+      - '.tmp/ledger/**'
+      - '.github/workflows/assemble-7ya-static-ledger.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: restoration-plus/ui-shell-20260815
+          fetch-depth: 0
+      - name: Assemble exact patch payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p packages/app/public/data
+          base64 -d .tmp/ledger/master.gz.b64 | gzip -dc > packages/app/public/data/7ya-master-public-system.json
+          base64 -d .tmp/ledger/audit.gz.b64 | gzip -dc > packages/app/public/data/7ya-public-web-audit.json
+          node <<'NODE'
+          const fs = require('fs');
+          const master = JSON.parse(fs.readFileSync('packages/app/public/data/7ya-master-public-system.json','utf8'));
+          const audit = JSON.parse(fs.readFileSync('packages/app/public/data/7ya-public-web-audit.json','utf8'));
+          const dupes = master.sources.map(x=>x.id).filter((id,i,a)=>a.indexOf(id)!==i);
+          if (master.sources.length !== 83) throw new Error(`master sources=${master.sources.length}`);
+          if (audit.urls.length !== 83) throw new Error(`audit urls=${audit.urls.length}`);
+          if (master.moments.length < 7) throw new Error(`moments=${master.moments.length}`);
+          if (dupes.length) throw new Error(`duplicate source ids=${dupes.join(',')}`);
+          if (master.open_verification.length !== 8) throw new Error(`open verification=${master.open_verification.length}`);
+          if (master.resolutions_and_discoveries.length !== 11) throw new Error(`resolutions/discoveries=${master.resolutions_and_discoveries.length}`);
+          console.log(`validated sources=${master.sources.length} audit=${audit.urls.length} moments=${master.moments.length} open=${master.open_verification.length} discoveries=${master.resolutions_and_discoveries.length}`);
+          NODE
+      - name: Commit assembled runtime only
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .tmp/ledger
+          rm -f .github/workflows/assemble-7ya-static-ledger.yml
+          git config user.name '7YA Release Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add packages/app/public/data/7ya-master-public-system.json packages/app/public/data/7ya-public-web-audit.json .tmp/ledger .github/workflows/assemble-7ya-static-ledger.yml
+          git commit -m 'Integrate 7YA public memory system into deployed static route'
+          git push origin HEAD:restoration-plus/ui-shell-20260815

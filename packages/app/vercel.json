@@ -1,12 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "echo '7YA proxy release: no dependency install required'",
-  "buildCommand": "echo '7YA proxy release: canonical pages served by serverless repair layer'",
+  "installCommand": "echo '7YA static restoration: no dependency install required'",
+  "buildCommand": "bash scripts/assemble-ledger.sh",
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": true,
   "routes": [
+    { "src": "/igor-wall", "status": 308, "headers": { "Location": "/igor-vepretski/" } },
+    { "src": "/igor-wall/", "status": 308, "headers": { "Location": "/igor-vepretski/" } },
+    { "src": "/igor-vepretski", "dest": "/igor-vepretski/index.html" },
+    { "src": "/igor-vepretski/", "dest": "/igor-vepretski/index.html" },
+    { "src": "/igor-vepretski/(.*)", "dest": "/igor-vepretski/$1" },
+    { "src": "/data/7ya-master-public-system.json", "dest": "/data/7ya-master-public-system.json" },
+    { "src": "/data/7ya-public-web-audit.json", "dest": "/data/7ya-public-web-audit.json" },
     {
       "src": "/release\\.json",
       "dest": "/api/release",
