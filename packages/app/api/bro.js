@@ -1,4 +1,4 @@
-import { claimSourceLink, searchSpokenClaims, SPOKEN_CORPUS_RELEASE } from "./_spoken-corpus.js"
+import { claimSourceLink, claimText, searchSpokenClaims, SPOKEN_CORPUS_RELEASE } from "./_spoken-corpus.js"
 
 const DEFAULT_BASE_URL = "https://integrate.api.nvidia.com/v1"
 const DEFAULT_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
@@ -26,7 +26,7 @@ const fallbackText = (lang, claims) => {
     return "I do not have a sufficiently close match in the verified spoken corpus yet. Broaden the question or open Voice to inspect the available sources."
   }
 
-  const lines = claims.map((claim, index) => `${index + 1}. ${claim.text} — ${claim.source}, ${claim.timestamp}`)
+  const lines = claims.map((claim, index) => `${index + 1}. ${claimText(claim, lang)} — ${claim.source}, ${claim.timestamp}`)
   if (lang === "he") return `NVIDIA עדיין לא זמין כרגע, לכן אני לא ממציא תשובת AI. אלה ההתאמות החזקות ביותר מהקורפוס המאומת:\n\n${lines.join("\n")}`
   if (lang === "ru") return `NVIDIA сейчас недоступна, поэтому я не буду выдумывать AI-ответ. Вот наиболее релевантные записи из проверенного корпуса:\n\n${lines.join("\n")}`
   return `NVIDIA is not available right now, so I will not invent an AI answer. These are the strongest matches from the verified corpus:\n\n${lines.join("\n")}`
@@ -70,6 +70,7 @@ export default async function handler(request, response) {
   const latestUser = [...messages].reverse().find((message) => message.role === "user")?.content?.trim() || ""
   if (!latestUser) return json(response, 400, { provider: "nvidia-nim", error: "MESSAGE_REQUIRED" })
 
+  const lang = language(latestUser)
   const relevantClaims = searchSpokenClaims(latestUser, 5)
   const selectedClaims = relevantClaims.length ? relevantClaims : searchSpokenClaims("", 4)
   const sources = selectedClaims.map((claim) => ({
@@ -78,6 +79,7 @@ export default async function handler(request, response) {
     timestamp: claim.timestamp,
     topic: claim.topic,
     confidence: claim.confidence,
+    paraphrase: claimText(claim, lang),
     url: claimSourceLink(claim),
   }))
 
@@ -91,13 +93,13 @@ export default async function handler(request, response) {
       nvidia_configured: false,
       model,
       corpus_release: SPOKEN_CORPUS_RELEASE,
-      answer: fallbackText(language(latestUser), selectedClaims),
+      answer: fallbackText(lang, selectedClaims),
       sources,
     })
   }
 
   const grounding = selectedClaims
-    .map((claim, index) => `[${index + 1}] ${claim.source} ${claim.timestamp} | ${claim.topic} | ${claim.confidence}\nPARAPHRASE, NOT VERBATIM: ${claim.text}`)
+    .map((claim, index) => `[${index + 1}] ${claim.source} ${claim.timestamp} | ${claim.topic} | ${claim.confidence}\nPARAPHRASE, NOT VERBATIM: ${claimText(claim, lang)}`)
     .join("\n\n")
 
   const system = `You are Bro Chat, the source-grounded public assistant for 7YA / Igor Vepretski. Answer in the user's language. Be concise but substantive. Use only the supplied public corpus evidence for claims about Igor. Never turn a paraphrase into a verbatim quote. Automatic captions remain ASR. Host metadata is not a transcript. Multi-speaker material cannot be attributed to Igor unless the supplied claim already has sufficient attribution. If the corpus does not support an assertion, say so. Never invent source URLs, dates, metrics, affiliations, or private facts. Prefer explaining uncertainty over filling gaps.\n\nPUBLIC SPOKEN CORPUS EXCERPTS:\n${grounding}`
@@ -134,7 +136,7 @@ export default async function handler(request, response) {
         nvidia_status: upstream.status,
         model,
         corpus_release: SPOKEN_CORPUS_RELEASE,
-        answer: fallbackText(language(latestUser), selectedClaims),
+        answer: fallbackText(lang, selectedClaims),
         sources,
       })
     }
@@ -154,7 +156,7 @@ export default async function handler(request, response) {
       nvidia_error: error?.name === "AbortError" ? "UPSTREAM_TIMEOUT" : "UPSTREAM_UNAVAILABLE",
       model,
       corpus_release: SPOKEN_CORPUS_RELEASE,
-      answer: fallbackText(language(latestUser), selectedClaims),
+      answer: fallbackText(lang, selectedClaims),
       sources,
     })
   } finally {
