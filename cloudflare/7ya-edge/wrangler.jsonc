@@ -6,9 +6,9 @@
   "workers_dev": true,
   "preview_urls": true,
   "vars": {
-    "NVIDIA_GUIDE_MODEL": "nvidia/nemotron-3-super-120b-a12b",
+    "NVIDIA_GUIDE_MODEL": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "ALLOW_OPENAI_FALLBACK": "false",
-    "GUIDE_PROVIDER_TIMEOUT_MS": "32000"
+    "GUIDE_PROVIDER_TIMEOUT_MS": "25000"
   },
   "assets": {
     "directory": "../../packages/app/public",
