@@ -107,18 +107,6 @@ jobs:
           set -euo pipefail
           printf '%s' "$NVIDIA_API_KEY" | npx --yes wrangler@4.50.0 secret put NVIDIA_API_KEY --config "$WRANGLER_CONFIG"
 
-      - name: Bind optional OpenAI fallback only when explicitly configured
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          set -euo pipefail
-          if [ -n "$OPENAI_API_KEY" ]; then
-            printf '%s' "$OPENAI_API_KEY" | npx --yes wrangler@4.50.0 secret put OPENAI_API_KEY --config "$WRANGLER_CONFIG"
-          else
-            echo "OpenAI secret absent; NVIDIA-only staging is intentional."
-          fi
-
       - name: Verify static Voice corpus and Worker health
         run: |
           set -euo pipefail
@@ -130,6 +118,8 @@ jobs:
           done
 
           jq -e '.ok == true and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and .nvidiaConfigured == true' /tmp/health.json
+          curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/api/nvidia-health" > /tmp/nvidia-health.json
+          jq -e '.provider == "nvidia-nim" and .configured == true and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and .secret_exposed == false' /tmp/nvidia-health.json
           curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/voice/" | grep -Fq 'VOICE · SOURCE-GROUNDED · 7YA'
           curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/data/spoken-corpus-v1.json" > /tmp/spoken-corpus.json
           jq -e '.summary.sourceCount == 14 and .summary.captionSourceCount == 8 and .summary.claimCount == 7' /tmp/spoken-corpus.json
@@ -141,11 +131,11 @@ jobs:
           set -euo pipefail
           response="$(curl -fsSL --connect-timeout 8 --max-time 45 \
             -H 'Content-Type: application/json' \
-            --data '{"message":"Return one short sentence confirming that this response is running through the NVIDIA provider. Do not add unsupported facts.","language":"en","mode":"guide","path":"/qa/nvidia"}' \
-            "$STAGING_URL/api/guide")"
-          jq -e '.provider == "nvidia" and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and (.reply | length > 0)' <<<"$response"
+            --data '{"messages":[{"role":"user","content":"What does Igor say about StartOn and technology for youth at risk?"}],"language":"en","mode":"guide","path":"/qa/nvidia"}' \
+            "$STAGING_URL/api/bro")"
+          jq -e '.provider == "nvidia-nim" and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and (.answer | length > 0) and (.sources | length > 0)' <<<"$response"
           echo "### NVIDIA smoke test" >> "$GITHUB_STEP_SUMMARY"
-          echo 'Provider: NVIDIA · PASS' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Provider: NVIDIA NIM · PASS' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Mark staging READY
         run: |
