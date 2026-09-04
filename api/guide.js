@@ -1,4 +1,4 @@
-import { claimSourceLink, searchSpokenClaims, SPOKEN_CORPUS_RELEASE } from "../packages/app/api/_spoken-corpus.js"
+import { claimSourceLink, claimText, searchSpokenClaims, SPOKEN_CORPUS_RELEASE } from "../packages/app/api/_spoken-corpus.js"
 
 const BASE_URL = (process.env.NVIDIA_NIM_BASE_URL || "https://integrate.api.nvidia.com/v1").replace(/\/$/, "")
 const MODEL = process.env.NVIDIA_NIM_MODEL || process.env.NVIDIA_GUIDE_MODEL || "nvidia/nemotron-3.5-lightning-30b-a3b"
@@ -28,7 +28,7 @@ function historyMessages(history) {
 }
 
 function fallback(language, claims) {
-  const lines = claims.map((claim, index) => `${index + 1}. ${claim.text} — ${claim.source}, ${claim.timestamp}`)
+  const lines = claims.map((claim, index) => `${index + 1}. ${claimText(claim, language)} — ${claim.source}, ${claim.timestamp}`)
   if (language === "ru") return lines.length
     ? `NVIDIA сейчас недоступна. Вместо выдуманного AI-ответа — наиболее релевантные записи из проверенного корпуса:\n\n${lines.join("\n")}`
     : "NVIDIA сейчас недоступна, а в проверенном корпусе нет достаточно точного совпадения."
@@ -77,6 +77,7 @@ export default async function handler(req, res) {
     timestamp: claim.timestamp,
     topic: claim.topic,
     confidence: claim.confidence,
+    paraphrase: claimText(claim, language),
     url: claimSourceLink(claim),
   }))
 
@@ -96,7 +97,7 @@ export default async function handler(req, res) {
 
   const requestedLanguage = language === "ru" ? "Russian" : language === "en" ? "English" : "Hebrew"
   const grounding = claims.map((claim, index) =>
-    `[${index + 1}] ${claim.source} ${claim.timestamp} | ${claim.topic} | confidence=${claim.confidence}\nPARAPHRASE, NOT VERBATIM: ${claim.text}`
+    `[${index + 1}] ${claim.source} ${claim.timestamp} | ${claim.topic} | confidence=${claim.confidence}\nPARAPHRASE, NOT VERBATIM: ${claimText(claim, language)}`
   ).join("\n\n")
 
   const system = `You are Bro Chat, the evidence-first public AI layer for 7YA and Igor Vepretski. You are not Igor and must never impersonate him. Reply in ${requestedLanguage}. ${modeInstruction(mode)}\n\nHard rules: evidence before amplification; use only the supplied public corpus for factual claims about Igor; paraphrase is never a verbatim quote; automatic captions remain ASR; host metadata is not a transcript; multi-speaker material is attribution-gated; never invent a URL, date, metric, affiliation, partnership, quote, endorsement, or private fact; if evidence is insufficient say so.\n\nVERIFIED PUBLIC SPOKEN CORPUS:\n${grounding}`
