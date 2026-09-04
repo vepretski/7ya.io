@@ -1,0 +1,63 @@
+name: NVIDIA runtime gate
+
+on:
+  pull_request:
+    paths:
+      - "packages/app/api/_spoken-corpus.js"
+      - "packages/app/api/bro.js"
+      - "packages/app/api/nvidia-health.js"
+      - "packages/app/NVIDIA_NIM.md"
+      - ".github/workflows/nvidia-runtime-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nvidia-runtime-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Syntax gate
+        run: |
+          set -euo pipefail
+          node --check packages/app/api/_spoken-corpus.js
+          node --check packages/app/api/bro.js
+          node --check packages/app/api/nvidia-health.js
+
+      - name: Corpus retrieval gate
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { searchSpokenClaims, SPOKEN_CORPUS_RELEASE } from './packages/app/api/_spoken-corpus.js'
+          const starton = searchSpokenClaims('StartOn technology youth', 5)
+          const systems = searchSpokenClaims('systems change organizations', 5)
+          if (SPOKEN_CORPUS_RELEASE !== 'spoken-corpus-20260904-v1') throw new Error('Unexpected corpus release')
+          if (!starton.length) throw new Error('StartOn retrieval returned no evidence')
+          if (!systems.some((claim) => claim.sourceId === 'minds-motion-18')) throw new Error('Systems claim not retrieved')
+          if (starton.some((claim) => !claim.timestamp || !claim.confidence)) throw new Error('Evidence metadata missing')
+          console.log('NVIDIA_CORPUS_GATE: PASS')
+          NODE
+
+      - name: Secret hygiene gate
+        run: |
+          set -euo pipefail
+          if grep -R -E 'nvapi-[A-Za-z0-9_-]{10,}' \
+            packages/app/api packages/app/NVIDIA_NIM.md; then
+            echo 'Hard-coded NVIDIA API key detected.'
+            exit 1
+          fi
+          grep -Fq 'process.env.NVIDIA_API_KEY' packages/app/api/bro.js
+          grep -Fq 'secret_exposed: false' packages/app/api/nvidia-health.js
+          echo 'NVIDIA_SECRET_HYGIENE_GATE: PASS'
+
+      - name: Resilience contract gate
+        run: |
+          set -euo pipefail
+          grep -Fq 'deterministic-corpus-fallback' packages/app/api/bro.js
+          grep -Fq 'UPSTREAM_TIMEOUT' packages/app/api/bro.js
+          grep -Fq 'nvidia/nemotron-3.5-lightning-30b-a3b' packages/app/api/bro.js
+          grep -Fq 'https://integrate.api.nvidia.com/v1' packages/app/api/bro.js
+          echo 'NVIDIA_RESILIENCE_GATE: PASS'
