@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const html=fs.readFileSync('packages/app/public/index.html','utf8');
+const html=fs.readFileSync('packages/app/public/life-v2/index.html','utf8');
 const css=fs.readFileSync('packages/app/public/assets/living-life.css','utf8');
 const js=fs.readFileSync('packages/app/public/assets/living-life.js','utf8');
 
