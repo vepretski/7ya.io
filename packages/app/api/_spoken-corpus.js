@@ -12,14 +12,24 @@ export const SPOKEN_CLAIMS = [
 
 const normalize = (value) => String(value || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim()
 const tokens = (value) => new Set(normalize(value).split(/\s+/).filter((word) => word.length > 1))
+const STOP_TOKENS = new Set([
+  "igor","vepretski","what","did","say","said","says","about","the","is","who","he","his","how","why","on",
+  "איגור","ופרצקי","מה","אמר","אומר","על","של","את","זה","מי","הוא","לגבי","למה","איך",
+  "игорь","вепрецкий","что","сказал","говорит","про","кто","он","его","как","почему",
+])
+const IDENTITY_TOKENS = new Set(["igor","vepretski","איגור","ופרצקי","игорь","вепрецкий"])
 
 export function claimText(claim, lang = "en") {
   return claim?.text?.[lang] || claim?.text?.en || ""
 }
 
 export function searchSpokenClaims(query, limit = 4) {
-  const queryTokens = [...tokens(query)]
-  if (!queryTokens.length) return []
+  const rawTokens = [...tokens(query)]
+  const queryTokens = rawTokens.filter((word) => !STOP_TOKENS.has(word))
+  if (!queryTokens.length) {
+    const asksIdentity = rawTokens.some((word) => IDENTITY_TOKENS.has(word))
+    return asksIdentity ? SPOKEN_CLAIMS.filter((claim) => claim.topic === "identity").slice(0, limit) : []
+  }
 
   return SPOKEN_CLAIMS
     .map((claim) => {
