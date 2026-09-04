@@ -1,0 +1,155 @@
+name: Cloudflare 7YA Edge Staging
+
+on:
+  push:
+    branches:
+      - feat/cloudflare-nvidia-edge-20260904
+    paths:
+      - "cloudflare/7ya-edge/**"
+      - "packages/app/public/**"
+      - "scripts/check-cloudflare-nvidia-edge.mjs"
+      - ".github/workflows/cloudflare-7ya-edge-staging.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-7ya-edge-staging
+  cancel-in-progress: true
+
+env:
+  CLOUDFLARE_ZONE_ID: "430ba34c138cfb5360826c4909f99be8"
+  WRANGLER_CONFIG: "cloudflare/7ya-edge/wrangler.jsonc"
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate Cloudflare NVIDIA edge contract
+        run: node scripts/check-cloudflare-nvidia-edge.mjs
+
+      - name: Require Cloudflare deployment token
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is not configured in GitHub Actions secrets."
+            exit 1
+          fi
+
+      - name: Resolve Cloudflare account from the 7ya.io zone
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          response="$(curl -fsSL \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID")"
+          account_id="$(jq -r '.result.account.id // empty' <<<"$response")"
+          if [ -z "$account_id" ]; then
+            echo "::error::Could not resolve the Cloudflare account ID from the configured 7ya.io zone."
+            jq -c '{success,errors}' <<<"$response" || true
+            exit 1
+          fi
+          echo "CLOUDFLARE_ACCOUNT_ID=$account_id" >> "$GITHUB_ENV"
+          echo "Cloudflare account resolved for staging deploy."
+
+      - name: Wrangler dry run
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx --yes wrangler@4.50.0 deploy --config "$WRANGLER_CONFIG" --dry-run
+
+      - name: Deploy isolated workers.dev staging
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.50.0 deploy --config "$WRANGLER_CONFIG" 2>&1 | tee /tmp/7ya-wrangler-deploy.log
+          url="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' /tmp/7ya-wrangler-deploy.log | tail -1 || true)"
+          if [ -z "$url" ]; then
+            echo "::error::Wrangler deployed but no workers.dev URL was found in its output."
+            cat /tmp/7ya-wrangler-deploy.log
+            exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "STAGING_URL=$url" >> "$GITHUB_ENV"
+          echo "### Cloudflare staging" >> "$GITHUB_STEP_SUMMARY"
+          echo "$url" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Require NVIDIA secret for READY state
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "$NVIDIA_API_KEY" ]; then
+            echo "::error::NVIDIA_API_KEY is not configured in GitHub Actions secrets. Staging was deployed, but AI cannot be marked READY."
+            exit 1
+          fi
+
+      - name: Bind NVIDIA API key as a Cloudflare Worker secret
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$NVIDIA_API_KEY" | npx --yes wrangler@4.50.0 secret put NVIDIA_API_KEY --config "$WRANGLER_CONFIG"
+
+      - name: Bind optional OpenAI fallback only when explicitly configured
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -n "$OPENAI_API_KEY" ]; then
+            printf '%s' "$OPENAI_API_KEY" | npx --yes wrangler@4.50.0 secret put OPENAI_API_KEY --config "$WRANGLER_CONFIG"
+          else
+            echo "OpenAI secret absent; NVIDIA-only staging is intentional."
+          fi
+
+      - name: Verify static Voice corpus and Worker health
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 18); do
+            if curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/api/health" > /tmp/health.json; then
+              break
+            fi
+            sleep 5
+          done
+
+          jq -e '.ok == true and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and .nvidiaConfigured == true' /tmp/health.json
+          curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/voice/" | grep -Fq 'VOICE · SOURCE-GROUNDED · 7YA'
+          curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/data/spoken-corpus-v1.json" > /tmp/spoken-corpus.json
+          jq -e '.summary.sourceCount == 14 and .summary.captionSourceCount == 8 and .summary.claimCount == 7' /tmp/spoken-corpus.json
+          curl -fsSL --connect-timeout 8 --max-time 20 "$STAGING_URL/api/voice?q=StartOn&lang=en" > /tmp/voice-search.json
+          jq -e '.ok == true and .count > 0' /tmp/voice-search.json
+
+      - name: Verify live NVIDIA inference through Cloudflare
+        run: |
+          set -euo pipefail
+          response="$(curl -fsSL --connect-timeout 8 --max-time 45 \
+            -H 'Content-Type: application/json' \
+            --data '{"message":"Return one short sentence confirming that this response is running through the NVIDIA provider. Do not add unsupported facts.","language":"en","mode":"guide","path":"/qa/nvidia"}' \
+            "$STAGING_URL/api/guide")"
+          jq -e '.provider == "nvidia" and .runtime == "cloudflare-workers" and .priority == "nvidia-first" and (.reply | length > 0)' <<<"$response"
+          echo "### NVIDIA smoke test" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Provider: NVIDIA · PASS' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Mark staging READY
+        run: |
+          echo "CLOUDFLARE_7YA_EDGE_STAGING: READY"
+          echo "### Result" >> "$GITHUB_STEP_SUMMARY"
+          echo 'CLOUDFLARE_7YA_EDGE_STAGING: READY' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Production 7ya.io routing was NOT changed.' >> "$GITHUB_STEP_SUMMARY"
