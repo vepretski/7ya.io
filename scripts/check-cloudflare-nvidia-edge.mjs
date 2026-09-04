@@ -9,7 +9,8 @@ const checks = [
       '"directory": "../../packages/app/public"',
       '"binding": "ASSETS"',
       '"run_worker_first": ["/api/*"]',
-      '"NVIDIA_GUIDE_MODEL": "nvidia/nemotron-3-super-120b-a12b"',
+      '"NVIDIA_GUIDE_MODEL": "nvidia/nemotron-3.5-lightning-30b-a3b"',
+      '"ALLOW_OPENAI_FALLBACK": "false"',
     ],
   ],
   [
@@ -18,11 +19,25 @@ const checks = [
       "https://integrate.api.nvidia.com/v1/chat/completions",
       "env.NVIDIA_API_KEY",
       'pathname === "/api/health"',
-      'pathname === "/api/guide"',
+      'pathname === "/api/nvidia-health"',
+      'pathname === "/api/bro"',
       'pathname === "/api/voice"',
       "env.ASSETS.fetch(request)",
-      'provider: "nvidia"',
+      'provider: "nvidia-nim"',
+      'provider: "deterministic-corpus-fallback"',
+      'answer:',
       'runtime: "cloudflare-workers"',
+      'secret_exposed: false',
+    ],
+  ],
+  [
+    "packages/app/public/igor-vepretski/nvidia-chat.js",
+    [
+      'fetch("/api/nvidia-health"',
+      'fetch("/api/bro"',
+      "messages:",
+      "data.answer",
+      'data.provider === "nvidia-nim"',
     ],
   ],
   [
@@ -33,9 +48,11 @@ const checks = [
       "wrangler deploy",
       "wrangler secret put NVIDIA_API_KEY",
       "/api/health",
-      "/api/guide",
+      "/api/nvidia-health",
+      "/api/bro",
       "/voice/",
       "spoken-corpus.json",
+      'provider == "nvidia-nim"',
     ],
   ],
 ]
@@ -51,6 +68,9 @@ for (const [file, needles] of checks) {
     if (!text.includes(needle)) failures.push(`${file}: missing marker ${needle}`)
   }
 }
+
+const client = fs.readFileSync("packages/app/public/igor-vepretski/nvidia-chat.js", "utf8")
+if (client.includes('fetch("/api/guide"')) failures.push("public client still routes through /api/guide")
 
 if (failures.length) {
   console.error("CLOUDFLARE_NVIDIA_EDGE_GATE: FAIL")
