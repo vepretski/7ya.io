@@ -31,13 +31,13 @@ function fallback(language, claims) {
   const lines = claims.map((claim, index) => `${index + 1}. ${claimText(claim, language)} — ${claim.source}, ${claim.timestamp}`)
   if (language === "ru") return lines.length
     ? `NVIDIA сейчас недоступна. Вместо выдуманного AI-ответа — наиболее релевантные записи из проверенного корпуса:\n\n${lines.join("\n")}`
-    : "NVIDIA сейчас недоступна, а в проверенном корпусе нет достаточно точного совпадения."
+    : "В проверенном устном корпусе пока нет достаточно точного совпадения с этим запросом."
   if (language === "en") return lines.length
     ? `NVIDIA is unavailable right now. Instead of inventing an AI answer, here are the strongest matches from the verified corpus:\n\n${lines.join("\n")}`
-    : "NVIDIA is unavailable and the verified corpus does not contain a sufficiently close match yet."
+    : "The verified spoken corpus does not contain a sufficiently close match for this request yet."
   return lines.length
     ? `NVIDIA אינו זמין כרגע. במקום להמציא תשובת AI, אלה ההתאמות החזקות ביותר מהקורפוס המאומת:\n\n${lines.join("\n")}`
-    : "NVIDIA אינו זמין כרגע, ובקורפוס המאומת עדיין אין התאמה מספקת לשאלה הזאת."
+    : "לא מצאתי כרגע התאמה מספקת לשאלה הזאת בקורפוס המדובר המאומת."
 }
 
 export default async function handler(req, res) {
@@ -69,8 +69,7 @@ export default async function handler(req, res) {
   const language = ["he", "en", "ru"].includes(body.language) ? body.language : "he"
   if (!message) return res.status(400).json({ error: "message is required" })
 
-  const matched = searchSpokenClaims(message, 5)
-  const claims = matched.length ? matched : searchSpokenClaims("", 4)
+  const claims = searchSpokenClaims(message, 5)
   const sources = claims.map((claim) => ({
     source_id: claim.sourceId,
     source: claim.source,
@@ -82,7 +81,7 @@ export default async function handler(req, res) {
   }))
 
   const key = process.env.NVIDIA_API_KEY?.trim()
-  if (!key) {
+  if (!key || !claims.length) {
     return res.status(200).json({
       reply: fallback(language, claims),
       provider: "local",
@@ -90,6 +89,7 @@ export default async function handler(req, res) {
       model: MODEL,
       priority: "nvidia-first",
       degraded: true,
+      nvidiaConfigured: Boolean(key),
       corpusRelease: SPOKEN_CORPUS_RELEASE,
       sources,
     })
