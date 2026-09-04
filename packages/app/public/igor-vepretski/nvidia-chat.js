@@ -180,11 +180,10 @@
 
   async function checkProvider() {
     try {
-      const response = await fetch("/api/guide", { cache: "no-store" })
+      const response = await fetch("/api/nvidia-health", { cache: "no-store" })
       if (!response.ok) return
       const data = await response.json()
-      if (data.nvidiaConfigured) provider.textContent = `NVIDIA · ${data.model || "NIM"}`
-      else if (data.openaiConfigured) provider.textContent = "NVIDIA-first · OpenAI fallback configured"
+      if (data.configured) provider.textContent = `NVIDIA · ${data.model || "NIM"}`
       else provider.textContent = text.local
     } catch {
       provider.textContent = text.local
@@ -200,29 +199,27 @@
     const waiting = addMessage(text.loading, "bot wait")
 
     try {
-      const response = await fetch("/api/guide", {
+      const response = await fetch("/api/bro", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message,
+          messages: [...conversation.slice(-10), { role: "user", content: message }],
           mode,
           language,
           path: location.pathname,
-          history: conversation.slice(-10),
           context: corpusContext,
         }),
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data?.error || `HTTP ${response.status}`)
       waiting.remove()
-      addMessage(data.reply || text.error, "bot")
-      conversation.push({ role: "user", content: message }, { role: "assistant", content: data.reply || "" })
+      const answer = data.answer || text.error
+      addMessage(answer, "bot")
+      conversation.push({ role: "user", content: message }, { role: "assistant", content: answer })
       if (conversation.length > 12) conversation.splice(0, conversation.length - 12)
-      provider.textContent = data.provider === "nvidia"
+      provider.textContent = data.provider === "nvidia-nim"
         ? `NVIDIA · ${data.model || "NIM"}`
-        : data.provider === "openai"
-          ? `OpenAI fallback · ${data.model || "AI"}`
-          : text.local
+        : text.local
     } catch (error) {
       waiting.textContent = text.error
       provider.textContent = text.local
