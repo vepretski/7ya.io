@@ -1,0 +1,163 @@
+{
+  "release": "spoken-corpus-20260904-v1",
+  "summary": {
+    "sourceCount": 14,
+    "captionSourceCount": 8,
+    "captionDurationLabel": "08:33:35",
+    "audioVerifiedDurationLabel": "00:04:10",
+    "claimCount": 7,
+    "policy": {
+      "publicOnly": true,
+      "paraphraseByDefault": true,
+      "autoCaptionsAreAsr": true,
+      "multiSpeakerRequiresAttribution": true,
+      "hostMetadataIsNotTranscript": true,
+      "missingSourceUrlIsNotInvented": true
+    }
+  },
+  "sources": [
+    {
+      "id": "nitzotzot-1",
+      "title": {"he":"איך כוכב TikTok משנה את העולם? · ניצוצות","en":"How does a TikTok creator change the world? · Nitzotzot","ru":"Как создатель TikTok меняет мир? · Nitzotzot"},
+      "platform": "YouTube",
+      "videoId": "ByBQX5K9z6U",
+      "url": "https://www.youtube.com/watch?v=ByBQX5K9z6U",
+      "year": "2025",
+      "duration": "35:22",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION",
+      "topics": ["childhood","aliyah","StartOn","technology","youth","education"],
+      "claims": [{"timestamp":"00:04–00:34","start":4,"topic":"StartOn","confidence":"high","paraphrase":{"he":"איגור מציג את סדרת המפגשים כמסע דרך סיפור העלייה והחיים שלו אל הרעיון של מרחבים טכנולוגיים לנוער בסיכון.","en":"Igor frames the sessions as a journey through his immigration and life story toward the idea of technological spaces for youth at risk.","ru":"Игорь представляет встречи как путь от истории репатриации и собственной жизни к идее технологических пространств для подростков группы риска."}}]
+    },
+    {
+      "id": "nitzotzot-2",
+      "title": {"he":"מפגש שני · איך כוכב TikTok משנה את העולם?","en":"Second meeting · How does a TikTok creator change the world?","ru":"Вторая встреча · Как создатель TikTok меняет мир?"},
+      "platform": "YouTube",
+      "videoId": "UfvyxFbILHc",
+      "url": "https://www.youtube.com/watch?v=UfvyxFbILHc",
+      "year": "2025",
+      "duration": "38:34",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION",
+      "topics": ["leadership","education","youth","resilience"],
+      "claims": []
+    },
+    {
+      "id": "creators-home-3",
+      "title": {"he":"יוצרים מהבית · פרק 3","en":"Creators from Home · Episode 3","ru":"Создатели из дома · Выпуск 3"},
+      "platform": "YouTube / Podcast",
+      "videoId": "DHxxrglp1Gk",
+      "url": "https://www.youtube.com/watch?v=DHxxrglp1Gk",
+      "year": "2023",
+      "duration": "1:38:20",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION · MULTI_SPEAKER",
+      "topics": ["Ukraine","aliyah","service","police","security","StartOn","October 7","identity"],
+      "claims": [
+        {"timestamp":"01:06–01:42","start":66,"topic":"biography","confidence":"high","paraphrase":{"he":"איגור מספר שנולד באוקראינה, עלה לישראל ב־1993, ושחלק גדול מחייו הבוגרים עבר בשירות ביטחוני ובהמשך במשטרת ישראל.","en":"Igor says he was born in Ukraine, immigrated to Israel in 1993, and spent much of his adult life in security service and later the Israel Police.","ru":"Игорь рассказывает, что родился в Украине, репатриировался в Израиль в 1993 году и значительную часть взрослой жизни провёл на службе безопасности, а затем в полиции Израиля."}},
+        {"timestamp":"02:14–02:49","start":134,"topic":"security","confidence":"high","paraphrase":{"he":"איגור מדגיש שלאחר שיצא מהמערכת הוא יכול לדבר בחופשיות רבה יותר על התחושה שכוחות הביטחון אינם מקבלים בציבור ובתקשורת את ההערכה הראויה להם.","en":"Igor stresses that after leaving the system he can speak more freely about his view that security personnel receive too little public and media recognition.","ru":"Игорь подчёркивает, что после ухода из системы может свободнее говорить о том, что сотрудники сил безопасности получают слишком мало общественного и медийного признания."}}
+      ]
+    },
+    {
+      "id": "minds-motion-18",
+      "title": {"he":"מוחות בתנועה · פרק 18","en":"Minds in Motion · Episode 18","ru":"Minds in Motion · Выпуск 18"},
+      "platform": "YouTube / Podcast",
+      "videoId": "mXAGZawQUPM",
+      "url": "https://www.youtube.com/watch?v=mXAGZawQUPM",
+      "year": "2024",
+      "recordingDate": "2023-09-10",
+      "publishedDate": "2024-01-23",
+      "duration": "1:13:57",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION",
+      "topics": ["systems","education","leadership","StartOn","youth","technology"],
+      "claims": [{"timestamp":"00:04–00:32","start":4,"topic":"systems","confidence":"high","paraphrase":{"he":"איגור טוען שהמקומות הקשים ביותר לשינוי הם מערכות וגופים ותיקים, משום שהמנגנונים והתשתיות שלהם כבר מקבעים תפקידים וכללי פעולה.","en":"Igor argues that long-established systems and organizations are among the hardest places to change because their mechanisms and infrastructure already lock in roles and operating rules.","ru":"Игорь утверждает, что старые системы и организации особенно трудно менять, потому что их механизмы и инфраструктура уже закрепляют роли и правила работы."}}]
+    },
+    {
+      "id": "freddy-moskovitz",
+      "title": {"he":"איגור ופרצקי אצל פרדי מוסקוביץ","en":"Igor Vepretski with Freddy Moskovitz","ru":"Игорь Вепрецкий у Фредди Московица"},
+      "platform": "YouTube / Podcast",
+      "videoId": "U2d_hulZAC0",
+      "url": "https://www.youtube.com/watch?v=U2d_hulZAC0",
+      "year": "2023",
+      "duration": "44:50",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION",
+      "topics": ["StartOn","youth","technology","identity","October 7","responsibility"],
+      "claims": [
+        {"timestamp":"01:38–02:12","start":98,"topic":"identity","confidence":"high","paraphrase":{"he":"כשנשאל מי הוא, איגור מתאר את עצמו דרך רעיון של ילד שנמצא במסע, ומחבר את הזהות הזאת להמשך דרכו.","en":"Asked who he is, Igor describes himself through the idea of a child on a journey and connects that identity to the path that follows.","ru":"На вопрос, кто он, Игорь описывает себя через образ ребёнка в пути и связывает эту идентичность со своим дальнейшим маршрутом."}},
+        {"timestamp":"02:12–02:44","start":132,"topic":"StartOn","confidence":"high","paraphrase":{"he":"איגור מסביר ש־StartOn נועד להקים מרחבים טכנולוגיים בשכונות מצוקה ולהנגיש טכנולוגיה לנוער בסיכון, מתוך תפיסה שטכנולוגיה היא כבר חלק מהחיים ולא רק כלי בידורי.","en":"Igor explains that StartOn is meant to build technological spaces in disadvantaged neighborhoods and make technology accessible to youth at risk, based on the view that technology is now part of life rather than merely entertainment.","ru":"Игорь объясняет, что StartOn должен создавать технологические пространства в неблагополучных районах и давать подросткам группы риска доступ к технологиям, исходя из того, что технологии уже являются частью жизни, а не просто развлечением."}}
+      ]
+    },
+    {
+      "id": "line-of-fire-306",
+      "title": {"he":"בקו האש · יום 306 חרבות ברזל","en":"In the Line of Fire · Day 306","ru":"На линии огня · День 306"},
+      "platform": "YouTube Live",
+      "videoId": "zKe8u4HdGXE",
+      "url": "https://www.youtube.com/watch?v=zKe8u4HdGXE",
+      "year": "2024",
+      "duration": "1:57:01",
+      "status": "MULTI_SPEAKER_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION_MULTI_SPEAKER",
+      "topics": ["security","Iran","war","public debate"],
+      "claims": []
+    },
+    {
+      "id": "nova-reckoning",
+      "title": {"he":"מהבריחה מפסטיבל הנובה, להתפכחות","en":"From escaping the Nova festival to a reckoning","ru":"От бегства с фестиваля Nova к переосмыслению"},
+      "platform": "YouTube / Podcast",
+      "videoId": "3h-oEuW8GJI",
+      "url": "https://www.youtube.com/watch?v=3h-oEuW8GJI",
+      "year": "2024",
+      "duration": "36:29",
+      "status": "MULTI_SPEAKER_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION_MULTI_SPEAKER",
+      "topics": ["October 7","identity","politics","security"],
+      "claims": []
+    },
+    {
+      "id": "glass-ceilings-54",
+      "title": {"he":"מנפצי תקרות הזכוכית · פרק 54","en":"Breaking Glass Ceilings · Episode 54","ru":"Разрушая стеклянные потолки · Выпуск 54"},
+      "platform": "YouTube / Podcast",
+      "videoId": "v7158BaZkiQ",
+      "url": "https://www.youtube.com/watch?v=v7158BaZkiQ",
+      "year": "2023",
+      "recordingDate": "2023-09-28",
+      "publishedDate": "2023-09-30",
+      "duration": "1:09:02",
+      "status": "FULL_AUTO_CAPTIONS",
+      "provenance": "PUBLIC_YOUTUBE_AUTO_CAPTION · MULTI_SPEAKER",
+      "topics": ["StartOn","bureaucracy","entrepreneurship","Holon","politics","persistence"],
+      "claims": []
+    },
+    {
+      "id": "103fm-barak-seri",
+      "title": {"he":"103FM · ברק סרי","en":"103FM · Barak Seri","ru":"103FM · Барак Сери"},
+      "platform": "Radio / Reels",
+      "url": "",
+      "year": "2025",
+      "duration": "4:10",
+      "status": "AUDIO_VERIFIED_SOURCE_URL_PENDING",
+      "provenance": "META_OWNER_EXPORT + PHYSICAL_MP4 + AUDIO_ASR_REVIEWED",
+      "topics": ["Holon","politics","Israel Beiteinu","October 7","public service"],
+      "claims": [{"timestamp":"01:06–01:35","start":66,"topic":"politics","confidence":"medium","paraphrase":{"he":"בקטע האודיו איגור קושר את ההצטרפות הפוליטית שלו לישראל ביתנו לתקופה שאחרי 7 באוקטובר ומבחין בינה לבין הסטטוס המפלגתי שקדם לכך; הניסוח המדויק נשמר תחת ביקורת ASR.","en":"In the audio segment Igor links his political joining of Israel Beiteinu to the period after October 7 and distinguishes it from his earlier party status; exact wording remains under ASR review.","ru":"В аудиофрагменте Игорь связывает своё политическое присоединение к НДИ с периодом после 7 октября и отделяет его от прежнего партийного статуса; точная формулировка остаётся под проверкой ASR."}}]
+    },
+    {
+      "id": "mindset-102",
+      "title": {"he":"Mindset · פרק 102 · מנער בסיכון ליזם חברתי","en":"Mindset · Episode 102 · From youth at risk to social entrepreneur","ru":"Mindset · Выпуск 102 · От подростка группы риска к социальному предпринимателю"},
+      "platform": "Podcast / YouTube",
+      "videoId": "FyWSwDXX47A",
+      "url": "https://www.youtube.com/watch?v=FyWSwDXX47A",
+      "year": "2022",
+      "duration": "~1:09",
+      "status": "FOUND_NO_CAPTIONS",
+      "provenance": "PUBLIC_SOURCE + HOST_METADATA",
+      "topics": ["aliyah","Jesse Cohen","service","youth","StartOn","mission"],
+      "claims": []
+    },
+    {"id":"interactive-youth-space","title":{"he":"פרויקט חלל אינטראקטיבי לנוער בסיכון","en":"Interactive space for youth at risk","ru":"Интерактивное пространство для подростков группы риска"},"platform":"YouTube","videoId":"SOpAglwkJ8I","url":"https://www.youtube.com/watch?v=SOpAglwkJ8I","year":"2022","duration":"","status":"FOUND_NO_CAPTIONS","provenance":"PUBLIC_VIDEO_NO_CAPTIONS","topics":["StartOn","youth","technology"],"claims":[]},
+    {"id":"elder-fraud-13","title":{"he":"חדשות 13 · הונאות קשישים","en":"Channel 13 · Elder fraud","ru":"Channel 13 · Мошенничество против пожилых"},"platform":"YouTube / TV","videoId":"AE5hDzLM5XU","url":"https://www.youtube.com/watch?v=AE5hDzLM5XU","year":"2023","duration":"","status":"FOUND_NO_CAPTIONS","provenance":"PUBLIC_VIDEO_NO_CAPTIONS","topics":["elder fraud","police","public advocacy"],"claims":[]},
+    {"id":"interactive-space-interview","title":{"he":"ראיון · חלל אינטראקטיבי לנוער בסיכון","en":"Interview · Interactive youth space","ru":"Интервью · Интерактивное пространство для молодёжи"},"platform":"YouTube","videoId":"s6aTBikwhKk","url":"https://www.youtube.com/watch?v=s6aTBikwhKk","year":"2022","duration":"","status":"FOUND_NO_CAPTIONS","provenance":"PUBLIC_VIDEO_NO_CAPTIONS","topics":["StartOn","youth"],"claims":[]},
+    {"id":"elder-fraud-followup","title":{"he":"הונאות קשישים · שיחת המשך","en":"Elder fraud · Follow-up conversation","ru":"Мошенничество против пожилых · Продолжение"},"platform":"YouTube / TV","videoId":"3XxoBtSL2pg","url":"https://www.youtube.com/watch?v=3XxoBtSL2pg","year":"2023","duration":"","status":"FOUND_NO_CAPTIONS","provenance":"PUBLIC_VIDEO_NO_CAPTIONS","topics":["elder fraud","public advocacy"],"claims":[]}
+  ]
+}
