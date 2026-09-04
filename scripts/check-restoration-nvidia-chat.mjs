@@ -4,7 +4,7 @@ const required = [
   ["api/guide.js", ["NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1", "nvidia/nemotron-3.5-lightning-30b-a3b", "deterministic-corpus-fallback", "provider: \"nvidia\""]],
   ["packages/app/api/bro.js", ["NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1", "nvidia/nemotron-3.5-lightning-30b-a3b", "deterministic-corpus-fallback", "SPOKEN_CORPUS_RELEASE"]],
   ["packages/app/api/nvidia-health.js", ["nvidia-nim", "secret_exposed: false", "WAITING_FOR_NVIDIA_API_KEY"]],
-  ["packages/app/api/_spoken-corpus.js", ["spoken-corpus-20260904-v1", "searchSpokenClaims", "PARAPHRASE"]],
+  ["packages/app/api/_spoken-corpus.js", ["spoken-corpus-20260904-v1", "searchSpokenClaims", "ASR-reviewed paraphrase, not verbatim"]],
   ["packages/app/public/igor-vepretski/nvidia-chat.js", ["/api/guide", "conversation", "provider", "NVIDIA"]],
   ["scripts/inject-restoration-nvidia-chat.mjs", ["nvidia-chat.js", "igor-vepretski/index.html"]],
 ]
