@@ -7,8 +7,10 @@ on:
       - "packages/app/api/_spoken-corpus.js"
       - "packages/app/api/bro.js"
       - "packages/app/api/nvidia-health.js"
+      - "packages/app/public/igor-vepretski/nvidia-chat.js"
       - "packages/app/NVIDIA_NIM.md"
       - "scripts/check-restoration-nvidia-chat.mjs"
+      - "scripts/check-bro-chat-client-wiring.mjs"
       - ".github/workflows/nvidia-runtime-gate.yml"
   workflow_dispatch:
 
@@ -17,7 +19,7 @@ permissions:
 
 jobs:
   nvidia-runtime-gate:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +31,9 @@ jobs:
           node --check packages/app/api/_spoken-corpus.js
           node --check packages/app/api/bro.js
           node --check packages/app/api/nvidia-health.js
+          node --check packages/app/public/igor-vepretski/nvidia-chat.js
           node --check scripts/check-restoration-nvidia-chat.mjs
+          node --check scripts/check-bro-chat-client-wiring.mjs
 
       - name: Corpus retrieval gate
         run: |
@@ -70,6 +74,7 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/check-restoration-nvidia-chat.mjs
+          node scripts/check-bro-chat-client-wiring.mjs
           grep -Fq 'deterministic-corpus-fallback' packages/app/api/bro.js
           grep -Fq 'UPSTREAM_TIMEOUT' packages/app/api/bro.js
           grep -Fq 'nvidia/nemotron-3.5-lightning-30b-a3b' packages/app/api/bro.js
