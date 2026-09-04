@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "7ya-edge-staging",
+  "main": "./worker.js",
+  "compatibility_date": "2026-09-04",
+  "workers_dev": true,
+  "preview_urls": true,
+  "vars": {
+    "NVIDIA_GUIDE_MODEL": "nvidia/nemotron-3-super-120b-a12b",
+    "ALLOW_OPENAI_FALLBACK": "false",
+    "GUIDE_PROVIDER_TIMEOUT_MS": "32000"
+  },
+  "assets": {
+    "directory": "../../packages/app/public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  }
+}
