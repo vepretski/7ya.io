@@ -71,8 +71,7 @@ export default async function handler(request, response) {
   if (!latestUser) return json(response, 400, { provider: "nvidia-nim", error: "MESSAGE_REQUIRED" })
 
   const lang = language(latestUser)
-  const relevantClaims = searchSpokenClaims(latestUser, 5)
-  const selectedClaims = relevantClaims.length ? relevantClaims : searchSpokenClaims("", 4)
+  const selectedClaims = searchSpokenClaims(latestUser, 5)
   const sources = selectedClaims.map((claim) => ({
     source_id: claim.sourceId,
     source: claim.source,
@@ -87,10 +86,10 @@ export default async function handler(request, response) {
   const baseUrl = (process.env.NVIDIA_NIM_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, "")
   const model = process.env.NVIDIA_NIM_MODEL || DEFAULT_MODEL
 
-  if (!apiKey) {
+  if (!apiKey || !selectedClaims.length) {
     return json(response, 200, {
       provider: "deterministic-corpus-fallback",
-      nvidia_configured: false,
+      nvidia_configured: Boolean(apiKey),
       model,
       corpus_release: SPOKEN_CORPUS_RELEASE,
       answer: fallbackText(lang, selectedClaims),
