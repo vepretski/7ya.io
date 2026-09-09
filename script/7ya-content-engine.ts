@@ -205,7 +205,10 @@ async function publish(out: string) {
   const state = json<State>(statePath(out), { campaigns: [] }); const campaign = findCampaign(state, required("id"))
   if (campaign.status !== "approved") throw new Error("Only approved campaigns can be published.")
   const messageIds: string[] = []
-  for (const asset of campaign.assets) messageIds.push(await sendTelegram(asset.telegram, campaign.cta))
+  for (const asset of campaign.assets) {
+    const cta = { ...campaign.cta, url: campaign.cta.url.replace("en-telegram", `${asset.language}-telegram`) }
+    messageIds.push(await sendTelegram(asset.telegram, cta))
+  }
   campaign.status = "published"; campaign.publication = { telegramMessageIds: messageIds, publishedAt: new Date().toISOString() }
   saveCampaign(out, state, campaign); console.log(JSON.stringify({ status: "published", id: campaign.id, messageIds }))
 }
