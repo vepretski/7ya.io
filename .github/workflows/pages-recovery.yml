@@ -1,0 +1,52 @@
+name: 7YA static recovery pages
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - 'packages/app/public/**'
+      - 'scripts/check-living-life-premium.mjs'
+      - '.github/workflows/pages-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-recovery
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify personal first fold
+        run: node scripts/check-living-life-premium.mjs
+      - name: Assert static entrypoints
+        run: |
+          test -f packages/app/public/index.html
+          test -f packages/app/public/assets/launch.css
+          grep -q 'data-first-fold-life' packages/app/public/index.html
+          test "$(grep -o 'data-life-moment=' packages/app/public/index.html | wc -l)" -ge 8
+          grep -q '#7YA🥷' packages/app/public/index.html
+      - name: Upload immutable static artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/app/public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy static recovery artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
