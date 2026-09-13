@@ -1,0 +1,115 @@
+name: Cloudflare Visible First Screen Staging
+
+on:
+  push:
+    branches:
+      - feat/edge-visible-firstscreen-20260913
+    paths:
+      - 'edge-visible/**'
+      - '.github/workflows/cloudflare-visible-firstscreen-staging.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cloudflare-visible-firstscreen-staging
+  cancel-in-progress: true
+
+env:
+  CLOUDFLARE_ZONE_ID: '430ba34c138cfb5360826c4909f99be8'
+  WRANGLER_CONFIG: 'edge-visible/wrangler.jsonc'
+  RELEASE: '7ya-visible-firstscreen-20260913-v1'
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: feat/edge-visible-firstscreen-20260913
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Require Cloudflare deployment token
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo '::error::CLOUDFLARE_API_TOKEN is not configured.'
+            exit 1
+          fi
+
+      - name: Resolve Cloudflare account
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          response="$(curl -fsSL -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H 'Content-Type: application/json' "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID")"
+          account_id="$(jq -r '.result.account.id // empty' <<<"$response")"
+          if [ -z "$account_id" ]; then
+            echo '::error::Cloudflare account ID could not be resolved.'
+            jq -c '{success,errors}' <<<"$response" || true
+            exit 1
+          fi
+          echo "CLOUDFLARE_ACCOUNT_ID=$account_id" >> "$GITHUB_ENV"
+
+      - name: Wrangler dry run
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx --yes wrangler@4.50.0 deploy --config "$WRANGLER_CONFIG" --dry-run
+
+      - name: Deploy isolated workers.dev staging
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.50.0 deploy --config "$WRANGLER_CONFIG" 2>&1 | tee /tmp/wrangler.log
+          url="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' /tmp/wrangler.log | tail -1 || true)"
+          if [ -z "$url" ]; then
+            echo '::error::No workers.dev URL found after deploy.'
+            cat /tmp/wrangler.log
+            exit 1
+          fi
+          echo "STAGING_URL=$url" >> "$GITHUB_ENV"
+
+      - name: Verify visible change and preserved origin
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 18); do
+            if curl -fsSL --connect-timeout 8 --max-time 25 "$STAGING_URL/__edge/status" > /tmp/status.json; then
+              break
+            fi
+            sleep 5
+          done
+          jq -e --arg release "$RELEASE" '.ok == true and .release == $release and .mode == "reverse-proxy-visible-firstscreen"' /tmp/status.json
+          curl -fsSL --connect-timeout 8 --max-time 30 "$STAGING_URL/" > /tmp/home.html
+          grep -Fq 'data-7ya-visible-change="20260913"' /tmp/home.html
+          grep -Fq 'זה איגור. אלה החיים — בלי לחפש אותם.' /tmp/home.html
+          grep -Fq 'איגור ופרצקי | מסע חיים, עשייה ומקורות · 7YA' /tmp/home.html
+          curl -fsSL --connect-timeout 8 --max-time 30 "$STAGING_URL/resources/drive-life-photo.jpg" -o /tmp/life.jpg
+          test -s /tmp/life.jpg
+
+      - name: Write staging receipt
+        run: |
+          set -euo pipefail
+          mkdir -p ops
+          cat > ops/edge-visible-staging.txt <<EOF
+          release=$RELEASE
+          url=$STAGING_URL
+          verified_html=true
+          verified_origin=true
+          verified_media=true
+          generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          source_commit=$GITHUB_SHA
+          EOF
+          git config user.name '7YA Edge Staging Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add ops/edge-visible-staging.txt
+          git commit -m 'chore(edge): record visible first-screen staging' || exit 0
+          git push origin HEAD:feat/edge-visible-firstscreen-20260913
