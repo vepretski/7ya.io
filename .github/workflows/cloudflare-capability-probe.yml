@@ -1,0 +1,49 @@
+name: Cloudflare capability probe
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/cloudflare-capability-probe.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Probe Cloudflare capabilities without mutation
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo 'PROBE secret=missing'
+            exit 2
+          fi
+          node <<'NODE'
+          const API='https://api.cloudflare.com/client/v4';
+          const token=process.env.CLOUDFLARE_API_TOKEN;
+          async function request(path){
+            const response=await fetch(`${API}${path}`,{headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json','User-Agent':'7ya-cloudflare-capability-probe/20260913'}});
+            const body=await response.json().catch(()=>({}));
+            return {status:response.status,ok:response.ok&&body?.success===true,body};
+          }
+          const verify=await request('/user/tokens/verify');
+          console.log(`PROBE token_verify status=${verify.status} ok=${verify.ok}`);
+          const zones=await request('/zones?name=7ya.io&status=active&per_page=10');
+          console.log(`PROBE zone_read status=${zones.status} ok=${zones.ok}`);
+          const zone=Array.isArray(zones.body?.result)?zones.body.result.find(z=>z.name==='7ya.io'):null;
+          if(!zone){console.log('PROBE zone_found=false');process.exit(0)}
+          console.log('PROBE zone_found=true');
+          const routes=await request(`/zones/${zone.id}/workers/routes`);
+          console.log(`PROBE worker_routes_read status=${routes.status} ok=${routes.ok} count=${Array.isArray(routes.body?.result)?routes.body.result.length:0}`);
+          const accountId=zone.account?.id;
+          if(!accountId){console.log('PROBE account_found=false');process.exit(0)}
+          const scripts=await request(`/accounts/${accountId}/workers/scripts`);
+          console.log(`PROBE worker_scripts_read status=${scripts.status} ok=${scripts.ok}`);
+          NODE
