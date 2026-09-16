@@ -6,6 +6,8 @@ on:
     paths:
       - 'packages/app/public/**'
       - 'scripts/check-living-life-premium.mjs'
+      - 'scripts/inject-social-first-home.mjs'
+      - 'scripts/check-social-first-home.mjs'
       - '.github/workflows/pages-recovery.yml'
   workflow_dispatch:
 
@@ -28,12 +30,18 @@ jobs:
           node-version: '22'
       - name: Verify personal first fold
         run: node scripts/check-living-life-premium.mjs
+      - name: Inject social-first Igor Live layer
+        run: node scripts/inject-social-first-home.mjs
+      - name: Verify social-first composition
+        run: node scripts/check-social-first-home.mjs
       - name: Assert static entrypoints
         run: |
           test -f packages/app/public/index.html
           test -f packages/app/public/assets/launch.css
           grep -q 'data-first-fold-life' packages/app/public/index.html
+          grep -q 'data-social-first-home' packages/app/public/index.html
           test "$(grep -o 'data-life-moment=' packages/app/public/index.html | wc -l)" -ge 8
+          test "$(grep -o 'data-social-card=' packages/app/public/index.html | wc -l)" -ge 6
           grep -q '#7YA🥷' packages/app/public/index.html
       - name: Upload immutable static artifact
         uses: actions/upload-pages-artifact@v3
