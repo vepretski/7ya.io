@@ -5,6 +5,7 @@ on:
     branches: [dev]
     paths:
       - 'packages/app/public/**'
+      - 'scripts/inject-documentary-home.mjs'
       - 'scripts/check-living-life-premium.mjs'
       - 'scripts/inject-social-first-home.mjs'
       - 'scripts/check-social-first-home.mjs'
@@ -28,6 +29,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Build documentary homepage candidate
+        run: node scripts/inject-documentary-home.mjs
       - name: Verify personal first fold
         run: node scripts/check-living-life-premium.mjs
       - name: Inject social-first Igor Live layer
@@ -38,8 +41,9 @@ jobs:
         run: |
           test -f packages/app/public/index.html
           test -f packages/app/public/assets/launch.css
-          grep -q 'data-first-fold-life' packages/app/public/index.html
-          grep -q 'data-social-first-home' packages/app/public/index.html
+          grep -q 'data-documentary-home="v2"' packages/app/public/index.html
+          grep -q 'id="life-film"' packages/app/public/index.html
+          test "$(grep -o 'data-documentary-moment=' packages/app/public/index.html | wc -l)" -ge 8
           test "$(grep -o 'data-life-moment=' packages/app/public/index.html | wc -l)" -ge 8
           test "$(grep -o 'data-social-card=' packages/app/public/index.html | wc -l)" -ge 6
           grep -q '#7YA🥷' packages/app/public/index.html
