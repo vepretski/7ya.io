@@ -1,0 +1,24 @@
+name: 7YA documentary homepage gate
+
+on:
+  pull_request:
+    branches: [dev]
+    paths:
+      - 'packages/app/public/index.html'
+      - 'packages/app/public/assets/launch.css'
+      - 'scripts/check-living-life-premium.mjs'
+      - '.github/workflows/documentary-home-pr.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  documentary-home:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify documentary homepage contract
+        run: node scripts/check-living-life-premium.mjs
