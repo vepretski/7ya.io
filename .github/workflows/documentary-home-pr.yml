@@ -6,6 +6,7 @@ on:
     paths:
       - 'packages/app/public/index.html'
       - 'packages/app/public/assets/launch.css'
+      - 'scripts/inject-documentary-home.mjs'
       - 'scripts/check-living-life-premium.mjs'
       - '.github/workflows/documentary-home-pr.yml'
 
@@ -20,5 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Build documentary homepage candidate
+        run: node scripts/inject-documentary-home.mjs
       - name: Verify documentary homepage contract
         run: node scripts/check-living-life-premium.mjs
