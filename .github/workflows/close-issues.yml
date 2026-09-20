@@ -1,12 +1,17 @@
 name: close-issues
 
 on:
-  schedule:
-    - cron: "0 2 * * *" # Daily at 2:00 AM
   workflow_dispatch:
+    inputs:
+      confirm:
+        description: Close only stale issues explicitly labelled autoclose
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   close:
+    if: ${{ inputs.confirm == true }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,4 +26,5 @@ jobs:
       - name: Close stale issues
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          STALE_ISSUE_LABEL: autoclose
         run: bun script/github/close-issues.ts

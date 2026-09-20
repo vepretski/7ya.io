@@ -2,7 +2,8 @@
 
 const repo = process.env.GITHUB_REPOSITORY
 const days = Number(process.env.STALE_ISSUE_DAYS ?? "60")
-const msg = `To stay organized issues are automatically closed after ${days} days of no activity. If the issue is still relevant please open a new one.`
+const label = (process.env.STALE_ISSUE_LABEL ?? "autoclose").toLowerCase()
+const msg = `To stay organized issues explicitly labelled ${label} are automatically closed after ${days} days of no activity. If the issue is still relevant please open a new one.`
 
 const token = process.env.GITHUB_TOKEN
 if (!token) {
@@ -21,6 +22,7 @@ type Issue = {
   number: number
   updated_at: string
   pull_request?: unknown
+  labels?: Array<{ name?: string }>
 }
 
 const headers = {
@@ -71,6 +73,10 @@ async function main() {
 
       const updated = new Date(i.updated_at)
       if (updated < cutoff) {
+        if (!i.labels?.some((item) => item.name?.toLowerCase() === label)) {
+          console.log(`Skipping #${i.number}; missing ${label} label`)
+          continue
+        }
         stale.push(i.number)
       } else {
         console.log(`\nFound fresh issue #${i.number}, stopping`)
