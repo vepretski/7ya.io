@@ -15,16 +15,22 @@ assert.ok(css.includes('prefers-reduced-motion'), 'reduced-motion gate missing')
 assert.ok(js.includes('source_alignment'), 'source alignment status missing');
 assert.ok(js.includes('evidence'), 'evidence interaction missing');
 
-// Recovery contract: the canonical Vercel homepage must feel personal within the first viewport.
-assert.ok(homeHtml.includes('data-first-fold-life'), 'canonical homepage is missing the first-fold life wall');
-const firstFoldMoments=(homeHtml.match(/data-life-moment=/g)||[]).length;
-assert.ok(firstFoldMoments>=8,`expected at least 8 first-fold life moments, found ${firstFoldMoments}`);
+// Canonical homepage contract: Igor is the experience; system machinery stays behind the story.
+assert.ok(homeHtml.includes('data-documentary-home="v2"'), 'canonical homepage is missing the documentary-home cutover marker');
+assert.ok(homeHtml.includes('id="life-film"'), 'canonical homepage is missing the Life Film narrative spine');
+const documentaryMoments=(homeHtml.match(/data-documentary-moment=/g)||[]).length;
+assert.ok(documentaryMoments>=8,`expected at least 8 documentary life moments, found ${documentaryMoments}`);
 for(const token of ['CHILDHOOD','SERVICE','POLICE','FATHERHOOD','STARTON','CREATE','PUBLIC VOICE','NOW']) {
-  assert.ok(homeHtml.includes(token),`first-fold life wall missing ${token}`);
+  assert.ok(homeHtml.includes(token),`documentary life story missing ${token}`);
 }
+assert.ok(homeHtml.includes('IGOR VEPRETSKI · KHARKIV 1990 → ISRAEL → NOW'), 'identity and chronology must lead the first screen');
+assert.ok(homeHtml.includes('FACE → MOMENT → STORY → MEDIA → CONSEQUENCE → NEXT'), 'human narrative hierarchy marker missing');
 assert.ok(homeHtml.includes('#7YA🥷'), 'canonical brand hashtag missing ninja mark');
-assert.ok(homeHtml.includes('REAL SOURCE'), 'first-fold authentic-media disclosure missing');
-assert.ok(launchCss.includes('.life-wall'), 'first-fold life wall styling missing');
+assert.ok(homeHtml.includes('REAL SOURCE'), 'authentic-media disclosure missing');
+assert.ok(!homeHtml.includes('<div class="life-wall"'), 'legacy dashboard-like life wall must not lead the homepage');
+assert.ok(launchCss.includes('.life-film'), 'Life Film styling missing');
+assert.ok(launchCss.includes('.documentary-moment'), 'documentary moment styling missing');
 assert.ok(launchCss.includes('@media(max-width:720px)'), 'canonical mobile composition gate missing');
+assert.ok(launchCss.includes('prefers-reduced-motion'), 'canonical reduced-motion gate missing');
 
-console.log('PASS living-life-premium contract');
+console.log('PASS living-life-premium documentary contract');
