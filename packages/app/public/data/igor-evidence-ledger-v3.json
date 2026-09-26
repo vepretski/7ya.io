@@ -1,7 +1,7 @@
 {
   "ledger_name": "7YA.IO Igor Vepretski Evidence Ledger",
   "version": "v3",
-  "generated_on": "2026-07-11",
+  "generated_on": "2026-09-26",
   "status": "PUBLIC_SAFE_WITH_ATTRIBUTION",
   "supersedes": [
     "REC001-REC038",
@@ -16,10 +16,10 @@
     "claim_separation_rule": "Each record separates what the source establishes from what it does not independently establish."
   },
   "summary": {
-    "public_records": 22,
+    "public_records": 23,
     "levels": {
       "A": 9,
-      "B": 8,
+      "B": 9,
       "C": 5
     },
     "placeholder_urls": 0,
@@ -39,11 +39,19 @@
       "publication_gate": "APPROVE_WITH_ATTRIBUTION",
       "language": "he",
       "location": "Israel",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "article",
-      "source_establishes": ["The article exists", "The article was published on 2011-04-26", "The article identifies Igor Vepretski as its subject"],
-      "source_does_not_independently_establish": ["Every biographical detail recounted in the interview"],
+      "source_establishes": [
+        "The article exists",
+        "The article was published on 2011-04-26",
+        "The article identifies Igor Vepretski as its subject"
+      ],
+      "source_does_not_independently_establish": [
+        "Every biographical detail recounted in the interview"
+      ],
       "verification_notes": "Independent publication; personal-history details remain attributed to the profile and its subject.",
       "last_checked": "2026-07-11"
     },
@@ -60,11 +68,24 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "Israel",
-      "people": ["Igor Vepretski"],
-      "organizations": ["StartOn"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "StartOn"
+      ],
       "media_type": "registry",
-      "source_establishes": ["Legal existence", "Association number 580752814", "Registration date 2022-10-02", "Registered objectives"],
-      "source_does_not_independently_establish": ["Impact metrics", "Operational reach", "Third-party endorsements"],
+      "source_establishes": [
+        "Legal existence",
+        "Association number 580752814",
+        "Registration date 2022-10-02",
+        "Registered objectives"
+      ],
+      "source_does_not_independently_establish": [
+        "Impact metrics",
+        "Operational reach",
+        "Third-party endorsements"
+      ],
       "verification_notes": "Primary legal-registration anchor. Founder or officer details should be quoted only when visible in the underlying filed documents.",
       "last_checked": "2026-07-11"
     },
@@ -81,11 +102,23 @@
       "publication_gate": "APPROVE_WITH_ATTRIBUTION",
       "language": "he",
       "location": "Holon, Israel",
-      "people": ["Igor Vepretski"],
-      "organizations": ["StartOn"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "StartOn"
+      ],
       "media_type": "article",
-      "source_establishes": ["The feature exists", "The publication date", "The outlet reported the described biography and StartOn initiative"],
-      "source_does_not_independently_establish": ["Employment records", "Degree records", "Every interview-derived biographical detail"],
+      "source_establishes": [
+        "The feature exists",
+        "The publication date",
+        "The outlet reported the described biography and StartOn initiative"
+      ],
+      "source_does_not_independently_establish": [
+        "Employment records",
+        "Degree records",
+        "Every interview-derived biographical detail"
+      ],
       "verification_notes": "Use attributed wording such as 'Mynet reported' for career and biography details.",
       "last_checked": "2026-07-11"
     },
@@ -102,11 +135,25 @@
       "publication_gate": "APPROVE_WITH_ATTRIBUTION",
       "language": "he",
       "location": "Israel",
-      "people": ["Igor Vepretski"],
-      "organizations": ["Zman Israel", "StartOn", "Tel Aviv University"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "Zman Israel",
+        "StartOn",
+        "Tel Aviv University"
+      ],
       "media_type": "author_page",
-      "source_establishes": ["Author-page existence", "Authorship of linked opinion pieces", "The biography displayed by the publisher"],
-      "source_does_not_independently_establish": ["Academic enrollment", "Professional licensing", "All current titles"],
+      "source_establishes": [
+        "Author-page existence",
+        "Authorship of linked opinion pieces",
+        "The biography displayed by the publisher"
+      ],
+      "source_does_not_independently_establish": [
+        "Academic enrollment",
+        "Professional licensing",
+        "All current titles"
+      ],
       "verification_notes": "Biography is publisher-displayed but should remain attributed profile information.",
       "last_checked": "2026-07-11"
     },
@@ -123,11 +170,22 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["Zman Israel"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "Zman Israel"
+      ],
       "media_type": "article",
-      "source_establishes": ["Publication", "Authorship", "Title", "Publication date"],
-      "source_does_not_independently_establish": ["Factual claims expressed within the opinion article"],
+      "source_establishes": [
+        "Publication",
+        "Authorship",
+        "Title",
+        "Publication date"
+      ],
+      "source_does_not_independently_establish": [
+        "Factual claims expressed within the opinion article"
+      ],
       "verification_notes": "Corrected title, URL, and date.",
       "last_checked": "2026-07-11"
     },
@@ -144,11 +202,22 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["Zman Israel"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "Zman Israel"
+      ],
       "media_type": "article",
-      "source_establishes": ["Publication", "Authorship", "Title", "Publication date"],
-      "source_does_not_independently_establish": ["Factual claims expressed within the opinion article"],
+      "source_establishes": [
+        "Publication",
+        "Authorship",
+        "Title",
+        "Publication date"
+      ],
+      "source_does_not_independently_establish": [
+        "Factual claims expressed within the opinion article"
+      ],
       "verification_notes": "Corrected title, URL, and date.",
       "last_checked": "2026-07-11"
     },
@@ -165,11 +234,23 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "",
-      "people": ["Ido Vepretski", "Igor Vepretski", "Ron Nesher", "Zvika Brand"],
+      "people": [
+        "Ido Vepretski",
+        "Igor Vepretski",
+        "Ron Nesher",
+        "Zvika Brand"
+      ],
       "organizations": [],
       "media_type": "audio_catalog",
-      "source_establishes": ["Canonical artist ID", "Catalog presence", "Release metadata", "Displayed Igor Vepretski credit"],
-      "source_does_not_independently_establish": ["Broader identity claims beyond the displayed credits"],
+      "source_establishes": [
+        "Canonical artist ID",
+        "Catalog presence",
+        "Release metadata",
+        "Displayed Igor Vepretski credit"
+      ],
+      "source_does_not_independently_establish": [
+        "Broader identity claims beyond the displayed credits"
+      ],
       "verification_notes": "Release date corrected to 2024-01-07 for חצופה.",
       "last_checked": "2026-07-11"
     },
@@ -186,11 +267,23 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "Israel",
-      "people": ["Igor Vepretski"],
-      "organizations": ["Yisrael Beiteinu"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "Yisrael Beiteinu"
+      ],
       "media_type": "video",
-      "source_establishes": ["Official party publication", "Igor Vepretski appears in the publication", "Public political association"],
-      "source_does_not_independently_establish": ["Internal office titles", "Candidate-list placement", "A specific publication date not visible in normalized metadata"],
+      "source_establishes": [
+        "Official party publication",
+        "Igor Vepretski appears in the publication",
+        "Public political association"
+      ],
+      "source_does_not_independently_establish": [
+        "Internal office titles",
+        "Candidate-list placement",
+        "A specific publication date not visible in normalized metadata"
+      ],
       "verification_notes": "Exact date intentionally omitted until recovered from original post metadata.",
       "last_checked": "2026-07-11"
     },
@@ -207,11 +300,20 @@
       "publication_gate": "APPROVE",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "audio",
-      "source_establishes": ["Episode existence", "Guest identity", "Episode title", "Publication date"],
-      "source_does_not_independently_establish": ["Every autobiographical statement in the interview"],
+      "source_establishes": [
+        "Episode existence",
+        "Guest identity",
+        "Episode title",
+        "Publication date"
+      ],
+      "source_does_not_independently_establish": [
+        "Every autobiographical statement in the interview"
+      ],
       "verification_notes": "Date corrected to 2022-09-20.",
       "last_checked": "2026-07-11"
     },
@@ -228,11 +330,23 @@
       "publication_gate": "APPROVE_WITH_ATTRIBUTION",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["StartOn", "Minds in Motion Podcast"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "StartOn",
+        "Minds in Motion Podcast"
+      ],
       "media_type": "podcast_announcement",
-      "source_establishes": ["The podcast's own page announced episode 18", "Igor Vepretski was identified as the guest", "StartOn was discussed"],
-      "source_does_not_independently_establish": ["A normalized canonical audio URL", "A final publication date"],
+      "source_establishes": [
+        "The podcast's own page announced episode 18",
+        "Igor Vepretski was identified as the guest",
+        "StartOn was discussed"
+      ],
+      "source_does_not_independently_establish": [
+        "A normalized canonical audio URL",
+        "A final publication date"
+      ],
       "verification_notes": "Placeholder Spotify URL removed. This record uses the podcast's own announcement until a canonical audio URL is normalized.",
       "last_checked": "2026-07-11"
     },
@@ -249,11 +363,22 @@
       "publication_gate": "APPROVE_WITH_ATTRIBUTION",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski", "Geula Even-Saar"],
-      "organizations": ["Channel 13"],
+      "people": [
+        "Igor Vepretski",
+        "Geula Even-Saar"
+      ],
+      "organizations": [
+        "Channel 13"
+      ],
       "media_type": "video",
-      "source_establishes": ["A public video of the interview exists", "The video identifies Igor Vepretski and Geula Even-Saar", "The described topic"],
-      "source_does_not_independently_establish": ["That the current upload is from Channel 13's official channel"],
+      "source_establishes": [
+        "A public video of the interview exists",
+        "The video identifies Igor Vepretski and Geula Even-Saar",
+        "The described topic"
+      ],
+      "source_does_not_independently_establish": [
+        "That the current upload is from Channel 13's official channel"
+      ],
       "verification_notes": "Downgraded from A to B because the current upload is not established as an official Channel 13 upload.",
       "last_checked": "2026-07-11"
     },
@@ -270,11 +395,23 @@
       "publication_gate": "APPROVE",
       "language": "en/he",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["StartOn"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "StartOn"
+      ],
       "media_type": "image",
-      "source_establishes": ["File existence", "Uploader identity", "CC0 licensing", "Creation date 2024-07-20", "Upload date 2024-07-21"],
-      "source_does_not_independently_establish": ["All descriptive biography in the file description"],
+      "source_establishes": [
+        "File existence",
+        "Uploader identity",
+        "CC0 licensing",
+        "Creation date 2024-07-20",
+        "Upload date 2024-07-21"
+      ],
+      "source_does_not_independently_establish": [
+        "All descriptive biography in the file description"
+      ],
       "verification_notes": "Creation and upload dates corrected and separated.",
       "last_checked": "2026-07-11"
     },
@@ -291,11 +428,21 @@
       "publication_gate": "APPROVE_AS_SELF_PUBLISHED",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "audio",
-      "source_establishes": ["Listing existence", "ASIN B0D3YKRH3Q", "Displayed title", "Amazon release date"],
-      "source_does_not_independently_establish": ["The autobiographical claims in the recording", "Classification as a conventional book"],
+      "source_establishes": [
+        "Listing existence",
+        "ASIN B0D3YKRH3Q",
+        "Displayed title",
+        "Amazon release date"
+      ],
+      "source_does_not_independently_establish": [
+        "The autobiographical claims in the recording",
+        "Classification as a conventional book"
+      ],
       "verification_notes": "Corrected from book to original audio/podcast-style recording; ASIN and date corrected.",
       "last_checked": "2026-07-11"
     },
@@ -312,11 +459,20 @@
       "publication_gate": "APPROVE_PROFILE_EXISTENCE",
       "language": "en",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "social_profile",
-      "source_establishes": ["Profile existence", "Canonical profile URL"],
-      "source_does_not_independently_establish": ["Self-entered career", "Education", "Current titles"],
+      "source_establishes": [
+        "Profile existence",
+        "Canonical profile URL"
+      ],
+      "source_does_not_independently_establish": [
+        "Self-entered career",
+        "Education",
+        "Current titles"
+      ],
       "verification_notes": "Only profile existence is A-level.",
       "last_checked": "2026-07-11"
     },
@@ -333,11 +489,21 @@
       "publication_gate": "APPROVE_AS_SELF_REPORTED",
       "language": "en",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["7YA"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "7YA"
+      ],
       "media_type": "social_profile",
-      "source_establishes": ["The profile displays the listed claims"],
-      "source_does_not_independently_establish": ["Employment", "Academic credentials", "Internal titles"],
+      "source_establishes": [
+        "The profile displays the listed claims"
+      ],
+      "source_does_not_independently_establish": [
+        "Employment",
+        "Academic credentials",
+        "Internal titles"
+      ],
       "verification_notes": "Self-entered claims remain C-level.",
       "last_checked": "2026-07-11"
     },
@@ -354,11 +520,18 @@
       "publication_gate": "APPROVE_PROFILE_EXISTENCE",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "social_profile",
-      "source_establishes": ["Profile existence", "Handle"],
-      "source_does_not_independently_establish": ["Biography and metrics displayed by the account"],
+      "source_establishes": [
+        "Profile existence",
+        "Handle"
+      ],
+      "source_does_not_independently_establish": [
+        "Biography and metrics displayed by the account"
+      ],
       "verification_notes": "",
       "last_checked": "2026-07-11"
     },
@@ -375,11 +548,18 @@
       "publication_gate": "APPROVE_PROFILE_EXISTENCE",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "social_profile",
-      "source_establishes": ["Profile existence", "Handle"],
-      "source_does_not_independently_establish": ["Biography and metrics displayed by the account"],
+      "source_establishes": [
+        "Profile existence",
+        "Handle"
+      ],
+      "source_does_not_independently_establish": [
+        "Biography and metrics displayed by the account"
+      ],
       "verification_notes": "",
       "last_checked": "2026-07-11"
     },
@@ -396,11 +576,19 @@
       "publication_gate": "APPROVE_PROFILE_EXISTENCE",
       "language": "he",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "video_channel",
-      "source_establishes": ["Canonical channel ID", "Channel existence"],
-      "source_does_not_independently_establish": ["Creation date", "Audience metrics"],
+      "source_establishes": [
+        "Canonical channel ID",
+        "Channel existence"
+      ],
+      "source_does_not_independently_establish": [
+        "Creation date",
+        "Audience metrics"
+      ],
       "verification_notes": "",
       "last_checked": "2026-07-11"
     },
@@ -417,11 +605,22 @@
       "publication_gate": "APPROVE_PROFILE_EXISTENCE",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski"],
-      "organizations": ["7YA"],
+      "people": [
+        "Igor Vepretski"
+      ],
+      "organizations": [
+        "7YA"
+      ],
       "media_type": "social_profile",
-      "source_establishes": ["Profile/page existence", "Canonical URL"],
-      "source_does_not_independently_establish": ["Biography", "Metrics", "Organizational claims"],
+      "source_establishes": [
+        "Profile/page existence",
+        "Canonical URL"
+      ],
+      "source_does_not_independently_establish": [
+        "Biography",
+        "Metrics",
+        "Organizational claims"
+      ],
       "verification_notes": "",
       "last_checked": "2026-07-11"
     },
@@ -438,11 +637,20 @@
       "publication_gate": "APPROVE_AS_SELF_PUBLISHED",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "link_page",
-      "source_establishes": ["The self-managed directory exists", "The directory displays outbound links"],
-      "source_does_not_independently_establish": ["Ownership of every destination", "Biographical claims", "Audience metrics"],
+      "source_establishes": [
+        "The self-managed directory exists",
+        "The directory displays outbound links"
+      ],
+      "source_does_not_independently_establish": [
+        "Ownership of every destination",
+        "Biographical claims",
+        "Audience metrics"
+      ],
       "verification_notes": "Downgraded from A to C. Individual destination profiles are evaluated separately.",
       "last_checked": "2026-07-11"
     },
@@ -459,11 +667,25 @@
       "publication_gate": "APPROVE_AS_SELF_PUBLISHED",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski", "Ido Vepretski"],
-      "organizations": ["7YA", "StartOn", "Yisrael Beiteinu"],
+      "people": [
+        "Igor Vepretski",
+        "Ido Vepretski"
+      ],
+      "organizations": [
+        "7YA",
+        "StartOn",
+        "Yisrael Beiteinu"
+      ],
       "media_type": "website",
-      "source_establishes": ["The site publishes these claims"],
-      "source_does_not_independently_establish": ["Impact metrics", "Titles", "Endorsements", "Institutional scope"],
+      "source_establishes": [
+        "The site publishes these claims"
+      ],
+      "source_does_not_independently_establish": [
+        "Impact metrics",
+        "Titles",
+        "Endorsements",
+        "Institutional scope"
+      ],
       "verification_notes": "Self-published claims must not be upgraded by repetition elsewhere.",
       "last_checked": "2026-07-11"
     },
@@ -480,13 +702,58 @@
       "publication_gate": "APPROVE_AS_SELF_PUBLISHED",
       "language": "he/en",
       "location": "",
-      "people": ["Igor Vepretski"],
+      "people": [
+        "Igor Vepretski"
+      ],
       "organizations": [],
       "media_type": "blog",
-      "source_establishes": ["Profile existence", "Self-published article presence"],
-      "source_does_not_independently_establish": ["Biographical claims", "Impact claims"],
+      "source_establishes": [
+        "Profile existence",
+        "Self-published article presence"
+      ],
+      "source_does_not_independently_establish": [
+        "Biographical claims",
+        "Impact claims"
+      ],
       "verification_notes": "",
       "last_checked": "2026-07-11"
+    },
+    {
+      "record_id": "REC123",
+      "entity": "Igor Vepretski / StartOn",
+      "claim": "The Optimist News published an exclusive interview with Igor Vepretski about the evolution of StartOn's youth-technology approach, based on a written exchange and supporting source material.",
+      "category": "media",
+      "source_url": "https://theoptimist.news/the-door-is-digital-the-change-is-human/",
+      "source_title": "The Door is Digital, The Change is Human: Igor Vepretski on Rethinking Youth Tech",
+      "publisher": "The Optimist News",
+      "author": "Tanusha Narula",
+      "published_date": "2026-09-22",
+      "evidence_level": "B",
+      "publication_gate": "APPROVE_WITH_ATTRIBUTION",
+      "language": "en",
+      "location": "India / Israel",
+      "people": [
+        "Igor Vepretski",
+        "Tanusha Narula"
+      ],
+      "organizations": [
+        "StartOn",
+        "The Optimist News"
+      ],
+      "media_type": "interview",
+      "source_establishes": [
+        "The interview exists",
+        "The publication date is 2026-09-22",
+        "Igor Vepretski is the interview subject",
+        "The publication identifies Vepretski as founder of StartOn",
+        "The interview discusses StartOn's shift from technology-first attraction toward continuity, belonging, mentorship, creation, and longitudinal measurement"
+      ],
+      "source_does_not_independently_establish": [
+        "Every biographical detail supplied through the written exchange",
+        "Measured youth outcomes not independently audited by the publication"
+      ],
+      "verification_notes": "Independent third-party interview. The article says Lead Editor Tanusha Narula corresponded with Igor Vepretski through a written exchange and supporting source material; interview-derived claims remain attributed.",
+      "last_checked": "2026-09-26"
     }
   ],
   "held": [
