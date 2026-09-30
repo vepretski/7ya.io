@@ -1,8 +1,11 @@
 import fs from "node:fs"
 
 const required = [
-  ["api/guide.js", ["NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1/chat/completions", "nvidia/nemotron-3-super-120b-a12b", "provider: \"nvidia\""]],
-  ["packages/app/public/igor-vepretski/nvidia-chat.js", ["/api/guide", "conversation", "provider", "NVIDIA"]],
+  ["api/guide.js", ["NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1", "nvidia/nemotron-3.5-lightning-30b-a3b", "deterministic-corpus-fallback", "provider: \"nvidia\"", "claimText"]],
+  ["packages/app/api/bro.js", ["NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1", "nvidia/nemotron-3.5-lightning-30b-a3b", "deterministic-corpus-fallback", "SPOKEN_CORPUS_RELEASE", "claimText"]],
+  ["packages/app/api/nvidia-health.js", ["nvidia-nim", "secret_exposed: false", "WAITING_FOR_NVIDIA_API_KEY"]],
+  ["packages/app/api/_spoken-corpus.js", ["spoken-corpus-20260904-v1", "searchSpokenClaims", "claimText", "הניסוח המדויק נשמר תחת ביקורת ASR", "точная формулировка остаётся под проверкой ASR"]],
+  ["packages/app/public/igor-vepretski/nvidia-chat.js", ["/api/nvidia-health", "/api/bro", "messages:", "data.answer", "nvidia-nim", "conversation", "provider", "NVIDIA"]],
   ["scripts/inject-restoration-nvidia-chat.mjs", ["nvidia-chat.js", "igor-vepretski/index.html"]],
 ]
 
@@ -17,6 +20,15 @@ for (const [path, needles] of required) {
     if (!text.includes(needle)) failures.push(`${path}: missing ${needle}`)
   }
 }
+
+const clientText = fs.readFileSync("packages/app/public/igor-vepretski/nvidia-chat.js", "utf8")
+if (clientText.includes('fetch("/api/guide"')) failures.push("public Bro Chat still routes through legacy /api/guide")
+if (clientText.includes("data.reply")) failures.push("public Bro Chat still consumes the legacy reply contract")
+
+const secretScan = ["api/guide.js", "packages/app/api/bro.js", "packages/app/api/nvidia-health.js", "packages/app/NVIDIA_NIM.md"]
+  .map((path) => fs.readFileSync(path, "utf8"))
+  .join("\n")
+if (/nvapi-[A-Za-z0-9_-]{10,}/.test(secretScan)) failures.push("hard-coded NVIDIA API key detected")
 
 if (failures.length) {
   console.error("NVIDIA companion wiring check failed:\n- " + failures.join("\n- "))
