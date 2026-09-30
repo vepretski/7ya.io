@@ -19,6 +19,11 @@
     "postinstall": "bun run --cwd packages/opencode fix-node-pty",
     "prepare": "husky",
     "personal-brand:boost": "bun run script/personal-brand-booster.ts",
+    "content:prepare": "bun run script/7ya-content-engine.ts prepare",
+    "content:approve": "bun run script/7ya-content-engine.ts approve",
+    "content:publish": "bun run script/7ya-content-engine.ts publish",
+    "content:feedback": "bun run script/7ya-content-engine.ts feedback",
+    "content:report": "bun run script/7ya-content-engine.ts report",
     "random": "echo 'Random script'",
     "hello": "echo 'Hello World!'",
     "test": "echo 'do not run tests from root' && exit 1"
